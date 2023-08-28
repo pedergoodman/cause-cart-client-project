@@ -7,18 +7,30 @@ import { useDispatch, useSelector } from "react-redux";
 import "./RegisterForm.css";
 // MUI
 import { Box } from "@mui/material";
+// Components
+import BrandNameQuestion from "./FormQuestions/BrandNameQuestion/BrandNameQuestion";
+import BusinessTypeQuestion from "./FormQuestions/BusinessTypeQuestion/BusinessTypeQuestion";
+import WebsiteURL from "./FormQuestions/WebsiteURL/WebsiteURL";
+import EmailQuestion from "./FormQuestions/EmailQuestion/EmailQuestion";
+import PasswordQuestion from "./FormQuestions/PasswordQuestion/PasswordQuestion";
+import GiveBackQuestion from "./FormQuestions/GiveBackQuestion/GiveBackQuestion";
+import NonProfitPartnerQuestion from "./FormQuestions/NonProfitPartnerQuestion/NonProfitPartnerQuestion";
+import NumberOfProductsQuestion from "./FormQuestions/NumberOfProductsQuestion/NumberOfQuestions";
+import ReEnterPasswordQuestion from "./FormQuestions/ReEnterPasswordQuestion/ReEnterPasswordQuestion";
 
 // * - RegisterForm COMPONENT -
 function RegisterForm() {
   // * - STATE -
-  // Form Input Fields
-  const [brandname, setBrandname] = useState(""); // Brand name
+  // * Form Input Fields
+  const [brandName, setBrandName] = useState(""); // Brand name
   const [websiteURL, setWebsiteURLl] = useState(""); // Website URL
   const [businessType, setBusinessType] = useState(""); // Business type
   const [email, setEmail] = useState(""); // Email
   const [password, setPassword] = useState(""); // Password
   const [reEnterPassword, setReEnterPassword] = useState(""); // Re-enter password
   const [giveBack, setGiveBack] = useState(""); // Give back
+  const [nonProfitPartner, setNonProfitPartner] = useState(""); // Non-profit partner
+  const [numberOfProducts, setNumberOfProducts] = useState(""); // Non-profit partner
 
   // * - DECLARATIONS -
   const errors = useSelector((store) => store.errors); // Input Field Errors
@@ -53,94 +65,46 @@ function RegisterForm() {
             {errors.registrationMessage}
           </h3>
         )}
+
         {/* Input Field Box Container */}
         <Box className="register-form-input-field-box">
+          {/* Form Questions */}
           {/* Brand Name */}
-          <div>
-            <label>Brand name</label>
-            <input
-              type="text"
-              name="brandname"
-              value={brandname}
-              required
-              onChange={(event) => setBrandname(event.target.value)}
-            />
-          </div>
+          <BrandNameQuestion
+            brandname={brandName}
+            setBrandname={setBrandName}
+          />
           {/* Website URL */}
-          <div>
-            <label></label>
-            Website URL
-            <input
-              type="text"
-              name="websiteURL"
-              value={websiteURL}
-              onChange={(event) => setWebsiteURLl(event.target.value)}
-            />
-          </div>
+          <WebsiteURL websiteURL={websiteURL} setWebsiteURLl={setWebsiteURLl} />
           {/* Business Type */}
-          <div>
-            <label></label>
-            Business type
-            <input
-              type="text"
-              name="businessType"
-              value={businessType}
-              onChange={(event) => setbusinessType(event.target.value)}
-            />
-          </div>
+          <BusinessTypeQuestion
+            businessType={businessType}
+            setBusinessType={setBusinessType}
+          />
           {/* Email */}
-          <div>
-            <label>Email</label>
-            <input
-              type="text"
-              name="Email"
-              value={email}
-              required
-              onChange={(event) => setEmail(event.target.value)}
-            />
-          </div>
+          <EmailQuestion email={email} setEmail={setEmail} />
           {/* Password */}
-          <div>
-            <label>Password</label>
-            <input
-              type="text"
-              name="password"
-              value={password}
-              required
-              onChange={(event) => setPassword(event.target.value)}
-            />
-          </div>
+          <PasswordQuestion password={password} setEmail={setPassword} />
           {/* Re-enter Password */}
-          <div>
-            <label>Re-enter password</label>
-            <input
-              type="text"
-              name="reEnterPassword"
-              value={reEnterPassword}
-              required
-              onChange={(event) => setReEnterPassword(event.target.value)}
-            />
-          </div>
+          <ReEnterPasswordQuestion
+            reEnterPassword={reEnterPassword}
+            setReEnterPassword={setReEnterPassword}
+          />
           {/* Offer Give Back */}
-          <div>
-            <Box
-            style={{
-              inlineHeight: "20px"
-            }}
-            >
-              <label>Does your product currently offer a give back?</label>
-              <p>
-                Ex: % donated, sustainable materials used, mission focused, etc?
-              </p>
-            </Box>
-            <input
-              type="text"
-              name="giveBack"
-              value={giveBack}
-              required
-              onChange={(event) => setGiveBack(event.target.value)}
-            />
-          </div>
+          {/* Conditional rendering functionality */}
+          <GiveBackQuestion setGiveBack={setGiveBack} giveBack={giveBack} />
+          {/* Partner with Non-Profit */}
+          {/* Conditional rendering functionality */}
+          <NonProfitPartnerQuestion
+            setNonProfitPartner={setNonProfitPartner}
+            nonProfitPartner={nonProfitPartner}
+          />
+          {/* Number of Products */}
+          <NumberOfProductsQuestion
+            numberOfProducts={numberOfProducts}
+            setNumberOfProducts={setNumberOfProducts}
+          />
+
           {/* Register Button */}
           <div>
             <input
