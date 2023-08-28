@@ -1,0 +1,21 @@
+/* Register Form Styling */
+/* Form */
+.register-form-box {
+  width: 100% !important;
+  border: 3px solid black !important;
+}
+/* Input Field */
+.register-form-input-field-box {
+  width: 70%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  justify-items: center;
+  margin: 0 auto;
+}
+/* Form Header */
+.register-form-h2 {
+  width: 20rem;
+  text-align: center;
+  margin: 0 auto 4rem;
+}

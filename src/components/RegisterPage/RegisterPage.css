@@ -1,0 +1,25 @@
+/* Register Page Style Guide */
+
+/* Containers */
+.register-page-container {
+  width: 100% !important;
+  padding: 0;
+  margin: 0;
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  /* border: solid black 3px !important; */
+}
+
+.register-page-register-form-container {
+  width: 50%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Image Styling */
+.register-page-image {
+  width: 45%;
+}
