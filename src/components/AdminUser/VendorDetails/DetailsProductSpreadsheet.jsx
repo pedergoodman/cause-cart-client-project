@@ -1,15 +1,45 @@
 import React, { useState } from "react";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { styled } from "@mui/system";
 import {
   Box,
+  Button,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
-  Button,
-  Modal,
+  Typography,
 } from "@mui/material";
 import { Icon } from "@iconify/react";
+
+const DetailsPSTable = styled(Table)({
+  marginBottom: "32px",
+});
+
+const theme = createTheme({
+  typography: {
+    subtitle2: {
+      textAlign: "center",
+      fontSize: "14px",
+      fontStyle: "normal",
+      color: "rgba(0, 0, 0, 0.87)",
+      fontWeight: 700,
+    },
+  },
+});
+
+const PsReviewDocumentCell = styled(TableCell)({
+  display: "table-cell",
+  textAlign: "center",
+  verticalAlign: "middle",
+});
+
+const PsRequirementsMetCell = styled(TableCell)({
+  display: "table-cell",
+  textAlign: "center",
+  verticalAlign: "middle",
+});
 
 function DetailsProductSpreadsheet({ spreadsheets }) {
   const [open, setOpen] = useState(false);
@@ -39,15 +69,31 @@ function DetailsProductSpreadsheet({ spreadsheets }) {
   };
 
   return (
-    <div>
-      <Box sx={{ maxWidth: "800px"}}>
-        <Table>
+    <ThemeProvider theme={theme}>
+      <Box sx={{ maxWidth: "800px" }}>
+        <DetailsPSTable>
           <TableHead>
             <TableRow>
-              <TableCell>Product Spreadsheets</TableCell>
-              <TableCell>Review Document</TableCell>
-              <TableCell>Date Vendor Submitted</TableCell>
-              <TableCell>Requirements Met</TableCell>
+              <TableCell>
+                <Typography
+                  variant="subtitle2"
+                  style={{
+                    textAlign: "left",
+                  }}
+                >
+                  Product Spreadsheets
+                </Typography>
+              </TableCell>
+
+              <TableCell>
+                <Typography variant="subtitle2">Review Document</Typography>
+              </TableCell>
+
+              {/* TODO:  GRAB VENDOR PRODUCT SPREADSHEET UPLOAD/SUBMIT DATE? <TableCell>Date Vendor Submitted</TableCell> TODO: */}
+
+              <TableCell>
+                <Typography variant="subtitle2">Requirements Met</Typography>
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -55,55 +101,74 @@ function DetailsProductSpreadsheet({ spreadsheets }) {
               spreadsheets.map((spreadsheet) => (
                 <TableRow key={spreadsheet.id}>
                   <TableCell>{spreadsheet.name}</TableCell>
-                  <TableCell>
-                    <Icon
-                      icon="material-symbols:preview"
+                  <PsReviewDocumentCell>
+                    <div
                       style={{
-                        fontSize: "30px",
-                        color: "#75907b",
-                        cursor: "pointer",
-                      }}
-                      onClick={() => handlePSpreadsheetPreview(spreadsheet)}
-                    ></Icon>
-                    <Button
-                      variant="contained"
-                      size="small"
-                      style={{
-                        backgroundColor: "#EF6C00",
-                        padding: "4px 10px",
+                        display: "flex",
+                        alignItems: "center",
                         justifyContent: "center",
-                        alignItems: "center"
                       }}
-                      onClick={() => handlePSpreadsheetDownload(spreadsheet)}
                     >
-                      Download
-                    </Button>
-                  </TableCell>
-                  <TableCell>{spreadsheet.dateSubmitted}</TableCell>
-                  <TableCell>
-                    <Icon
-                      icon="mdi:check-decagram"
+                      <Icon
+                        icon="material-symbols:preview"
+                        style={{
+                          fontSize: "30px",
+                          color: "#75907b",
+                          cursor: "pointer",
+                          marginRight: "10px",
+                        }}
+                        onClick={() => handlePSpreadsheetPreview(spreadsheet)}
+                      ></Icon>
+                      <Button
+                        variant="contained"
+                        size="small"
+                        style={{
+                          backgroundColor: "#EF6C00",
+                          fontSize: "10px",
+                          padding: "4px 10px",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                        onClick={() => handlePSpreadsheetDownload(spreadsheet)}
+                      >
+                        Download
+                      </Button>
+                    </div>
+                  </PsReviewDocumentCell>
+                  {/* TODO:  GRAB VENDOR PRODUCT SPREADSHEET UPLOAD/SUBMIT DATE? <TableCell>{spreadsheet.dateSubmitted}</TableCell> TODO: */}
+                  <PsRequirementsMetCell>
+                    <div
                       style={{
-                        fontSize: "30px",
-                        color: "#286264",
-                        cursor: "pointer",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
                       }}
-                      onClick={() => handlePSpreadsheetApprove(spreadsheet)}
-                    ></Icon>
-                    <Icon
-                      icon="bxs:x-circle"
-                      style={{
-                        fontSize: "30px",
-                        color: "#F21E1E",
-                        cursor: "pointer",
-                      }}
-                      onClick={() => handlePSpreadsheetDeny(spreadsheet)}
-                    ></Icon>
-                  </TableCell>
+                    >
+                      <Icon
+                        icon="mdi:check-decagram"
+                        style={{
+                          fontSize: "30px",
+                          color: "#286264",
+                          cursor: "pointer",
+                          marginRight: "10px",
+                        }}
+                        onClick={() => handlePSpreadsheetApprove(spreadsheet)}
+                      ></Icon>
+                      <Icon
+                        icon="bxs:x-circle"
+                        style={{
+                          fontSize: "30px",
+                          color: "#F21E1E",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => handlePSpreadsheetDeny(spreadsheet)}
+                      ></Icon>
+                    </div>
+                  </PsRequirementsMetCell>
                 </TableRow>
               ))}
           </TableBody>
-        </Table>
+        </DetailsPSTable>
         {/* <Modal open={open} onClose={handleClose}>
         <div> */}
         {/* Modal content for editing the selected spreadsheet */}
@@ -113,7 +178,7 @@ function DetailsProductSpreadsheet({ spreadsheets }) {
         {/* </div>
       </Modal> */}
       </Box>
-    </div>
+    </ThemeProvider>
   );
 }
 
