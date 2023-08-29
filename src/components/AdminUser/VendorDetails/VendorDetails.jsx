@@ -1,19 +1,114 @@
-import React from 'react';
-import { Badge, Button, Typography } from '@mui/material';
-import WarningIcon from '@mui/icons-material/Warning';
+import React from "react";
 
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { Box, Button, Modal, Typography } from "@mui/material";
 
+import DetailsModalHeader from "../VendorDetails/DetailsModalHeader";
+import DetailsProductSpreadsheet from "../VendorDetails/DetailsProductSpreadsheet";
+import DetailsContract from "../VendorDetails/DetailsContract";
 
-function VendorDetails() {
+import {
+  mockSpreadsheets,
+  mockContracts,
+} from "../VendorDetails/mockDetailsData";
 
-    // return (
+// import { Details } from "@mui/icons-material";
 
-    // );
+const theme = createTheme({
+  typography: {
+    subtitle1: {
+    //   fontFamily: "Roboto",
+      fontSize: "12px",
+      fontStyle: "normal",
+      color: "#286264",
+      fontWeight: 700
+    },
+  },
+});
+
+function VendorDetails({ open, onClose, vendor }) {
+  if (!vendor) {
+    return null;
+  }
+
+  return (
+    <ThemeProvider theme={theme}>
+      <Modal open={open} onClose={onClose}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            maxWidth: "800px",
+            maxHeight: "925px",
+            bgcolor: "background.paper",
+            border: "2px solid #000",
+            boxShadow: 24,
+            p: 4,
+          }}
+        >
+          <DetailsModalHeader />
+          <Typography variant="h4">Vendor Name: </Typography>
+          <Typography variant="subtitle1">Email: </Typography>
+          <Typography variant="subtitle1">Website: </Typography>
+          <Typography variant="subtitle1">Country: </Typography>
+          <Typography variant="subtitle1">Business Type:</Typography>
+          <Typography variant="subtitle1">Primary Product Category:</Typography>
+          <Typography variant="subtitle1">Number of Products:</Typography>
+          <Typography variant="subtitle1">
+            Does your product currently offer a giveback?
+          </Typography>
+          <Typography variant="subtitle1">
+            Do you currently partner with a non-profit?
+          </Typography>
+          <Typography variant="subtitle1">
+            How did you hear about us?
+          </Typography>
+
+          <DetailsProductSpreadsheet spreadsheets={mockSpreadsheets} />
+          <DetailsContract contracts={mockContracts} />
+          <Button variant="contained" color="primary">
+            Approve Products
+          </Button>
+        </Box>
+      </Modal>
+    </ThemeProvider>
+  );
 }
 
 export default VendorDetails;
 
+/*
+TODO: BEFORE DATABASE CONNECTION
+    <>
+      <Modal>
+        <Typography variant="h1">Vendor Name: {vendor.vendorName}</Typography>
+        <Typography variant="subtitle1">Email: {vendor.email}</Typography>
+        <Typography variant="subtitle1">Website: {vendor.website}</Typography>
+        <Typography variant="subtitle1">Country: {vendor.country}</Typography>
+        <Typography variant="subtitle1">
+          Business Type: {vendor.businessType}
+        </Typography>
+        <Typography variant="subtitle1">
+          Primary Product Category: {vendor.primaryProductCategory}
+        </Typography>
+        <Typography variant="subtitle1">
+          Number of Products: {vendor.numberOfProducts}
+        </Typography>
+        <Typography variant="subtitle1">
+          Does your product currently offer a giveback? {vendor.vendorGiveback}
+        </Typography>
+        <Typography variant="subtitle1">
+          Do you currently partner with a non-profit? {vendor.partnerNonProfit}
+        </Typography>
+        <Typography variant="subtitle1">
+          How did you hear about us? {vendor.hearAboutUs}
+        </Typography>
+      </Modal>
+    </>
 
+*/
 
 // const ModalHeader = ({ onboardingStage, tasksCount }) => {
 //   return (
@@ -33,10 +128,6 @@ export default VendorDetails;
 
 // export default ModalHeader;
 
-
-
-
-
 // import React from 'react';
 // import { Typography } from '@mui/material';
 
@@ -51,9 +142,6 @@ export default VendorDetails;
 // };
 
 // export default VendorDetails;
-
-
-
 
 // import React, { useState } from 'react';
 // import { Table, TableBody, TableCell, TableHead, TableRow, Button, Modal } from '@mui/material';
@@ -116,10 +204,6 @@ export default VendorDetails;
 
 // export default ProductSpreadsheet;
 
-
-
-
-
 // import React from 'react';
 // import { Table, TableBody, TableCell, TableHead, TableRow, Button } from '@mui/material';
 // import CheckIcon from '@mui/icons-material/Check';
@@ -169,10 +253,6 @@ export default VendorDetails;
 
 // export default Contract;
 
-
-
-
-
 // import axios from 'axios';
 
 // const getTemporaryLink = async (path) => {
@@ -193,4 +273,3 @@ export default VendorDetails;
 //     return null;
 //   }
 // };
-

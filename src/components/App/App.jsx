@@ -21,6 +21,7 @@ import LoginPage from "../LoginPage/LoginPage";
 import RegisterPage from "../RegisterPage/RegisterPage";
 
 import VendorsList from "../AdminUser/VendorsList/VendorsList";
+import VendorDetails from "../AdminUser/VendorDetails/VendorDetails";
 
 import "./App.css";
 
@@ -52,7 +53,6 @@ function App() {
           </Route>
         */}
 
-
           {/* 
           TODO: **** AMY: FRI AUG 25 ****
           Visiting localhost:3000 will redirect to localhost:3000/home 
@@ -61,6 +61,7 @@ function App() {
           <Redirect exact from="/" to="/home" />
 
           {/* Visiting localhost:3000/about will show the about page. */}
+          {/* TODO: TODO: TEST MON AUG 18  */}
           <Route
             // shows AboutPage at all times (logged in or not)
             exact
@@ -69,7 +70,13 @@ function App() {
             <VendorsList />
           </Route>
 
-          
+          {/* <Route
+            // shows AboutPage at all times (logged in or not)
+            exact
+            path="/vendor-details"
+          >
+            <VendorDetails />
+          </Route> */}
 
           {/* For protected routes, the view could show one of several things on the same route.
             Visiting localhost:3000/user will show the UserPage if the user is logged in.

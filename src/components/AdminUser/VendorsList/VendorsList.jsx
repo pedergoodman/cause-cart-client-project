@@ -184,6 +184,17 @@ const vendors = [
   },
 ];
 
+ // TODO: Implement the functionality to of grabbing vendor database data instead of mockVendor
+const mockVendor = {
+  id: 1,
+  name: "Mock Vendor",
+  email: "mockvendor@example.com",
+  website: "www.mockvendor.com",
+  country: "Mock Country",
+  businessType: "Mock Business Type",
+  // ... add other vendor details
+};
+
 // function VendorList({ vendors }) {
 function VendorsList() {
   const apiRef = useGridApiRef();
@@ -207,7 +218,7 @@ function VendorsList() {
       renderCell: (params) => (
         <span
           onClick={() => handleVendorClick(params.row)}
-          style={{ color: '#286264', cursor: 'pointer', fontWeight: "bold" }}
+          style={{ color: "#286264", cursor: "pointer", fontWeight: "bold" }}
         >
           {params.value}
         </span>
@@ -306,9 +317,14 @@ function VendorsList() {
         {selectedVendor && (
           <VendorDetails
             open={openModal}
-            vendor={selectedVendor}
+            vendor={mockVendor}
             onClose={handleCloseModal}
           />
+          //   <VendorDetails
+          //     open={openModal}
+          //     vendor={selectedVendor}
+          //     onClose={handleCloseModal}
+          //   />
         )}
       </div>
     </>
@@ -316,6 +332,10 @@ function VendorsList() {
 }
 
 export default VendorsList;
+
+
+
+
 
 // import React, { useEffect } from 'react';
 // import {
