@@ -18,20 +18,6 @@ import VendorDetails from "../VendorDetails/VendorDetails";
 
 import "./VendorsList.css";
 
-// // onboardingStages.js
-// export const ONBOARDING_STAGES = [
-//     'Intake Form Submitted',
-//     'Approved Intake Form',
-//     'Sent Contract',
-//     'Contract Submitted',
-//     'Sent Product Spreadsheet',
-//     'Product Spreadsheet Submitted',
-//     'Approved Product',
-//     'Denied Application',
-//     'Onboarding Complete',
-//     'Paused Onboarding',
-//   ];
-
 export const ONBOARDING_STAGE_ICONS = {
   "Intake Form Submitted": (
     <Icon icon="mdi:clipboard-arrow-up" style={{ fontSize: "24px" }} />
@@ -80,15 +66,6 @@ export const ONBOARDING_STAGE_ICONS = {
   ),
 };
 
-// // numberOfProducts.js
-// export const NUMBER_OF_PRODUCTS = [
-//     '1-10',
-//     '11-25',
-//     '26-50',
-//     '51-100',
-//     '101+'
-//   ];
-
 const handleCheck = (row) => {
   // TODO: Implement the functionality to change the onboarding stage to the next stage
 };
@@ -101,105 +78,17 @@ const handleDelete = (row) => {
   // TODO: Implement the functionality to delete the vendor and archive their documents
 };
 
-const vendors = [
-  {
-    id: 1,
-    name: "Vendor 1",
-    status: "Active",
-    onboardingStage: "Intake Form Submitted",
-    numberOfProducts: "1-10",
-    intakeDate: "2023/07/01",
-  },
-  {
-    id: 2,
-    name: "Vendor 2",
-    status: "Active",
-    onboardingStage: "Approved Intake Form",
-    numberOfProducts: "11-25",
-    intakeDate: "2023/08/01",
-  },
-  {
-    id: 3,
-    name: "Vendor 3",
-    status: "Active",
-    onboardingStage: "Sent Contract",
-    numberOfProducts: "26-50",
-    intakeDate: "2023/06/01",
-  },
-  {
-    id: 4,
-    name: "Vendor 4",
-    status: "Active",
-    onboardingStage: "Contract Submitted",
-    numberOfProducts: "51-100",
-    intakeDate: "2023/05/01",
-  },
-  {
-    id: 5,
-    name: "Vendor 5",
-    status: "Active",
-    onboardingStage: "Sent Product Spreadsheet",
-    numberOfProducts: "101+",
-    intakeDate: "2023/04/01",
-  },
-  {
-    id: 6,
-    name: "Vendor 6",
-    status: "Active",
-    onboardingStage: "Product Spreadsheet Submitted",
-    numberOfProducts: "1-10",
-    intakeDate: "2023/03/01",
-  },
-  {
-    id: 7,
-    name: "Vendor 7",
-    status: "Active",
-    onboardingStage: "Approved Product",
-    numberOfProducts: "11-25",
-    intakeDate: "2023/02/01",
-  },
-  {
-    id: 8,
-    name: "Vendor 8",
-    status: "Inactive",
-    onboardingStage: "Denied Application",
-    numberOfProducts: "26-50",
-    intakeDate: "2022/12/01",
-  },
-  {
-    id: 9,
-    name: "Vendor 9",
-    status: "Active",
-    onboardingStage: "Onboarding Complete",
-    numberOfProducts: "51-100",
-    intakeDate: "2022/11/01",
-  },
-  {
-    id: 10,
-    name: "Vendor 10",
-    status: "Pending",
-    onboardingStage: "Paused Onboarding",
-    numberOfProducts: "101+",
-    intakeDate: "2023/11/20",
-  },
-];
-
- // TODO: Implement the functionality to of grabbing vendor database data instead of mockVendor
-const mockVendor = {
-  id: 1,
-  name: "Mock Vendor",
-  email: "mockvendor@example.com",
-  website: "www.mockvendor.com",
-  country: "Mock Country",
-  businessType: "Mock Business Type",
-  // ... add other vendor details
-};
-
 // function VendorList({ vendors }) {
 function VendorsList() {
   const apiRef = useGridApiRef();
   const [selectedVendor, setSelectedVendor] = useState(null);
   const [openModal, setOpenModal] = useState(false);
+  const dispatch = useDispatch();
+  const vendors = useSelector((store) => store.adminReducer.vendors);
+
+  useEffect(() => {
+    dispatch({ type: "FETCH_VENDORS_REQUEST" });
+  }, [dispatch]);
 
   const handleVendorClick = (vendor) => {
     setSelectedVendor(vendor);
@@ -212,9 +101,9 @@ function VendorsList() {
 
   const columns = [
     {
-      field: "name",
+      field: "brand_name",
       headerName: "Vendor",
-      width: 150,
+      flex: 1,
       renderCell: (params) => (
         <span
           onClick={() => handleVendorClick(params.row)}
@@ -224,11 +113,11 @@ function VendorsList() {
         </span>
       ),
     },
-    { field: "status", headerName: "Status", width: 150 },
+    { field: "status", headerName: "Status", flex: 1 },
     {
-      field: "onboardingStage",
+      field: "onboarding_stage",
       headerName: "Onboarding Stage",
-      width: 300,
+      flex: 2,
       renderCell: (params) => (
         <div style={{ display: "flex", alignItems: "center" }}>
           {ONBOARDING_STAGE_ICONS[params.value]}
@@ -236,17 +125,22 @@ function VendorsList() {
         </div>
       ),
     },
-    { field: "numberOfProducts", headerName: "Number of Products", width: 200 },
+    { field: "sdg", headerName: "Sustainable Development Goals", flex: 2 },
     {
-      field: "intakeDate",
+      field: "number_of_products",
+      headerName: "Number of Products",
+      flex: 1,
+    },
+    {
+      field: "date_created",
       headerName: "Intake Date",
-      width: 150,
+      flex: 1,
       renderCell: (params) => format(new Date(params.value), "MM/dd/yyyy"),
     },
     {
       field: "fastTrack",
       headerName: "Fast Track",
-      width: 200,
+      flex: 1,
       headerAlign: "center",
       align: "center",
       renderCell: (params) => (
@@ -256,12 +150,10 @@ function VendorsList() {
             style={{ fontSize: "30px", color: "#286264" }}
             onClick={() => handleCheck(params.row)}
           ></Icon>
-          {/* <button onClick={() => handleCheck(params.row)}>Check</button> */}
-          {/* <button onClick={() => handleX(params.row)}>x</button> */}
           <Icon
             icon="bxs:x-circle"
             style={{ fontSize: "30px", color: "#F21E1E" }}
-            onClick={() => handleCheck(params.row)}
+            onClick={() => handleX(params.row)}
           ></Icon>
         </>
       ),
@@ -271,14 +163,13 @@ function VendorsList() {
       // headerName: "Delete Vendor",
       headerName: "",
       align: "center",
-      width: 150,
+      flex: 0.5,
       renderCell: (params) => (
         <Icon
           icon="mingcute:delete-fill"
           style={{ fontSize: "30px", color: "#823646" }}
           onClick={() => handleDelete(params.row)}
         ></Icon>
-        //   <button onClick={() => handleDelete(params.row)}>Delete</button>
       ),
     },
   ];
@@ -317,14 +208,9 @@ function VendorsList() {
         {selectedVendor && (
           <VendorDetails
             open={openModal}
-            vendor={mockVendor}
+            vendor={selectedVendor}
             onClose={handleCloseModal}
           />
-          //   <VendorDetails
-          //     open={openModal}
-          //     vendor={selectedVendor}
-          //     onClose={handleCloseModal}
-          //   />
         )}
       </div>
     </>
@@ -332,10 +218,6 @@ function VendorsList() {
 }
 
 export default VendorsList;
-
-
-
-
 
 // import React, { useEffect } from 'react';
 // import {

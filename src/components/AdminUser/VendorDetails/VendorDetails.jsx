@@ -1,7 +1,14 @@
 import React from "react";
 
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Box, Button, Modal, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  IconButton,
+  Modal,
+  Typography,
+} from "@mui/material";
 
 import DetailsModalHeader from "../VendorDetails/DetailsModalHeader";
 import DetailsProductSpreadsheet from "../VendorDetails/DetailsProductSpreadsheet";
@@ -12,16 +19,16 @@ import {
   mockContracts,
 } from "../VendorDetails/mockDetailsData";
 
-// import { Details } from "@mui/icons-material";
+import { Icon } from "@iconify/react";
 
 const theme = createTheme({
   typography: {
     subtitle1: {
-    //   fontFamily: "Roboto",
+      //   fontFamily: "Roboto",
       fontSize: "12px",
       fontStyle: "normal",
       color: "#286264",
-      fontWeight: 700
+      fontWeight: 700,
     },
   },
 });
@@ -33,44 +40,96 @@ function VendorDetails({ open, onClose, vendor }) {
 
   return (
     <ThemeProvider theme={theme}>
-      <Modal open={open} onClose={onClose}>
+      <Modal open={open} onClose={onClose} border-radius="25px">
         <Box
           sx={{
             position: "absolute",
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            maxWidth: "800px",
+            width: "600px",
             maxHeight: "925px",
             bgcolor: "background.paper",
-            border: "2px solid #000",
+            // border: "2px solid #000",
             boxShadow: 24,
-            p: 4,
           }}
         >
           <DetailsModalHeader />
-          <Typography variant="h4">Vendor Name: </Typography>
-          <Typography variant="subtitle1">Email: </Typography>
-          <Typography variant="subtitle1">Website: </Typography>
-          <Typography variant="subtitle1">Country: </Typography>
-          <Typography variant="subtitle1">Business Type:</Typography>
-          <Typography variant="subtitle1">Primary Product Category:</Typography>
-          <Typography variant="subtitle1">Number of Products:</Typography>
-          <Typography variant="subtitle1">
-            Does your product currently offer a giveback?
-          </Typography>
-          <Typography variant="subtitle1">
-            Do you currently partner with a non-profit?
-          </Typography>
-          <Typography variant="subtitle1">
-            How did you hear about us?
-          </Typography>
 
+          <Box
+            display="flex"
+            flexDirection="column"
+            padding="25px"
+            // backgroundColor="#FFF9F5"
+          >
+            <Box flexDirection="column" marginBottom="16px">
+              <Typography variant="h5" sx={{textAlign: "center"}}>Vendor Name: {vendor.vendorName}</Typography>
+            </Box>
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              mb={2}
+            >
+              <Box flex={1} mr={2}>
+                <Typography variant="subtitle1">Email: {vendor.email}</Typography>
+                <Typography variant="subtitle1">Website: {vendor.website}</Typography>
+                <Typography variant="subtitle1">Country: {vendor.country}</Typography>
+              </Box>
+              <Box flex={1} ml={2}>
+                <Typography variant="subtitle1">Business Type: {vendor.businessType}</Typography>
+                <Typography variant="subtitle1">
+                  Primary Product Category: {vendor.primaryProductCategory}
+                </Typography>
+                <Typography variant="subtitle1">Number of Products: {vendor.numberOfProducts}</Typography>
+              </Box>
+            </Box>
+            <Box>
+              <Typography variant="subtitle1">
+                Does your product currently offer a giveback?
+                {vendor.vendorGiveback}
+              </Typography>
+              <Typography variant="subtitle1">
+                Do you currently partner with a non-profit?
+                {vendor.partnerNonProfit}
+              </Typography>
+              <Typography variant="subtitle1">
+                How did you hear about us?
+                {vendor.hearAboutUs}
+              </Typography>
+            </Box>
+          </Box>
           <DetailsProductSpreadsheet spreadsheets={mockSpreadsheets} />
           <DetailsContract contracts={mockContracts} />
-          <Button variant="contained" color="primary">
-            Approve Products
-          </Button>
+          <Box
+            sx={{
+              backgroundColor: "#C2D2D2",
+              display: "flex",
+              justifyContent: "flex-end",
+              padding: "25px",
+            }}
+          >
+            <Button
+              variant="contained"
+              sx={{
+                backgroundColor: "#286264",
+                "&:hover": {
+                  backgroundColor: "#75907b",
+                },
+              }}
+              startIcon={
+                <Icon
+                  icon="fluent:box-checkmark-24-regular"
+                  color="white"
+                  width="20"
+                  height="20"
+                  padding-right="4px"
+                  sx={{ mr: 1 }}
+                />
+              }
+            >
+              Approve Products
+            </Button>
+          </Box>
         </Box>
       </Modal>
     </ThemeProvider>

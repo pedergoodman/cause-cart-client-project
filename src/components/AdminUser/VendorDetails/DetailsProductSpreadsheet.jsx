@@ -14,7 +14,6 @@ import {
 import { Icon } from "@iconify/react";
 
 const DetailsPSTable = styled(Table)({
-  marginBottom: "32px",
 });
 
 const theme = createTheme({
@@ -30,16 +29,14 @@ const theme = createTheme({
 });
 
 const PsReviewDocumentCell = styled(TableCell)({
-  display: "table-cell",
-  textAlign: "center",
-  verticalAlign: "middle",
-});
+    display: "table-cell",
+    textAlign: "center",
+    verticalAlign: "middle",
+    width: "200px", // specify the width
+  });
+  
 
-const PsRequirementsMetCell = styled(TableCell)({
-  display: "table-cell",
-  textAlign: "center",
-  verticalAlign: "middle",
-});
+
 
 function DetailsProductSpreadsheet({ spreadsheets }) {
   const [open, setOpen] = useState(false);
@@ -60,17 +57,10 @@ function DetailsProductSpreadsheet({ spreadsheets }) {
     setOpen(false);
   };
 
-  const handlePSpreadsheetApprove = (spreadsheet) => {
-    // TODO: Implement the functionality to approve the product spreadsheet
-  };
-
-  const handlePSpreadsheetDeny = (spreadsheet) => {
-    // TODO: Implement the functionality to deny the product spreadsheet
-  };
 
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{ maxWidth: "800px" }}>
+      <Box sx={{ maxWidth: "800px", padding: "25px 25px 12.5px 25px" }}>
         <DetailsPSTable>
           <TableHead>
             <TableRow>
@@ -91,9 +81,6 @@ function DetailsProductSpreadsheet({ spreadsheets }) {
 
               {/* TODO:  GRAB VENDOR PRODUCT SPREADSHEET UPLOAD/SUBMIT DATE? <TableCell>Date Vendor Submitted</TableCell> TODO: */}
 
-              <TableCell>
-                <Typography variant="subtitle2">Requirements Met</Typography>
-              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -136,35 +123,7 @@ function DetailsProductSpreadsheet({ spreadsheets }) {
                     </div>
                   </PsReviewDocumentCell>
                   {/* TODO:  GRAB VENDOR PRODUCT SPREADSHEET UPLOAD/SUBMIT DATE? <TableCell>{spreadsheet.dateSubmitted}</TableCell> TODO: */}
-                  <PsRequirementsMetCell>
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <Icon
-                        icon="mdi:check-decagram"
-                        style={{
-                          fontSize: "30px",
-                          color: "#286264",
-                          cursor: "pointer",
-                          marginRight: "10px",
-                        }}
-                        onClick={() => handlePSpreadsheetApprove(spreadsheet)}
-                      ></Icon>
-                      <Icon
-                        icon="bxs:x-circle"
-                        style={{
-                          fontSize: "30px",
-                          color: "#F21E1E",
-                          cursor: "pointer",
-                        }}
-                        onClick={() => handlePSpreadsheetDeny(spreadsheet)}
-                      ></Icon>
-                    </div>
-                  </PsRequirementsMetCell>
+            
                 </TableRow>
               ))}
           </TableBody>
