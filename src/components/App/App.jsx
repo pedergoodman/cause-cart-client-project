@@ -13,12 +13,13 @@ import Footer from "../Footer/Footer";
 
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 
-import AboutPage from "../AboutPage/AboutPage";
-import UserPage from "../UserPage/UserPage";
-import InfoPage from "../InfoPage/InfoPage";
-import LandingPage from "../LandingPage/LandingPage";
-import LoginPage from "../LoginPage/LoginPage";
-import RegisterPage from "../RegisterPage/RegisterPage";
+
+import AboutPage from '../AboutPage/AboutPage';
+import UserPage from '../UserPage/UserPage';
+import InfoPage from '../InfoPage/InfoPage';
+import LoginPage from '../LoginPage/LoginPage';
+import RegisterPage from '../RegisterPage/RegisterPage';
+
 
 import VendorsList from "../AdminUser/VendorsList/VendorsList";
 import TemplateLists from "../AdminUser/Templates/TemplateLists";
@@ -39,7 +40,7 @@ function App() {
   return (
     <Router>
       <div>
-        <Nav />
+        {/* <Nav /> */}
         <Switch>
           {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
           <Redirect exact from="/" to="/home" />
@@ -123,10 +124,12 @@ function App() {
               // If the user is already logged in,
               // redirect them to the /user page
               <Redirect to="/user" />
-            ) : (
-              // Otherwise, show the Landing page
-              <LandingPage />
+
+             ) : (
+              // Otherwise, show the Register page
+              <RegisterPage />
             )}
+
           </Route>
 
           {/* If none of the other routes matched, we will show a 404. */}
