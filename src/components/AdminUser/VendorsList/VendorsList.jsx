@@ -78,7 +78,7 @@ const handleDelete = (row) => {
   // TODO: Implement the functionality to delete the vendor and archive their documents
 };
 
-// function VendorList({ vendors }) {
+
 function VendorsList() {
   const apiRef = useGridApiRef();
   const [selectedVendor, setSelectedVendor] = useState(null);
@@ -195,7 +195,7 @@ function VendorsList() {
           </Typography>
           <Typography sx={{ mb: 1.5 }} color="text.secondary">
             Track individual vendors and their onboarding status. Click on a
-            vendor’s name to view detailed information.
+            vendor's name to view detailed information.
           </Typography>
         </CardContent>
         <DataGrid
