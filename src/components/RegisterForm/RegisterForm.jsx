@@ -114,9 +114,9 @@ function RegisterForm() {
           setReEnterPassword={setReEnterPassword}
         />
 
+        {/* Country */}
         {/* Container for the Two Inline Components */}
         <div className="register-form-input-field-double-inline">
-          {/* Country */}
           <CountryQuestion country={country} setCountry={setCountry} />
 
           {/* Product Category */}
