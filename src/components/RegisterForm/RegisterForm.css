@@ -2,20 +2,39 @@
 /* Form */
 .register-form-box {
   width: 100% !important;
-  border: 3px solid black !important;
-}
-/* Input Field */
-.register-form-input-field-box {
-  width: 70%;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  justify-items: center;
-  margin: 0 auto;
+  /* border: 3px solid black !important; */
+  box-sizing: border-box;
+  overflow-y: "auto";
 }
 /* Form Header */
 .register-form-h2 {
   width: 20rem;
   text-align: center;
-  margin: 0 auto 4rem;
+  margin: 4rem auto 1.5rem;
 }
+/* End Form */
+
+/* Input Field Styling */
+/* Input Field Container */
+.register-form-input-field-container {
+  width: 80%;
+  margin: 3rem auto;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  justify-items: center;
+  gap: 1rem;
+}
+
+/* Input Field Text Box  */
+.register-form-input-field {
+  background-color: white;
+}
+/* Input Field Text Box  */
+.register-form-input-field-radio {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+}
+/* End Input Field Styling */

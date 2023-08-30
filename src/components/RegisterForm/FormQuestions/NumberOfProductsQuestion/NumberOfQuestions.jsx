@@ -1,9 +1,13 @@
 // * - IMPORTING -
 // React
 import React from "react";
+// MUI
+import {InputLabel, OutlinedInput} from "@mui/material";
 
 // * - NumberOfProductsQuestion Component -
 function NumberOfProductsQuestion({ numberOfProducts, setNumberOfProducts }) {
+  
+  // * - RENDERING -
   return (
     <div>
       <label>

@@ -1,6 +1,7 @@
 // * - IMPORTING -
 // React
 import React from "react";
+import {InputLabel, OutlinedInput} from "@mui/material";
 
 // * - NonProfitPartnerQuestion COMPONENT -
 function NonProfitPartnerQuestion() {

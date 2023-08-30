@@ -1,21 +1,28 @@
 // * - IMPORTING -
 // React
 import React from "react";
+// MUI
+import {InputLabel, OutlinedInput} from "@mui/material";
 
 // * - EmailQuestion Component -
 function EmailQuestion({ email, setEmail }) {
+  // * - RENDERING -
   return (
-    <div>
-      <label>
-        Email
-        <input
-          type="text"
-          name="Email"
-          value={email}
+      <div>
+        <InputLabel label="email" id="email-label">
+          Email
+        </InputLabel>
+        <OutlinedInput
+          aria-labelledby="email-label"
+          className="register-form-input-field"
+          fullWidth
+          id="email-input"
           required
+          label="email"
+          placeholder="Email"
+          value={email}
           onChange={(event) => setEmail(event.target.value)}
         />
-      </label>
     </div>
   );
 } // * - END EmailQuestion Component -

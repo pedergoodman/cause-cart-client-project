@@ -3,6 +3,8 @@
 import React, { useState } from "react";
 // Redux
 import { useDispatch, useSelector } from "react-redux";
+// Router
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 // CSS
 import "./RegisterForm.css";
 // MUI
@@ -35,6 +37,7 @@ function RegisterForm() {
   // * - DECLARATIONS -
   const errors = useSelector((store) => store.errors); // Input Field Errors
   const dispatch = useDispatch(); // useDispatch as Variable
+  const history = useHistory(); // useHistory as variable
 
   // * Function to register vendor
   const registerUser = (event) => {
@@ -54,11 +57,23 @@ function RegisterForm() {
   // * - RENDERING -
   return (
     //  Form Box Container
-    <Box>
       <form className="formPanel register-form-box" onSubmit={registerUser}>
         <h2 className="register-form-h2">
           Grow your business while being sustainable
         </h2>
+        {/* Login button page route */}
+        <center>
+          <button
+            type="button"
+            className="btn btn_asLink"
+            onClick={() => {
+              history.push("/login");
+            }}
+          >
+           Already a vendor? Login here.
+          </button>
+        </center>
+
         {/* Error Prompts */}
         {errors.registrationMessage && (
           <h3 className="alert" role="alert">
@@ -67,12 +82,12 @@ function RegisterForm() {
         )}
 
         {/* Input Field Box Container */}
-        <Box className="register-form-input-field-box">
+        <Box className="register-form-input-field-container">
           {/* Form Questions */}
           {/* Brand Name */}
           <BrandNameQuestion
             brandname={brandName}
-            setBrandname={setBrandName}
+            setBrandName={setBrandName}
           />
           {/* Website URL */}
           <WebsiteURL websiteURL={websiteURL} setWebsiteURLl={setWebsiteURLl} />
@@ -116,7 +131,6 @@ function RegisterForm() {
           </div>
         </Box>
       </form>
-    </Box>
   );
 } // * - END RegisterForm COMPONENT -
 
