@@ -22,10 +22,10 @@ function BusinessTypeQuestion({ businessType, setBusinessType }) {
         onChange={(event) => setBusinessType(event.target.value)}
       >
         <MenuItem value={"LLC"}>LLC</MenuItem>
-        <MenuItem value={"Sole Proprietorships"}>Sole Proprietorship</MenuItem>
-        <MenuItem value={"Partnerships"}>Partnership</MenuItem>
-        <MenuItem value={"Corporation"}>Corporation</MenuItem>
-        <MenuItem value={"S Corporations"}>S Corporation</MenuItem>
+        <MenuItem value={"S-corp"}>S-corp</MenuItem>
+        <MenuItem value={"C-corp"}>C-corp</MenuItem>
+        <MenuItem value={"Non-Profit 501c3"}>Non-Profit 501c3</MenuItem>
+        <MenuItem value={"Cooperative"}>Cooperative</MenuItem>
       </Select>
     </div>
   );
