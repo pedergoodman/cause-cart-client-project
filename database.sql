@@ -121,7 +121,7 @@ CREATE TABLE vendor_app_info (
     date_edited TIMESTAMP,
     onboarding_stage_id INTEGER REFERENCES Onboarding(id),
     status_id INTEGER REFERENCES VendorStatus(id),
-    sdg_id INTEGER REFERENCES SDG(id)
+    -- sdg_id INTEGER REFERENCES SDG(id)
 );
 
 
