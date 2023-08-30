@@ -10,7 +10,7 @@ import {
   MenuItem,
 } from "@mui/material";
 import { Icon } from "@iconify/react";
-import MenuIcon from '@mui/icons-material/Menu';
+import MenuIcon from "@mui/icons-material/Menu";
 import { Link } from "react-router-dom";
 
 const pages = [
@@ -30,7 +30,7 @@ function AdminNavBar() {
   };
 
   return (
-    <AppBar position="static" style={{ backgroundColor: '#dcebeb' }}>
+    <AppBar position="static" style={{ backgroundColor: "#dcebeb" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <IconButton
@@ -68,13 +68,30 @@ function AdminNavBar() {
               alignItems: "center",
             }}
           >
-            <Link to="/templates" style={{ fontFamily: 'Roboto, sans-serif', textDecoration: 'none', color: '#286264', display: 'flex', alignItems: 'center' }}>
+            <Link
+              to="/templates"
+              style={{
+                fontFamily: "Roboto, sans-serif",
+                textDecoration: "none",
+                color: "#286264",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
               <Icon icon="fluent-mdl2:file-template" height="28px" />
               <Typography variant="body1" sx={{ ml: 1 }}>
                 Templates
               </Typography>
             </Link>
-            <Link to="/logout" style={{ fontFamily: 'Roboto, sans-serif', textDecoration: 'none', color: '#000000', marginLeft: '16px' }}>
+            <Link
+              to="/logout"
+              style={{
+                fontFamily: "Roboto, sans-serif",
+                textDecoration: "none",
+                color: "#000000",
+                marginLeft: "16px",
+              }}
+            >
               <Typography variant="body1">Logout</Typography>
             </Link>
           </Box>

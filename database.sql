@@ -5,6 +5,7 @@
 -- ex. SELECT * FROM "user";
 -- Otherwise you will have errors!
 
+-- ** TODO: AUTH NEEDS SETUP 08/30/2023 
 -- CREATE TABLE user_table (
 --     id SERIAL PRIMARY KEY,
 --     email VARCHAR(1000),
@@ -71,32 +72,32 @@ VALUES
 ('Inactive'),
 ('Pending');
 
--- Create SDG table
-CREATE TABLE SDG (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(255)
-);
+-- -- ** REMOVE ? ** Create SDG table
+-- CREATE TABLE SDG (
+--     id SERIAL PRIMARY KEY,
+--     name VARCHAR(255)
+-- );
 
--- Insert initial values into SDG
-INSERT INTO SDG (name)
-VALUES 
-('No Poverty'),
-('Zero Hunger'),
-('Good Health and Well-Being'),
-('Quality Education'),
-('Gender Equality'),
-('Clean Water and Sanitation'),
-('Affordable and Clean Energy'),
-('Decent Work and Economic Growth'),
-('Industry, Innovation, and Infrastructure'),
-('Reduced Inequalities'),
-('Sustainable Cities and Communities'),
-('Responsible Consumption and Production'),
-('Climate Action'),
-('Life Below Water'),
-('Life on Land'),
-('Peace, Justice and Strong Institutions'),
-('Partnerships');
+-- -- ** REMOVE ? ** Insert initial values into SDG 
+-- INSERT INTO SDG (name)
+-- VALUES 
+-- ('No Poverty'),
+-- ('Zero Hunger'),
+-- ('Good Health and Well-Being'),
+-- ('Quality Education'),
+-- ('Gender Equality'),
+-- ('Clean Water and Sanitation'),
+-- ('Affordable and Clean Energy'),
+-- ('Decent Work and Economic Growth'),
+-- ('Industry, Innovation, and Infrastructure'),
+-- ('Reduced Inequalities'),
+-- ('Sustainable Cities and Communities'),
+-- ('Responsible Consumption and Production'),
+-- ('Climate Action'),
+-- ('Life Below Water'),
+-- ('Life on Land'),
+-- ('Peace, Justice and Strong Institutions'),
+-- ('Partnerships');
 
 -- Create vendor_app_info table
 CREATE TABLE vendor_app_info (
@@ -149,7 +150,7 @@ CREATE TABLE vendor_app_info (
 --     sdg_id INTEGER REFERENCES SDG(id)
 -- );
 
--- Mock/"Dummy" Data for Testing
+-- Mock/"Dummy" Data for Testing (WITH AUTH)
 -- INSERT INTO user_table (email, password, authorization_level)
 -- VALUES
 -- ('admin1@example.com', 'admin1', 1),
@@ -164,6 +165,7 @@ CREATE TABLE vendor_app_info (
 -- ('vendor9@example.com', 'password9', 1),
 -- ('vendor10@example.com', 'password10', 1);
 
+-- Mock/"Dummy" Data for Testing
 INSERT INTO "user" (username, password)
 VALUES
 ('vendor1', 'password1'),
@@ -250,106 +252,7 @@ null, true, 'We are interested in partnering with a charity that aligns with our
 
 
 
--- ** 2ND VERSION: STAGE and STATUS as ENUMS **
--- -- Database Name: cause_cart
-
--- -- USER is a reserved keyword with Postgres
--- -- You must use double quotes in every query that user is in:
--- -- ex. SELECT * FROM "user";
--- -- Otherwise you will have errors!
--- CREATE TABLE user_table (
---     id SERIAL PRIMARY KEY,
---     email VARCHAR(1000),
---     password VARCHAR(1000),
---     authorization_level INTEGER
--- );
-
--- CREATE TABLE category_names (
---     id SERIAL PRIMARY KEY,
---     name VARCHAR(255)
--- );
-
--- -- Insert initial values into category_names
--- INSERT INTO category_names (name)
--- VALUES 
--- ('Home Décor'),
--- ('Jewelry'),
--- ('Kids Apparel'),
--- ('Kids + Baby (non-Apparel)'),
--- ('Men’s accessories'),
--- ('Men’s apparel'),
--- ('Beauty + Wellness'),
--- ('Pets'),
--- ('Women’s accessories'),
--- ('Women’s apparel'),
--- ('Other');
-
--- CREATE TYPE Onboarding AS ENUM (
---     'Intake Form Submitted',
---     'Approved Intake Form',
---     'Sent Contract',
---     'Contract Submitted',
---     'Sent Product Spreadsheet',
---     'Product Spreadsheet Submitted',
---     'Approved Product',
---     'Denied Application',
---     'Onboarding Complete',
---     'Paused Onboarding'
--- );
-
--- CREATE TYPE VendorStatus AS ENUM (
---     'Active',
---     'Inactive',
---     'Pending'
--- );
-
--- CREATE TYPE SDG AS ENUM (
---     'No Poverty',
---     'Zero Hunger',
-    -- 'Good Health and Well-Being',
-    -- 'Quality Education',
-    -- 'Gender Equality',
-    -- 'Clean Water and Sanitation',
-    -- 'Affordable and Clean Energy',
-    -- 'Decent Work and Economic Growth',
-    -- 'Industry, Innovation, and Infrastructure',
-    -- 'Reduced Inequalities',
-    -- 'Sustainable Cities and Communities',
-    -- 'Responsible Consumption and Production',
-    -- 'Climate Action',
-    -- 'Life Below Water',
-    -- 'Life on Land',
-    -- 'Peace, Justice and Strong Institutions',
---     'Partnerships'
--- );
-
--- CREATE TABLE vendor_app_info (
---     id SERIAL PRIMARY KEY,
---     brand_name VARCHAR(255),
---     email VARCHAR(255),
---     website_url VARCHAR(1500),
---     business_type VARCHAR(255),
---     giveback BOOLEAN,
---     giveback_description TEXT,
---     partner_with_nonprofit BOOLEAN,
---     nonprofit_name VARCHAR(255),
---     interested_in_partnership BOOLEAN,
---     partnership_description TEXT,
---     primary_category INTEGER REFERENCES category_names(id),
---     country VARCHAR(255),
---     number_of_products VARCHAR(255),
---     heard_about_us VARCHAR(255),
---     user_id INTEGER REFERENCES user_table(id),
---     date_created DATE,
---     date_edited DATE,
---     onboarding_stage Onboarding,
---     status VendorStatus,
---     sdg SDG
--- );
-
-
-
--- ** OG ** -- 
+-- ** ORIGINAL ** -- 
 -- -- USER is a reserved keyword with Postgres
 -- -- You must use double quotes in every query that user is in:
 -- -- ex. SELECT * FROM "user";
