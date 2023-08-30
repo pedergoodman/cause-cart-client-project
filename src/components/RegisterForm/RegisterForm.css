@@ -12,6 +12,14 @@
   text-align: center;
   margin: 4rem auto 1.5rem;
 }
+
+/*  Form Cause-Cart Link and Login Route */
+.register-form-link-and-routing-container {
+  width: 80%;
+  margin: 0 auto;
+  text-align: center;
+  line-height: 1rem;
+}
 /* End Form */
 
 /* Input Field Styling */
@@ -24,10 +32,10 @@
   flex-wrap: wrap;
   justify-content: flex-start;
   justify-items: center;
-  gap: 1rem;
+  gap: 2rem;
 }
-/* Input Field Text Box  */
-.register-form-input-field {
+/* Input Field Textfield Boxes  */
+.register-form-input-field .MuiInputBase-input, .MuiInputBase-multiline{
   background-color: white;
 }
 /* Input Field Double Inline Questions (Country and Product Categories) */

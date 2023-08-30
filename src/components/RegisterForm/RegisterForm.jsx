@@ -22,6 +22,7 @@ import ReEnterPasswordQuestion from "./FormQuestions/ReEnterPasswordQuestion/ReE
 import ProductCategoryQuestion from "./FormQuestions/ProductCategoryQuestion/ProductCategoryQuestion";
 import CountryQuestion from "./FormQuestions/CountryQuestion/CountryQuestion";
 import HowDidYouHearQuestion from "./FormQuestions/HowDidYouHearQuestion/HowDidYourHearQuestion";
+import RegisterButton from "./RegisterButton/RegisterButton";
 
 // * - RegisterForm COMPONENT -
 function RegisterForm() {
@@ -37,7 +38,13 @@ function RegisterForm() {
   const [productCategories, setProductCategories] = useState([]); // Product categories
   const [numberOfProducts, setNumberOfProducts] = useState(""); // Number of products;
   const [giveBack, setGiveBack] = useState(""); // Give back
+  const [giveBackDescriptionFieldInput, setGiveBackDescriptionFieldInput] =
+    useState(""); // Give back input of textfield
   const [nonProfitPartner, setNonProfitPartner] = useState(""); // Non-profit partner
+  const [
+    nonProfitPartnerDescriptionFieldInput,
+    setNonProfitPartnerDescriptionFieldInput,
+  ] = useState(""); // Non-profit input of textfield
   const [howDidYouHear, setHowDidYouHear] = useState(""); // How did you hear about us
 
   // * - DECLARATIONS -
@@ -45,47 +52,40 @@ function RegisterForm() {
   const dispatch = useDispatch(); // useDispatch as Variable
   const history = useHistory(); // useHistory as variable
 
-  // * Function to register vendor
-  const registerUser = (event) => {
-    // Prevent default
-    event.preventDefault();
-
-    // Dispatching action payload of vender info for account registration
-    dispatch({
-      type: "REGISTER",
-      payload: {
-        email: email,
-        password: password,
-      },
-    });
-  }; // end registerUser
-
   // * - RENDERING -
   return (
     //  Form Box Container
-    <form className="formPanel register-form-box" onSubmit={registerUser}>
-      <h2 className="register-form-h2">
-        Grow your business while being sustainable
-      </h2>
-      {/* Login button page route */}
-      <center>
-        <button
-          type="button"
-          className="btn btn_asLink"
-          onClick={() => {
-            history.push("/login");
-          }}
-        >
-          Already a vendor? Login here.
-        </button>
-      </center>
-
-      {/* Error Prompts */}
-      {errors.registrationMessage && (
-        <h3 className="alert" role="alert">
-          {errors.registrationMessage}
-        </h3>
-      )}
+    <form className="formPanel register-form-box">
+      <header>
+        <h2 className="register-form-h2">
+          Grow your business while being sustainable
+        </h2>
+        {/* Cause-Cart Link and Login Route */}
+        <div className="register-form-link-and-routing-container">
+          {/* Link to Cause-Cart site */}
+          <p>
+            <a
+              style={{ textDecoration: "none" }} // Gets rid of second underline of anchor tag
+              href="https://cause-cart.com/"
+              target="_blank"
+              className="btn_asLink"
+            >
+              Click here to visit the Cause-Cart site
+            </a>
+          </p>
+          <br />
+          {/* Route to Login Page */}
+          <button
+            type="button"
+            className="btn btn_asLink"
+            onClick={() => {
+              history.push("/login");
+            }}
+          >
+            Already a vendor? Login here
+          </button>
+        </div>
+      </header>
 
       {/* Input Field Box Container */}
       <Box className="register-form-input-field-container">
@@ -133,15 +133,26 @@ function RegisterForm() {
         />
 
         {/* Offer Give Back */}
-        <GiveBackQuestion setGiveBack={setGiveBack} giveBack={giveBack} />
         {/* Conditional rendering functionality */}
+        <GiveBackQuestion
+          setGiveBack={setGiveBack}
+          giveBack={giveBack}
+          giveBackDescriptionFieldInput={giveBackDescriptionFieldInput}
+          setGiveBackDescriptionFieldInput={setGiveBackDescriptionFieldInput}
+        />
 
         {/* Partner with Non-Profit */}
+        {/* Conditional rendering functionality */}
         <NonProfitPartnerQuestion
           setNonProfitPartner={setNonProfitPartner}
           nonProfitPartner={nonProfitPartner}
+          nonProfitPartnerDescriptionFieldInput={
+            nonProfitPartnerDescriptionFieldInput
+          }
+          setNonProfitPartnerDescriptionFieldInput={
+            setNonProfitPartnerDescriptionFieldInput
+          }
         />
-        {/* Conditional rendering functionality */}
 
         {/* How Did You Hear */}
         <HowDidYouHearQuestion
@@ -149,10 +160,33 @@ function RegisterForm() {
           setHowDidYouHear={setHowDidYouHear}
         />
 
+        {/* Error Prompts */}
+        {errors.registrationMessage && (
+          <h3 className="alert" role="alert">
+            {errors.registrationMessage}
+          </h3>
+        )}
+
         {/* Register Button */}
-        <div className="register-button">
-          <input className="btn" type="submit" name="submit" value="Register" />
-        </div>
+        {/* All States of Form */}
+        <RegisterButton
+          brandName={brandName}
+          websiteURL={websiteURL}
+          businessType={businessType}
+          email={email}
+          password={password}
+          reEnterPassword={reEnterPassword}
+          country={country}
+          productCategories={productCategories}
+          numberOfProducts={numberOfProducts}
+          giveBack={giveBack}
+          giveBackDescriptionFieldInput={giveBackDescriptionFieldInput}
+          nonProfitPartner={nonProfitPartner}
+          nonProfitPartnerDescriptionFieldInput={
+            nonProfitPartnerDescriptionFieldInput
+          }
+          howDidYouHear={howDidYouHear}
+        />
       </Box>
     </form>
   );
