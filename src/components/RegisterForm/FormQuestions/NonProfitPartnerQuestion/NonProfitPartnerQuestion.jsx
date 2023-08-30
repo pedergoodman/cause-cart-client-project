@@ -1,35 +1,43 @@
 // * - IMPORTING -
 // React
 import React from "react";
-import {InputLabel, OutlinedInput} from "@mui/material";
+import { FormLabel, FormControlLabel, RadioGroup, Radio} from "@mui/material";
 
 // * - NonProfitPartnerQuestion COMPONENT -
-function NonProfitPartnerQuestion() {
+function NonProfitPartnerQuestion({nonProfitPartner, setNonProfitPartner}) {
   // * - RENDERING -
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "2px",
-      }}
-    >
-      <label>Do you currently partner with a non-profit?</label>
-      {/* Non-profit Partner Choices */}
-      <div>
-        <label>
-          <input type="radio" name="NonProfitPartner" value="yes" />
-          Yes
-        </label>
-        <label>
-          <input type="radio" name="NonProfitPartner" value="maybe" />
-          Maybe
-        </label>
-        <label>
-          <input type="radio" name="NonProfitPartner" value="no" />
-          No
-        </label>
-      </div>
+     <div>
+      <FormLabel label="giveBack" id="non-profit-label">
+        Do you currently partner with a non-profit?
+      </FormLabel>
+
+      {/* Give Back Options */}
+      <RadioGroup
+        className="register-form-input-field-radio"
+        aria-labelledby="non-profit-label"
+        defaultValue="yes"
+        name="radio-buttons-group"
+      >
+        <FormControlLabel
+          onChange={(event) => setNonProfitPartner(event.target.value)}
+          value="yes"
+          control={<Radio />}
+          label="Yes"
+        />
+        <FormControlLabel
+          onChange={(event) => setNonProfitPartner(event.target.value)}
+          value="maybe"
+          control={<Radio />}
+          label="Maybe"
+        />
+        <FormControlLabel
+          onChange={(event) => setNonProfitPartner(event.target.value)}
+          value="no"
+          control={<Radio />}
+          label="No"
+        />
+      </RadioGroup>
     </div>
   );
 }

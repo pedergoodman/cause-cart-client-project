@@ -4,7 +4,7 @@
   width: 100% !important;
   /* border: 3px solid black !important; */
   box-sizing: border-box;
-  overflow-y: "auto";
+  overflow-y: auto;
 }
 /* Form Header */
 .register-form-h2 {
@@ -26,15 +26,30 @@
   justify-items: center;
   gap: 1rem;
 }
-
 /* Input Field Text Box  */
 .register-form-input-field {
   background-color: white;
 }
-/* Input Field Text Box  */
+/* Input Field Double Inline Questions (Country and Product Categories) */
+.register-form-input-field-double-inline {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 2rem;
+}
+/* Input Field Radio Input  */
 .register-form-input-field-radio {
   display: flex !important;
   flex-direction: row !important;
   flex-wrap: wrap !important;
 }
 /* End Input Field Styling */
+
+/* Register Button */
+.register-button {
+  margin: 2rem;
+  display: flex;
+  justify-content: center;
+}
+/* End Register Button */
