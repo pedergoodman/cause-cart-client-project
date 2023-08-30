@@ -73,4 +73,32 @@ router.get("/:id", rejectUnauthenticated, (req, res) => {
     });
 });
 
+router.put("/onboarding/:id", rejectUnauthenticated, (req, res) => {
+    const vendorId = req.params.id;
+    const newOnboardingStage = req.body.onboarding_stage;
+    
+    const queryText = `
+      WITH updated AS (
+        UPDATE vendor_app_info 
+        SET onboarding_stage_id = (SELECT id FROM Onboarding WHERE name = $1),
+        status_id = CASE WHEN $1 = 'Approved Product' THEN (SELECT id FROM VendorStatus WHERE name = 'Active') ELSE status_id END
+        WHERE id = $2
+        RETURNING status_id
+      )
+      SELECT name FROM VendorStatus WHERE id = (SELECT status_id FROM updated);
+    `;
+  
+    pool
+      .query(queryText, [newOnboardingStage, vendorId])
+      .then((result) => {
+        res.send(result.rows[0]);
+      })
+      .catch((error) => {
+        console.log("Error updating onboarding stage: ", error);
+        res.sendStatus(500);
+      });
+});
+
+  
+
 module.exports = router;

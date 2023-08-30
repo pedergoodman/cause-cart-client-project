@@ -66,18 +66,13 @@ export const ONBOARDING_STAGE_ICONS = {
   ),
 };
 
-const handleCheck = (row) => {
-  // TODO: Implement the functionality to change the onboarding stage to the next stage
-};
+// const handleX = (row) => {
+//   // TODO: Implement the functionality to change the onboarding stage to the ‘Denied Application’ stage
+// };
 
-const handleX = (row) => {
-  // TODO: Implement the functionality to change the onboarding stage to the ‘Denied Application’ stage
-};
-
-const handleDelete = (row) => {
-  // TODO: Implement the functionality to delete the vendor and archive their documents
-};
-
+// const handleDelete = (row) => {
+//   // TODO: Implement the functionality to delete the vendor and archive their documents
+// };
 
 function VendorsList() {
   const apiRef = useGridApiRef();
@@ -99,6 +94,45 @@ function VendorsList() {
     setOpenModal(false);
   };
 
+  const handleCheck = (row) => {
+    const newOnboardingStage = getNewOnboardingStage(row.onboarding_stage);
+    dispatch({
+      type: "UPDATE_ONBOARDING_STAGE",
+      payload: { id: row.id, newOnboardingStage },
+    });
+    handleCloseModal();
+  };
+
+  const getNewOnboardingStage = (currentStage) => {
+    const onboardingStages = [
+      "Intake Form Submitted",
+      "Approved Intake Form",
+      "Sent Contract",
+      "Contract Submitted",
+      "Sent Product Spreadsheet",
+      "Product Spreadsheet Submitted",
+      "Approved Product",
+      "Onboarding Complete",
+      "Paused Onboarding",
+      "Denied Application",
+    ];
+    const currentIndex = onboardingStages.indexOf(currentStage);
+    return onboardingStages[currentIndex + 1];
+  };
+
+  const handleX = (row) => {
+    const deniedApplicationStage = "Denied Application";
+    dispatch({
+      type: "UPDATE_ONBOARDING_STAGE",
+      payload: { id: row.id, newOnboardingStage: deniedApplicationStage },
+    });
+    handleCloseModal();
+  };
+
+  const handleDelete = (row) => {
+    // TODO: Implement the functionality to delete the vendor and archive their documents
+  };
+
   const columns = [
     {
       field: "brand_name",
@@ -113,6 +147,7 @@ function VendorsList() {
         </span>
       ),
     },
+
     { field: "status", headerName: "Status", flex: 1 },
     {
       field: "onboarding_stage",
@@ -283,3 +318,43 @@ export default VendorsList;
 // }
 
 // export default VendorList;
+
+// Status changed to MUI Slider??
+// import React, { useState, useEffect } from "react";
+// // ...
+// import { Card, CardContent, Typography, Slider } from "@mui/material";
+// // ...
+
+// function VendorsList() {
+//   // ...
+//   const handleSliderChange = (event, newValue, row) => {
+//     const newOnboardingStage = newValue === 1 ? 'Paused Onboarding' : 'Intake Form Submitted';
+//     dispatch({
+//       type: 'UPDATE_ONBOARDING_STAGE',
+//       payload: { id: row.id, newOnboardingStage },
+//     });
+//   };
+
+//   const columns = [
+//     // ...
+//     {
+//       field: 'status',
+//       headerName: 'Status',
+//       flex: 1,
+//       renderCell: (params) => (
+//         <Slider
+//           value={params.row.onboarding_stage === 'Paused Onboarding' ? 1 : 0}
+//           max={1}
+//           onChange={(event, newValue) => handleSliderChange(event, newValue, params.row)}
+//           valueLabelDisplay="auto"
+//           valueLabelFormat={(value) => (value === 1 ? 'Paused' : 'Active')}
+//           disabled={params.row.onboarding_stage === 'Denied Application'}
+//         />
+//       ),
+//     },
+//     // ...
+//   ];
+//   // ...
+// }
+
+// export default VendorsList;
