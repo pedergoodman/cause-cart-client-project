@@ -23,15 +23,42 @@ const initialState = {
           loading: false,
           error: action.payload,
         };
-        case "SET_VENDORS":
-            return {
-              ...state,
-              vendors: action.payload,
-            };
+      case "SET_VENDORS":
+        return {
+          ...state,
+          vendors: action.payload,
+        };
       default:
         return state;
     }
   };
   
-  export default adminReducer;
+  const initialDetailsState = {
+    vendorDetails: null,
+    error: null,
+  };
+  
+  const vendorDetailsReducer = (state = initialDetailsState, action) => {
+    switch (action.type) {
+      case "FETCH_VENDOR_DETAILS_REQUEST":
+        return {
+          ...state,
+          error: null,
+        };
+      case "FETCH_VENDOR_DETAILS_SUCCESS":
+        return {
+          ...state,
+          vendorDetails: action.payload,
+        };
+      case "FETCH_VENDOR_DETAILS_FAILURE":
+        return {
+          ...state,
+          error: action.error,
+        };
+      default:
+        return state;
+    }
+  };
+  
+  export { adminReducer, vendorDetailsReducer };
   

@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import {
@@ -33,10 +34,23 @@ const theme = createTheme({
   },
 });
 
-function VendorDetails({ open, onClose, vendor }) {
-  if (!vendor) {
+function VendorDetails({ open, onClose, vendorId }) {
+  const dispatch = useDispatch();
+  const vendorDetails = useSelector(
+    (state) => state.vendorDetails.vendorDetails
+  );
+
+  useEffect(() => {
+    if (vendorId) {
+      dispatch({ type: "FETCH_VENDOR_DETAILS_REQUEST", payload: vendorId });
+    }
+  }, [dispatch, vendorId]);
+
+  if (!vendorDetails || vendorDetails.length === 0) {
     return null;
   }
+
+  const vendor = vendorDetails[0];
 
   return (
     <ThemeProvider theme={theme}>
@@ -50,53 +64,79 @@ function VendorDetails({ open, onClose, vendor }) {
             width: "600px",
             maxHeight: "925px",
             bgcolor: "background.paper",
-            // border: "2px solid #000",
             boxShadow: 24,
           }}
         >
           <DetailsModalHeader />
-
-          <Box
-            display="flex"
-            flexDirection="column"
-            padding="25px"
-            // backgroundColor="#FFF9F5"
-          >
+          <Box display="flex" flexDirection="column" padding="25px">
             <Box flexDirection="column" marginBottom="16px">
-              <Typography variant="h5" sx={{textAlign: "center"}}>Vendor Name: {vendor.vendorName}</Typography>
+              <Typography variant="h5" sx={{ textAlign: "center" }}>
+                Vendor Name: {vendor.vendorName}
+              </Typography>
             </Box>
-            <Box
-              display="flex"
-              justifyContent="space-between"
-              mb={2}
-            >
+            <Box display="flex" justifyContent="space-between" mb={2}>
               <Box flex={1} mr={2}>
-                <Typography variant="subtitle1">Email: {vendor.email}</Typography>
-                <Typography variant="subtitle1">Website: {vendor.website}</Typography>
-                <Typography variant="subtitle1">Country: {vendor.country}</Typography>
+                <Typography variant="subtitle1">
+                  Email: {vendor.email}
+                </Typography>
+                <Typography variant="subtitle1">
+                  Website: {vendor.website}
+                </Typography>
+                <Typography variant="subtitle1">
+                  Country: {vendor.country}
+                </Typography>
               </Box>
               <Box flex={1} ml={2}>
-                <Typography variant="subtitle1">Business Type: {vendor.businessType}</Typography>
+                <Typography variant="subtitle1">
+                  Business Type: {vendor.businessType}
+                </Typography>
                 <Typography variant="subtitle1">
                   Primary Product Category: {vendor.primaryProductCategory}
                 </Typography>
-                <Typography variant="subtitle1">Number of Products: {vendor.numberOfProducts}</Typography>
+                <Typography variant="subtitle1">
+                  Number of Products: {vendor.numberOfProducts}
+                </Typography>
               </Box>
             </Box>
             <Box>
               <Typography variant="subtitle1">
                 Does your product currently offer a giveback?
-                {vendor.vendorGiveback}
+                {vendor.vendorGiveback ? "Yes" : "No"}
               </Typography>
+              {vendor.vendorGiveback && (
+                <Typography variant="subtitle1">
+                  Giveback Description: {vendor.givebackDescription}
+                </Typography>
+              )}
               <Typography variant="subtitle1">
                 Do you currently partner with a non-profit?
-                {vendor.partnerNonProfit}
+                {vendor.partnerNonProfit ? "Yes" : "No"}
               </Typography>
+              {vendor.partnerNonProfit && (
+                <Typography variant="subtitle1">
+                  Non-profit Name: {vendor.nonprofitName}
+                </Typography>
+              )}
               <Typography variant="subtitle1">
                 How did you hear about us?
                 {vendor.hearAboutUs}
               </Typography>
             </Box>
+
+            {/* <Box>
+                <Typography variant="subtitle1">
+                  Does your product currently offer a giveback?
+                  {vendor.vendorGiveback}
+                </Typography>
+                <Typography variant="subtitle1">
+                  Do you currently partner with a non-profit?
+                  {vendor.partnerNonProfit}
+                </Typography>
+                <Typography variant="subtitle1">
+                  How did you hear about us?
+                  {vendor.hearAboutUs}
+                </Typography>
+              </Box> */}
           </Box>
           <DetailsProductSpreadsheet spreadsheets={mockSpreadsheets} />
           <DetailsContract contracts={mockContracts} />

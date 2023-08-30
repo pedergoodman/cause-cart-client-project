@@ -84,7 +84,7 @@ function VendorsList() {
   const [selectedVendor, setSelectedVendor] = useState(null);
   const [openModal, setOpenModal] = useState(false);
   const dispatch = useDispatch();
-  const vendors = useSelector((store) => store.adminReducer.vendors);
+  const vendors = useSelector((store) => store.admin.vendors);
 
   useEffect(() => {
     dispatch({ type: "FETCH_VENDORS_REQUEST" });
@@ -208,7 +208,7 @@ function VendorsList() {
         {selectedVendor && (
           <VendorDetails
             open={openModal}
-            vendor={selectedVendor}
+            vendorId={selectedVendor ? selectedVendor.id : null}
             onClose={handleCloseModal}
           />
         )}
