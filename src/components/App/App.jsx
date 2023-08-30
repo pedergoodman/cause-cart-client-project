@@ -23,6 +23,8 @@ import RegisterPage from "../RegisterPage/RegisterPage";
 import VendorsList from "../AdminUser/VendorsList/VendorsList";
 import TemplateLists from "../AdminUser/Templates/TemplateLists";
 
+import VendorStepper from "../VendorStepper/VendorStepper"
+
 import "./App.css";
 
 function App() {
@@ -70,6 +72,13 @@ function App() {
           >
             <VendorsList />
           </ProtectedRoute>
+
+          <Route
+            exact
+            path="/vendorstepper"
+          >
+            <VendorStepper />
+          </Route>
 
           <ProtectedRoute
             // logged in access to Templates 
