@@ -29,7 +29,7 @@ function RegisterForm() {
   // * - STATE -
   // * Form Input Fields (in this order)
   const [brandName, setBrandName] = useState(""); // Brand name
-  const [websiteURL, setWebsiteURLl] = useState(""); // Website URL
+  const [websiteURL, setWebsiteURL] = useState(""); // Website URL
   const [businessType, setBusinessType] = useState(""); // Business type
   const [email, setEmail] = useState(""); // Email
   const [password, setPassword] = useState(""); // Password
@@ -94,7 +94,7 @@ function RegisterForm() {
         <BrandNameQuestion brandname={brandName} setBrandName={setBrandName} />
 
         {/* Website URL */}
-        <WebsiteURL websiteURL={websiteURL} setWebsiteURLl={setWebsiteURLl} />
+        <WebsiteURL websiteURL={websiteURL} setWebsiteURL={setWebsiteURL} />
 
         {/* Business Type */}
         <BusinessTypeQuestion
@@ -106,7 +106,7 @@ function RegisterForm() {
         <EmailQuestion email={email} setEmail={setEmail} />
 
         {/* Password */}
-        <PasswordQuestion password={password} setEmail={setPassword} />
+        <PasswordQuestion password={password} setPassword={setPassword} />
 
         {/* Re-enter Password */}
         <ReEnterPasswordQuestion

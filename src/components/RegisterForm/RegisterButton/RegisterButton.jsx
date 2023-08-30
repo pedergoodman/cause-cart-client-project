@@ -54,7 +54,7 @@ function RegisterButton({
     // Prevent default
     event.preventDefault();
 
-    // Conditional for sending dispatch.
+    // Conditional for sending dispatch: no property values null, password and re-enter password match
     // Dispatching action payload of vender info for account registration
     dispatch({
       type: "REGISTER",
