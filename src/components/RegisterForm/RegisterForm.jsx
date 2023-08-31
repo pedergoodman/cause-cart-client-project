@@ -14,15 +14,14 @@ import BrandNameQuestion from "./FormQuestions/BrandNameQuestion/BrandNameQuesti
 import BusinessTypeQuestion from "./FormQuestions/BusinessTypeQuestion/BusinessTypeQuestion";
 import WebsiteURL from "./FormQuestions/WebsiteURL/WebsiteURL";
 import EmailQuestion from "./FormQuestions/EmailQuestion/EmailQuestion";
-import PasswordQuestion from "./FormQuestions/PasswordQuestion/PasswordQuestion";
 import GiveBackQuestion from "./FormQuestions/GiveBackQuestion/GiveBackQuestion";
 import NonProfitPartnerQuestion from "./FormQuestions/NonProfitPartnerQuestion/NonProfitPartnerQuestion";
 import NumberOfProductsQuestion from "./FormQuestions/NumberOfProductsQuestion/NumberOfProductsQuestions";
-import ReEnterPasswordQuestion from "./FormQuestions/ReEnterPasswordQuestion/ReEnterPasswordQuestion";
 import ProductCategoryQuestion from "./FormQuestions/ProductCategoryQuestion/ProductCategoryQuestion";
 import CountryQuestion from "./FormQuestions/CountryQuestion/CountryQuestion";
 import HowDidYouHearQuestion from "./FormQuestions/HowDidYouHearQuestion/HowDidYourHearQuestion";
 import RegisterButton from "./RegisterButton/RegisterButton";
+import CreatePasswordQuestion from "./FormQuestions/CreatePasswordQuestion/CreatePasswordQuestion";
 
 // * - RegisterForm COMPONENT -
 function RegisterForm() {
@@ -106,10 +105,10 @@ function RegisterForm() {
         <EmailQuestion email={email} setEmail={setEmail} />
 
         {/* Password */}
-        <PasswordQuestion password={password} setPassword={setPassword} />
-
-        {/* Re-enter Password */}
-        <ReEnterPasswordQuestion
+        {/* Create, re-enter and confirmation validation of password */}
+        <CreatePasswordQuestion
+          password={password}
+          setPassword={setPassword}
           reEnterPassword={reEnterPassword}
           setReEnterPassword={setReEnterPassword}
         />
