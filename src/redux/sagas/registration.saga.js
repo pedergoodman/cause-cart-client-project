@@ -23,7 +23,7 @@ function* registerUser(action) {
 }
 
 function* registrationSaga() {
-  yield takeLatest('REGISTER', registerUser);
+  // yield takeLatest('REGISTER', registerUser);
 }
 
 export default registrationSaga;

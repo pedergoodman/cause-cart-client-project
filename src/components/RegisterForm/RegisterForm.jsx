@@ -35,8 +35,10 @@ function RegisterForm() {
   const [reEnterPassword, setReEnterPassword] = useState(""); // Re-enter password
   const [country, setCountry] = useState(""); // Country
   const [productCategories, setProductCategories] = useState([]); // Product categories
-  const [prodCategoriesOtherOptionDescInput, setProdCategoriesOtherOptionDescInput] =
-    useState([]); // Product categories
+  const [
+    prodCategoriesOtherOptionDescInput,
+    setProdCategoriesOtherOptionDescInput,
+  ] = useState([]); // Product categories "Other" input
   const [numberOfProducts, setNumberOfProducts] = useState(""); // Number of products;
   const [giveBack, setGiveBack] = useState(""); // Give back
   const [giveBackDescriptionFieldInput, setGiveBackDescriptionFieldInput] =
@@ -47,6 +49,7 @@ function RegisterForm() {
     setNonProfitPartnerDescriptionFieldInput,
   ] = useState(""); // Non-profit input of textfield
   const [howDidYouHear, setHowDidYouHear] = useState(""); // How did you hear about us
+  // const [howDidYouHearDescInput, setHowDidYouHearDescInput] = useState(""); //  How did you hear about us input text
 
   // * - DECLARATIONS -
   const errors = useSelector((store) => store.errors); // Input Field Errors
@@ -124,8 +127,12 @@ function RegisterForm() {
           <ProductCategoryQuestion
             productCategories={productCategories}
             setProductCategories={setProductCategories}
-            prodCategoriesOtherOptionDescInput={prodCategoriesOtherOptionDescInput}
-            setProdCategoriesOtherOptionDescInput={setProdCategoriesOtherOptionDescInput}
+            prodCategoriesOtherOptionDescInput={
+              prodCategoriesOtherOptionDescInput
+            }
+            setProdCategoriesOtherOptionDescInput={
+              setProdCategoriesOtherOptionDescInput
+            }
           />
         </div>
 
@@ -181,7 +188,6 @@ function RegisterForm() {
           reEnterPassword={reEnterPassword}
           country={country}
           productCategories={productCategories}
-          prodCategoriesOtherOptionDescInput={prodCategoriesOtherOptionDescInput}
           numberOfProducts={numberOfProducts}
           giveBack={giveBack}
           giveBackDescriptionFieldInput={giveBackDescriptionFieldInput}
