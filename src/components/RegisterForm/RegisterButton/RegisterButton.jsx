@@ -69,7 +69,7 @@ function RegisterButton({
       console.log(`${formInput}:`, vendorFormData[formInput]);
 
       // if property is undefined
-      if (vendorFormData[formInput] === "") {
+      if (vendorFormData[formInput] === "" || vendorFormData[formInput] === undefined) {
         setShowMissingInputErrorPrompt(true);
       }
       // if passwords do not match
@@ -84,7 +84,7 @@ function RegisterButton({
       setShowPasswordNotMatchingPrompt(true);
     } // else dispatch
     else {
-      setShowMissingInputErrorPrompt(true);
+      setShowMissingInputErrorPrompt(false);
       setShowPasswordNotMatchingPrompt(false);
       dispatch({
         type: "REGISTER",
