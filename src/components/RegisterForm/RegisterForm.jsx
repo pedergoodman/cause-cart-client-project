@@ -35,6 +35,8 @@ function RegisterForm() {
   const [reEnterPassword, setReEnterPassword] = useState(""); // Re-enter password
   const [country, setCountry] = useState(""); // Country
   const [productCategories, setProductCategories] = useState([]); // Product categories
+  const [prodCategoriesOtherOptionDescInput, setProdCategoriesOtherOptionDescInput] =
+    useState([]); // Product categories
   const [numberOfProducts, setNumberOfProducts] = useState(""); // Number of products;
   const [giveBack, setGiveBack] = useState(""); // Give back
   const [giveBackDescriptionFieldInput, setGiveBackDescriptionFieldInput] =
@@ -122,6 +124,8 @@ function RegisterForm() {
           <ProductCategoryQuestion
             productCategories={productCategories}
             setProductCategories={setProductCategories}
+            prodCategoriesOtherOptionDescInput={prodCategoriesOtherOptionDescInput}
+            setProdCategoriesOtherOptionDescInput={setProdCategoriesOtherOptionDescInput}
           />
         </div>
 
@@ -177,6 +181,7 @@ function RegisterForm() {
           reEnterPassword={reEnterPassword}
           country={country}
           productCategories={productCategories}
+          prodCategoriesOtherOptionDescInput={prodCategoriesOtherOptionDescInput}
           numberOfProducts={numberOfProducts}
           giveBack={giveBack}
           giveBackDescriptionFieldInput={giveBackDescriptionFieldInput}

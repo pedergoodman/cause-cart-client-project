@@ -16,6 +16,7 @@ function RegisterButton({
   reEnterPassword,
   country,
   productCategories,
+  prodCategoryOtherOptionInput,
   numberOfProducts,
   giveBack,
   giveBackDescriptionFieldInput,
