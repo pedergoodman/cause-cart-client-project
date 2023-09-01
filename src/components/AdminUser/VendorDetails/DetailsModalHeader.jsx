@@ -1,6 +1,9 @@
 import React from "react";
+import WarningIcon from "@mui/icons-material/Warning";
 import { Badge, Box, Button, Typography } from "@mui/material";
 import { Icon } from "@iconify/react";
+import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
 
 export const ONBOARDING_STAGE_ICONS = {
   "Intake Form Submitted": (

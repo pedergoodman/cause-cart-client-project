@@ -52,7 +52,6 @@ function RegisterForm() {
   const dispatch = useDispatch(); // useDispatch as Variable
   const history = useHistory(); // useHistory as variable
 
-
   // * - RENDERING -
   return (
     //  Form Box Container
