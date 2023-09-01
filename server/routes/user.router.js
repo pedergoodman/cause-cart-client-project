@@ -62,6 +62,7 @@ router.post("/register", (req, res, next) => {
     heard_about_us) 
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) 
     WHERE "user"."id" LIKE $`; // Add vendor app form query
+    
   pool
     .query(registerNewUserQuery, [email, password, authorizationLevel])
     .then(() => res.sendStatus(201))
