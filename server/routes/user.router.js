@@ -18,7 +18,7 @@ router.get("/", rejectUnauthenticated, (req, res) => {
 // The only thing different from this and every other post we've seen
 // is that the password gets encrypted before being inserted
 router.post("/register", async (req, res, next) => {
-
+  const password = encryptLib.encryptPassword(req.body.password);
   const client = await pool.connect()
 
   const userGroup = req.body.userGroup;
@@ -35,7 +35,6 @@ router.post("/register", async (req, res, next) => {
       websiteURL,
       businessType,
       email,
-      password,
       country,
       productCategories,
       numberOfProducts,
