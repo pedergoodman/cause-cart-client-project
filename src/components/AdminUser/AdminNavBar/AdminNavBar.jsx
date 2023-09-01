@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   AppBar,
   Box,
@@ -9,17 +9,20 @@ import {
   Typography,
   Menu,
   MenuItem,
-} from "@mui/material";
-import { Icon } from "@iconify/react";
-import MenuIcon from "@mui/icons-material/Menu";
-import { Link } from "react-router-dom";
+} from '@mui/material';
+import { Icon } from '@iconify/react';
+import MenuIcon from '@mui/icons-material/Menu';
+import { Link } from 'react-router-dom';
 
-const pages = [{ name: "Home", route: "/home" }];
+const pages = [
+  { name: 'Vendors List', route: '/vendors-list' },
+  { name: 'Templates', route: '/templates' },
+];
 
-function VendorNavBar() {
-    const user = useSelector((store) => store.user);
-    const dispatch = useDispatch();
-    const [anchorElNav, setAnchorElNav] = useState(null);
+function AdminNavBar() {
+  const user = useSelector((store) => store.user);
+  const dispatch = useDispatch();
+  const [anchorElNav, setAnchorElNav] = useState(null);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -30,26 +33,26 @@ function VendorNavBar() {
   };
 
   const handleLogout = () => {
-    dispatch({ type: "LOGOUT" });
+    dispatch({ type: 'LOGOUT' });
   };
 
   return (
     <>
-      {/* //If no user is logged in, show these links */}
+      {/* If no user is logged in, show these links */}
       {!user.id && (
         <Box
           sx={{
-            display: { xs: "none", sm: "flex" },
-            alignItems: "center",
+            display: { xs: 'none', sm: 'flex' },
+            alignItems: 'center',
           }}
         >
           <Link
             to="/registration"
             style={{
-              fontFamily: "Roboto, sans-serif",
-              textDecoration: "none",
-              color: "#000000",
-              marginLeft: "16px",
+              fontFamily: 'Roboto, sans-serif',
+              textDecoration: 'none',
+              color: '#000000',
+              marginLeft: '16px',
             }}
           >
             <Typography variant="body1">Register/Login</Typography>
@@ -60,7 +63,7 @@ function VendorNavBar() {
       {/* If a user is logged in, show these links */}
       {user.id && (
         <>
-          <AppBar position="static" style={{ backgroundColor: "#dcebeb" }}>
+          <AppBar position="static" style={{ backgroundColor: '#dcebeb' }}>
             <Container maxWidth="xl">
               <Toolbar disableGutters>
                 <IconButton
@@ -68,41 +71,32 @@ function VendorNavBar() {
                   color="#286264"
                   aria-label="menu"
                   onClick={handleOpenNavMenu}
-                  sx={{ display: { xs: "flex", sm: "none" } }}
+                  sx={{ display: { xs: 'flex', sm: 'none' } }}
                 >
                   <MenuIcon />
                 </IconButton>
-                <Link to="/vendorstepper">
-                  <IconButton
-                    sx={{ display: { xs: "none", sm: "flex" }, mr: 1 }}
-                    style={{ color: "#286264" }}
-                  >
-                    <Icon
-                      icon="material-symbols:partner-exchange-rounded"
-                      color="#fa8a5c"
-                      width="40"
-                      height="40"
-                    />
-                  </IconButton>
-                </Link>
-                <Link to="/vendorstepper">
-                  <Box sx={{ display: { xs: "none", sm: "block" } }}>
-                    <img
-                      src="images/vendorNavBarCCLogo.png"
-                      alt="Logo"
-                      style={{ height: "40px" }}
-                    />
-                  </Box>
-                </Link>
-
-                <Box sx={{ flexGrow: 1 }} />
 
                 <Box
                   sx={{
-                    display: { xs: "none", sm: "flex" },
-                    alignItems: "center",
+                    flexGrow: 1,
+                    display: { xs: 'none', sm: 'flex' },
+                    alignItems: 'center',
                   }}
                 >
+                  {pages.map((page) => (
+                    <Link
+                      key={page.name}
+                      to={page.route}
+                      style={{
+                        fontFamily: 'Roboto, sans-serif',
+                        textDecoration: 'none',
+                        color: '#000000',
+                        marginLeft: '16px',
+                      }}
+                    >
+                      <Typography variant="body1">{page.name}</Typography>
+                    </Link>
+                  ))}
                   <Typography
                     variant="body1"
                     style={{ marginLeft: '16px', cursor: 'pointer' }}
@@ -116,17 +110,17 @@ function VendorNavBar() {
                   id="menu-appbar"
                   anchorEl={anchorElNav}
                   anchorOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
+                    vertical: 'top',
+                    horizontal: 'right',
                   }}
                   keepMounted
                   transformOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
+                    vertical: 'top',
+                    horizontal: 'right',
                   }}
                   open={Boolean(anchorElNav)}
                   onClose={handleCloseNavMenu}
-                  sx={{ display: { xs: "block", sm: "none" } }}
+                  sx={{ display: { xs: 'block', sm: 'none' } }}
                 >
                   {pages.map((page) => (
                     <MenuItem
@@ -157,4 +151,4 @@ function VendorNavBar() {
   );
 }
 
-export default VendorNavBar;
+export default AdminNavBar;

@@ -8,6 +8,7 @@ import "./RegisterPage.css";
 // MUI
 import { Box, Container } from "@mui/material";
 // Components
+import VendorNavBar from "../VendorUser/VendorNavBar/VendorNavBar";
 import RegisterForm from "../RegisterForm/RegisterForm";
 
 // * - RegisterPage COMPONENT -

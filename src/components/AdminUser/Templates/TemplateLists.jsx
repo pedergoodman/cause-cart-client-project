@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import AdminNavBar from "../NavBar/NavBar";
+import AdminNavBar from "../AdminNavBar/AdminNavBar";
 import { CardContent, Typography, Fab, Dialog, DialogTitle, DialogContent, DialogActions, Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import ContractTemplates from './ContractTemplates';

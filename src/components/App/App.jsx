@@ -24,7 +24,7 @@ import RegisterPage from '../RegisterPage/RegisterPage';
 import VendorsList from "../AdminUser/VendorsList/VendorsList";
 import TemplateLists from "../AdminUser/Templates/TemplateLists";
 
-import VendorStepper from "../VendorStepper/VendorStepper"
+import VendorStepper from "../VendorStepper/VendorStepper";
 
 import "./App.css";
 
@@ -66,13 +66,22 @@ function App() {
             <UserPage />
           </ProtectedRoute>
 
+          {/* TODO: CHANGE BACK TO PROTECTED ROUTE AFTER TESTING TODO: 
           <ProtectedRoute
             // logged in shows VendorsList else shows LoginPage
             exact
             path="/vendors-list"
           >
             <VendorsList />
-          </ProtectedRoute>
+          </ProtectedRoute> */}
+
+          <Route
+            // logged in shows VendorsList else shows LoginPage
+            exact
+            path="/vendors-list"
+          >
+            <VendorsList />
+          </Route>
 
           <Route
             exact
