@@ -43,7 +43,7 @@ function App() {
   return (
     <Router>
       <div>
-        {/* <Nav /> */}
+        <Nav />
         <Switch>
           {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
           <Redirect exact from="/" to="/home" />
@@ -65,12 +65,21 @@ function App() {
             <AdminRegisterPage />
           </ProtectedRoute>
 
-          <Route
+          {/* <Route
             // shows AdminLoginPage at all times (logged in or not)
             exact
             path="/admin-login"
           >
             <AdminLoginPage />
+          </Route> */}
+
+
+          <Route
+            // shows LoginPage at all times (logged in or not)
+            exact
+            path="/login"
+          >
+            <LoginPage />
           </Route>
 
           {/* For protected routes, the view could show one of several things on the same route.
