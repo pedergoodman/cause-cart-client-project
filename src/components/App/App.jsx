@@ -18,6 +18,7 @@ import UserPage from "../UserPage/UserPage";
 import InfoPage from "../InfoPage/InfoPage";
 import LoginPage from "../LoginPage/LoginPage";
 import RegisterPage from "../RegisterPage/RegisterPage";
+import EmailForm from "../EmailComponent/EmailComponent";
 
 // ** ADMIN
 import AdminRegisterPage from "../AdminUser/Registration/AdminRegisterPage";
@@ -43,7 +44,7 @@ function App() {
   return (
     <Router>
       <div>
-        {/* <Nav /> */}
+        <Nav />
         <Switch>
           {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
           <Redirect exact from="/" to="/home" />
@@ -65,12 +66,21 @@ function App() {
             <AdminRegisterPage />
           </ProtectedRoute>
 
-          <Route
+          {/* <Route
             // shows AdminLoginPage at all times (logged in or not)
             exact
             path="/admin-login"
           >
             <AdminLoginPage />
+          </Route> */}
+
+
+          <Route
+            // shows LoginPage at all times (logged in or not)
+            exact
+            path="/login"
+          >
+            <LoginPage />
           </Route>
 
           {/* For protected routes, the view could show one of several things on the same route.
@@ -92,6 +102,13 @@ function App() {
           >
             <VendorsList />
           </ProtectedRoute>
+          <Route
+            // logged in shows VendorsList else shows LoginPage
+            exact
+            path="/email"
+          >
+           <EmailForm />
+          </Route>
 
           <ProtectedRoute
             // VENDOR Logged-In: Shows VendorsStepper
