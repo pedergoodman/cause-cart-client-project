@@ -7,13 +7,13 @@ import {
 } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import AdminNavBar from "../NavBar/NavBar";
 import CardHeader from "@mui/material/CardHeader";
 import { DataGrid, useGridApiRef } from "@mui/x-data-grid";
 import { Icon } from "@iconify/react";
 import { format } from "date-fns";
 import { Card, CardContent, Typography } from "@mui/material";
 
+import AdminNavBar from "../AdminNavBar/AdminNavBar";
 import VendorDetails from "../VendorDetails/VendorDetails";
 
 import "./VendorsList.css";
@@ -49,9 +49,9 @@ export const ONBOARDING_STAGE_ICONS = {
   "Product Spreadsheet Submitted": (
     <Icon icon="fluent:box-arrow-up-20-filled" style={{ fontSize: "24px" }} />
   ),
-  "Approved Product": (
-    <Icon icon="fluent:box-checkmark-20-regular" style={{ fontSize: "24px" }} />
-  ),
+  //   "Approved Product": (
+  //     <Icon icon="fluent:box-checkmark-20-regular" style={{ fontSize: "24px" }} />
+  //   ),
   "Denied Application": (
     <Icon icon="octicon:x-circle-fill-16" style={{ fontSize: "20px" }} />
   ),
@@ -65,7 +65,6 @@ export const ONBOARDING_STAGE_ICONS = {
     <Icon icon="fa6-solid:circle-pause" style={{ fontSize: "20px" }} />
   ),
 };
-
 
 function VendorsList() {
   const apiRef = useGridApiRef();
@@ -104,10 +103,10 @@ function VendorsList() {
       "Contract Submitted",
       "Sent Product Spreadsheet",
       "Product Spreadsheet Submitted",
-      "Approved Product",
+      //   "Approved Product",
+      "Denied Application",
       "Onboarding Complete",
       "Paused Onboarding",
-      "Denied Application",
     ];
     const currentIndex = onboardingStages.indexOf(currentStage);
     return onboardingStages[currentIndex + 1];
@@ -127,24 +126,38 @@ function VendorsList() {
   };
 
   const columns = [
-    {
-      field: "brand_name",
-      headerName: "Vendor",
-      flex: 1,
-      renderCell: (params) => (
-        <span
-          onClick={() => handleVendorClick(params.row)}
-          style={{ color: "#286264", cursor: "pointer", fontWeight: "bold" }}
-        >
-          {params.value}
-        </span>
-      ),
-    },
+    // {
+    //   field: "brand_name",
+    //   headerName: "Vendor",
+    //   flex: 1,
+    //   renderCell: (params) => (
+    //     <span
+    //       onClick={() => handleVendorClick(params.row)}
+    //       style={{ color: "#286264", cursor: "pointer", fontWeight: "bold" }}
+    //     >
+    //       {params.value}
+    //     </span>
+    //   ),
+    // },
 
-    { field: "status", headerName: "Status", flex: 1 },
     {
-      field: "onboarding_stage",
-      headerName: "Onboarding Stage",
+        field: "brand_name",
+        headerName: "Vendor",
+        flex: 1,
+        renderCell: (params) => (
+          <span
+            onClick={() => handleVendorClick(params.row)}
+            style={{ color: "#286264", cursor: "pointer", fontWeight: "bold" }}
+          >
+            {params.value}
+          </span>
+        ),
+      },
+
+    // { field: "status", headerName: "Status", flex: 1 },
+    {
+      field: "status",
+      headerName: "Onboarding Status",
       flex: 2,
       renderCell: (params) => (
         <div style={{ display: "flex", alignItems: "center" }}>
@@ -153,15 +166,14 @@ function VendorsList() {
         </div>
       ),
     },
-    { field: "sdg", headerName: "Sustainable Development Goals", flex: 2 },
     {
       field: "number_of_products",
       headerName: "Number of Products",
       flex: 1,
     },
     {
-      field: "date_created",
-      headerName: "Intake Date",
+      field: "date_edited",
+      headerName: "Last Active",
       flex: 1,
       renderCell: (params) => format(new Date(params.value), "MM/dd/yyyy"),
     },
@@ -203,12 +215,11 @@ function VendorsList() {
   ];
 
   if (!vendors) {
-    return null; 
+    return null;
   }
 
   return (
     <>
-      <AdminNavBar />
       <div style={{ height: "100%", width: "100%" }}>
         <CardContent sx={{ paddingTop: "32px", paddingBottom: "32px" }}>
           <Typography

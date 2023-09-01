@@ -6,7 +6,10 @@ import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
+
 const steps = ['Account Verification', 'Meeting', 'Contract', 'Product Sheet Upload'];
+
+
 
 export default function VendorStepper() {
   const [activeStep, setActiveStep] = React.useState(0);
@@ -55,6 +58,7 @@ export default function VendorStepper() {
   };
 
   return (
+    <>
     <Box sx={{ width: '100%' }}>
       <Stepper activeStep={activeStep}>
         {steps.map((label, index) => {
@@ -107,5 +111,6 @@ export default function VendorStepper() {
         </React.Fragment>
       )}
     </Box>
+    </>
   );
 }

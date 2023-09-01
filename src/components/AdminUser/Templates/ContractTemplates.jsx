@@ -18,7 +18,7 @@ import { format } from "date-fns";
 function ContractTemplates() {
   const vendors = useSelector((store) => store.admin.vendors);
 
-  // ** WED 8/30/2023: THE FOLLOWING TODOs MAY CHANGE - DEPENDING ON DROPBOX API/TIMING **
+  // ** TODO: AMY: Implement Dropbox API **
   const handleDelete = (row) => {
     // TODO: Implement the functionality to delete the template from Dropbox API
   };

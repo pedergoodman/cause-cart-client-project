@@ -16,7 +16,7 @@ function BrandNameQuestion({ brandName, setBrandName }) {
       </InputLabel>
       <OutlinedInput
         aria-labelledby="brand-name-label"
-        className="register-form-input-field"
+        className="register-and-login-form-input-field"
         fullWidth
         id="brand-name-input"
         required

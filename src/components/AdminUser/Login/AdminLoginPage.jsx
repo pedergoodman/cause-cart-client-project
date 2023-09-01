@@ -4,36 +4,35 @@ import React from "react";
 // Router
 import { useHistory } from "react-router-dom";
 // CSS
-import "../../components/RegisterAndLoginPage.css";
+import "../../RegisterAndLoginForm.css";
+
 // MUI
 import { Box, Container } from "@mui/material";
 // Components
-import VendorNavBar from "../VendorUser/VendorNavBar/VendorNavBar";
-import RegisterForm from "../RegisterForm/RegisterForm";
+import AdminLoginForm from "./AdminLoginForm";
 
-// * - RegisterPage COMPONENT -
-function RegisterPage() {
+
+function AdminLoginPage() {
   // * - DECLARATIONS -
   const history = useHistory(); //useHistory
 
   // * - RENDERING -
   return (
     <Container
-      className="register-and-login-page-container"
+      className="register-page-container"
       maxWidth="xl" // Standard desktop width
     >
       {/* Image */}
       <img
-        className="register-and-login-page-image"
+        className="register-page-image"
         src="/images/shane-rounce-DNkoNXQti3c-unsplash.jpg"
         alt="Image of multiple hands touching the bark of a tree."
       />
-      <div className="register-and-login-page-form-container">
-        <RegisterForm />
+      <div className="register-page-register-form-container">
+        <AdminLoginForm />
       </div>
     </Container>
   );
-} // * - END RegisterPage COMPONENT -
+}
 
-// * Exporting RegisterPage Component
-export default RegisterPage;
+export default AdminLoginPage;

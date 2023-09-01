@@ -15,7 +15,7 @@ function WebsiteURL({ websiteURL, setWebsiteURL }) {
         </InputLabel>
         <OutlinedInput
           aria-labelledby="website-URL-label"
-          className="register-form-input-field"
+          className="register-and-login-form-input-field"
           fullWidth
           id="website-URL-input"
           required
