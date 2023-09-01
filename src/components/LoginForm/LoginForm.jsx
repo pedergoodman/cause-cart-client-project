@@ -1,66 +1,150 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import {useSelector} from 'react-redux';
+// * - IMPORTING -
+// React
+import React, { useState, useEffect } from "react";
+// Redux
+import { useDispatch, useSelector } from "react-redux";
+// Router
+import { useHistory } from "react-router-dom";
+// CSS
+import "../RegisterAndLoginForm.css";
+// MUI
+import { Box, Button, InputLabel, OutlinedInput } from "@mui/material";
 
+// * - LoginForm COMPONENT -
 function LoginForm() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const errors = useSelector(store => store.errors);
-  const dispatch = useDispatch();
+  // * - STATE -
+  const user = useSelector((store) => store.user);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const login = (event) => {
+  // * - DECLARATIONS -
+  const errors = useSelector((store) => store.errors);
+
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const loginUser = (event) => {
     event.preventDefault();
 
-    if (username && password) {
+
+    // Dispatch to login
+    if (email && password) {
       dispatch({
-        type: 'LOGIN',
+        type: "LOGIN",
         payload: {
-          username: username,
+          email: email,
           password: password,
         },
       });
-    } else {
-      dispatch({ type: 'LOGIN_INPUT_ERROR' });
-    }
-  }; // end login
+  };
 
+  useEffect(() => {
+    if (user.id) {
+      if (user.authorization_level === 1) {
+        history.push('/vendors-list');
+      } else if (user.authorization_level === 0) {
+        history.push('/vendorstepper');
+      } else {
+      dispatch({ type: "LOGIN_INPUT_ERROR" });
+    }}
+
+  }, [user, history]);
+
+  // * - RENDERING -
   return (
-    <form className="formPanel" onSubmit={login}>
-      <h2>Login</h2>
-      {errors.loginMessage && (
-        <h3 className="alert" role="alert">
-          {errors.loginMessage}
-        </h3>
-      )}
-      <div>
-        <label htmlFor="username">
-          Username:
-          <input
-            type="text"
-            name="username"
+    <form 
+    className="formPanel" onSubmit={loginUser}>
+      <header>
+        <h2 className="register-and-login-form-h2">
+          Welcome back <br /> eco-friendly seller!
+        </h2>
+
+        {/* Error Prompts */}
+        {errors.loginMessage && (
+          <h3 className="alert" role="alert">
+            {errors.loginMessage}
+          </h3>
+        )}
+
+        {/* Cause-Cart Link and Login Route */}
+        <div className="register-and-login-form-link-and-routing-container">
+          {/* Link to Cause-Cart site */}
+          <p>
+            <a
+              style={{ textDecoration: "none" }} // Gets rid of second underline of anchor tag
+              href="https://cause-cart.com/"
+              target="_blank"
+              className="btn_asLink"
+            >
+              Click here to visit the Cause-Cart site
+            </a>
+          </p>
+          <br />
+          {/* Route to Register Page */}
+          <button
+            type="button"
+            className="btn btn_asLink"
+            style={{ lineHeight: "1.2rem" }}
+            onClick={() => {
+              history.push("/registration");
+            }}
+          >
+            Want to become a vendor? <br />
+            Register here
+          </button>
+        </div>
+      </header>
+
+      <Box className="register-and-login-form-input-field-container">
+        
+        {/* Email */}
+        <div>
+          <InputLabel label="email" id="email-label">
+            Email
+          </InputLabel>
+          <OutlinedInput
+            aria-labelledby="email-label"
+            className="register-and-login-form-input-field"
+            fullWidth
+            id="email-input"
             required
-            value={username}
-            onChange={(event) => setUsername(event.target.value)}
+            label="email"
+            placeholder="Email"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
           />
-        </label>
-      </div>
-      <div>
-        <label htmlFor="password">
-          Password:
-          <input
-            type="password"
-            name="password"
+        </div>
+
+        {/* Password */}
+        <div>
+          <InputLabel label="password" id="password-label">
+            Password
+          </InputLabel>
+          <OutlinedInput
+            aria-labelledby="password-label"
+            className="register-and-login-form-input-field"
+            fullWidth
+            id="password-input"
             required
+            label="password"
+            placeholder="Password"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
           />
-        </label>
-      </div>
-      <div>
-        <input className="btn" type="submit" name="submit" value="Log In" />
-      </div>
+        </div>
+
+        <Button
+          style={{ fontSize: "1rem", backgroundColor: "teal" }}
+          className="register-or-login-button btn"
+          variant="contained"
+          type="submit"
+          onClick={loginUser}
+        >
+          Login
+        </Button>
+      </Box>
     </form>
   );
-}
+}}
 
-export default LoginForm;
+export default LoginPage;

@@ -84,7 +84,7 @@ const StyledDataGrid = styled(DataGrid)({
       },
     ];
 
-// ** WED 8/30/2023: DUMMY DATA - MAY CHANGE DEPENDING ON DROPBOX API/TIMING **
+// ** TODO: AMY: IMPLEMENT DROPBOX API **
 const rows = [
     {
       id: 1,

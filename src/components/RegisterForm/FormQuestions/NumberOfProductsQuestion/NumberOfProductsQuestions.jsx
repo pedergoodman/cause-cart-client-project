@@ -14,7 +14,7 @@ function NumberOfProductsQuestion({ numberOfProducts, setNumberOfProducts }) {
         Number of Products
       </InputLabel>
       <Select
-        className="register-form-input-field"
+        className="register-and-login-form-input-field"
         fullWidth
         placeholder="Select number of products"
         labelId="number-of-products-label"
