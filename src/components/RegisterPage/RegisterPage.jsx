@@ -5,6 +5,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 // CSS
 import "../../components/RegisterAndLoginPage.css";
+import "../../components/RegisterAndLoginForm.css";
 // MUI
 import { Box, Container } from "@mui/material";
 // Components
