@@ -14,7 +14,7 @@ function EmailQuestion({ email, setEmail }) {
         </InputLabel>
         <OutlinedInput
           aria-labelledby="email-label"
-          className="register-form-input-field"
+          className="register-and-login-form-input-field"
           fullWidth
           id="email-input"
           required

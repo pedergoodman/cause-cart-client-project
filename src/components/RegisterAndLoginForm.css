@@ -1,20 +1,20 @@
 /* Register Form Styling */
 /* Form */
-.register-form-box {
+.register-and-login-form-box {
   width: 100% !important;
   /* border: 3px solid black !important; */
   box-sizing: border-box;
   overflow-y: auto;
 }
 /* Form Header */
-.register-form-h2 {
+.register-and-login-form-h2 {
   width: 20rem;
   text-align: center;
   margin: 4rem auto 1.5rem;
 }
 
 /*  Form Cause-Cart Link and Login Route */
-.register-form-link-and-routing-container {
+.register-and-login-form-link-and-routing-container {
   width: 80%;
   margin: 0 auto;
   text-align: center;
@@ -24,7 +24,7 @@
 
 /* Input Field Styling */
 /* Input Field Container */
-.register-form-input-field-container {
+.register-and-login-form-input-field-container {
   width: 80%;
   margin: 3rem auto;
   display: flex;
@@ -35,11 +35,11 @@
   gap: 2rem;
 }
 /* Input Field Textfield Boxes  */
-.register-form-input-field .MuiInputBase-input, .MuiInputBase-multiline{
+.register-and-login-form-input-field .MuiInputBase-input, .MuiInputBase-multiline{
   background-color: white;
 }
 /* Input Field Double Inline Questions (Country and Product Categories) */
-.register-form-input-field-double-inline {
+.register-and-login-form-input-field-double-inline {
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -47,7 +47,7 @@
   gap: 2rem;
 }
 /* Input Field Radio Input  */
-.register-form-input-field-radio {
+.register-and-login-form-input-field-radio {
   display: flex !important;
   flex-direction: row !important;
   flex-wrap: wrap !important;
@@ -55,7 +55,7 @@
 /* End Input Field Styling */
 
 /* Register Button */
-.register-button {
+.register-or-login-button {
   margin: 2rem;
   display: flex;
   justify-content: center;
