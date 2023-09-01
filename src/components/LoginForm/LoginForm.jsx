@@ -1,66 +1,57 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import {useSelector} from 'react-redux';
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
-function LoginForm() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const errors = useSelector(store => store.errors);
+function LoginPage() {
+  const user = useSelector((store) => store.user);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const dispatch = useDispatch();
+  const history = useHistory();
 
-  const login = (event) => {
+  const loginUser = (event) => {
     event.preventDefault();
 
-    if (username && password) {
-      dispatch({
-        type: 'LOGIN',
-        payload: {
-          username: username,
-          password: password,
-        },
-      });
-    } else {
-      dispatch({ type: 'LOGIN_INPUT_ERROR' });
+    dispatch({
+      type: "LOGIN",
+      payload: {
+        email: email,
+        password: password,
+      },
+    });
+  };
+
+  useEffect(() => {
+    if (user.id) {
+      if (user.authorization_level === 1) {
+        history.push('/vendors-list');
+      } else {
+        history.push('/vendorstepper');
+      }
     }
-  }; // end login
+  }, [user, history]);
 
   return (
-    <form className="formPanel" onSubmit={login}>
-      <h2>Login</h2>
-      {errors.loginMessage && (
-        <h3 className="alert" role="alert">
-          {errors.loginMessage}
-        </h3>
-      )}
-      <div>
-        <label htmlFor="username">
-          Username:
-          <input
-            type="text"
-            name="username"
-            required
-            value={username}
-            onChange={(event) => setUsername(event.target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <label htmlFor="password">
-          Password:
-          <input
-            type="password"
-            name="password"
-            required
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <input className="btn" type="submit" name="submit" value="Log In" />
-      </div>
-    </form>
+    <div>
+      <form onSubmit={loginUser}>
+        <input
+          type="email"
+          name="email"
+          required
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
+        />
+        <input
+          type="password"
+          name="password"
+          required
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
+        />
+        <button type="submit">Login</button>
+      </form>
+    </div>
   );
 }
 
-export default LoginForm;
+export default LoginPage;

@@ -8,11 +8,6 @@ import DetailsModalHeader from "../VendorDetails/DetailsModalHeader";
 import DetailsProductSpreadsheet from "../VendorDetails/DetailsProductSpreadsheet";
 import DetailsContract from "../VendorDetails/DetailsContract";
 
-import {
-  mockSpreadsheets,
-  mockContracts,
-} from "../VendorDetails/mockDetailsData";
-
 import { Icon } from "@iconify/react";
 
 const theme = createTheme({
@@ -212,8 +207,12 @@ function VendorDetails({ open, onClose, vendorId }) {
               </Box>
             </Box>
           </Box>
-          <DetailsProductSpreadsheet spreadsheets={mockSpreadsheets} />
-          <DetailsContract contracts={mockContracts} />
+
+          {/* 
+          
+          TODO: ** AMY IMPLEMENT DROPBOX API **
+          <DetailsProductSpreadsheet spreadsheets={spreadsheets} />
+          <DetailsContract contracts={contracts} /> */}
           <Box
             sx={{
               backgroundColor: "#C2D2D2",

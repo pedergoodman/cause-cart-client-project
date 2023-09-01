@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import AdminNavBar from "../AdminNavBar/AdminNavBar";
 import { CardContent, Typography, Fab, Dialog, DialogTitle, DialogContent, DialogActions, Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import ContractTemplates from './ContractTemplates';
@@ -19,7 +18,6 @@ function TemplateLists() {
 
   return (
     <>
-      <AdminNavBar />
       <div style={{ height: "100%", width: "100%" }}>
         <CardContent sx={{ paddingTop: "32px", paddingBottom: "32px" }}>
           <Typography

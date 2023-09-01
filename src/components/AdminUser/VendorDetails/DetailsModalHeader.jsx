@@ -1,9 +1,6 @@
 import React from "react";
-import WarningIcon from "@mui/icons-material/Warning";
 import { Badge, Box, Button, Typography } from "@mui/material";
 import { Icon } from "@iconify/react";
-import CheckIcon from "@mui/icons-material/Check";
-import CloseIcon from "@mui/icons-material/Close";
 
 export const ONBOARDING_STAGE_ICONS = {
   "Intake Form Submitted": (
@@ -36,9 +33,9 @@ export const ONBOARDING_STAGE_ICONS = {
   "Product Spreadsheet Submitted": (
     <Icon icon="fluent:box-arrow-up-20-filled" style={{ fontSize: "24px" }} />
   ),
-  "Approved Product": (
-    <Icon icon="fluent:box-checkmark-20-regular" style={{ fontSize: "24px" }} />
-  ),
+//   "Approved Product": (
+//     <Icon icon="fluent:box-checkmark-20-regular" style={{ fontSize: "24px" }} />
+//   ),
   "Denied Application": (
     <Icon icon="octicon:x-circle-fill-16" style={{ fontSize: "20px" }} />
   ),
@@ -53,7 +50,8 @@ export const ONBOARDING_STAGE_ICONS = {
   ),
 };
 
-const DetailsModalHeader = ({ onboardingStage, tasksCount }) => {
+const DetailsModalHeader = ({ status }) => {
+// const DetailsModalHeader = ({ onboardingStage }) => {
   return (
     <>
       <Box
@@ -71,18 +69,25 @@ const DetailsModalHeader = ({ onboardingStage, tasksCount }) => {
           justifyContent="center"
         >
           <Box backgroundColor="#F9BC9E" p={0.5}>
-            {ONBOARDING_STAGE_ICONS[onboardingStage]}
+            {/* {ONBOARDING_STAGE_ICONS[onboardingStage]} */}
+            {ONBOARDING_STAGE_ICONS[status]}
           </Box>
           <Box>
-          <Box>
-            <Typography variant="h7" align="left" fontWeight="bold" marginLeft="8px">
-              Onboarding Stage
-            </Typography>
-          </Box>
-          <Box>
-            <Typography variant="body1" align="left" marginLeft="8px">
-              {onboardingStage}
-            </Typography>
+            <Box>
+              <Typography
+                variant="h7"
+                align="left"
+                fontWeight="bold"
+                marginLeft="8px"
+              >
+                Onboarding Stage
+              </Typography>
+            </Box>
+            <Box>
+              <Typography variant="body1" align="left" marginLeft="8px">
+                {/* {onboardingStage} */}
+                {status}
+              </Typography>
             </Box>
           </Box>
         </Box>
@@ -92,7 +97,7 @@ const DetailsModalHeader = ({ onboardingStage, tasksCount }) => {
           color="warning"
           sx={{ backgroundColor: "#F9BC9E" }}
         >
-          <Badge
+          {/* <Badge
             badgeContent={tasksCount}
             color="warning"
             anchorOrigin={{
@@ -102,7 +107,7 @@ const DetailsModalHeader = ({ onboardingStage, tasksCount }) => {
           >
             {" "}
             Pending Tasks{""}
-          </Badge>
+          </Badge> */}
         </Button>
       </Box>
     </>

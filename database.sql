@@ -3,7 +3,7 @@ CREATE TABLE "user" (
     id SERIAL PRIMARY KEY,
     email VARCHAR(1000),
     password VARCHAR(1000),
-    authorization_level INTEGER
+    authorization_level INTEGER NOT NULL DEFAULT 0
 );
 
 -- Create status
@@ -59,7 +59,7 @@ VALUES
 ('Calendly Link', 'scheduling', 'https://calendly.com/' );
 
 -- Insert initial values into category_names REQUIRED DATA
-INSERT INTO category_names (status)
+INSERT INTO category_names (name)
 VALUES 
 ('Home Décor'),
 ('Jewelry'),
@@ -75,7 +75,7 @@ VALUES
 
 
 -- Insert initial values into Onboarding status REQUIRED DATA
-INSERT INTO status (name)
+INSERT INTO status (status)
 VALUES 
 ('Intake Form Submitted'),
 ('Approved Intake Form'),
@@ -87,6 +87,7 @@ VALUES
 ('Onboarding Complete'),
 ('Paused Onboarding');
 
+-- ** END REQUIRED DATA **
 
 
 -- Insert dummy data into user DUMMY DATA
@@ -103,9 +104,6 @@ VALUES
 ('info@brightbeginnings.org', 'password9', 0),
 ('contact@naturegemsjewels.com', 'password10', 0),
 ('emeraldcausecart@outlook.com', 'password11', 1);
-
-
-
 
 -- Insert statements for the vendor_app_info table DUMMY DATA
 INSERT INTO "vendor_app_info" (
