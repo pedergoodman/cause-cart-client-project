@@ -82,7 +82,7 @@ function VendorDetails({ open, onClose, vendorId }) {
             overflow: "auto",
           }}
         >
-          <DetailsModalHeader onboardingStage={vendor.onboardingStage} />
+          <DetailsModalHeader onboardingStatus={vendor.onboardingStatus} />
           <Box
             display="flex"
             flexDirection="column"

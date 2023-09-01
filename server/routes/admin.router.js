@@ -48,11 +48,11 @@ router.get("/:id", rejectUnauthenticated, (req, res) => {
   vendor_app_info.nonprofit_description as "nonprofitDescription",
   vendor_app_info.heard_about_us as "hearAboutUs",
   vendor_app_info.date_created as "intakeDate",
-  status.status as "status"
+  status.status as "onboardingStatus"
 FROM vendor_app_info
 JOIN "user" ON vendor_app_info.user_id = "user".id
-JOIN status ON vendor_app_info.status_id = status.id
-JOIN category_names ON vendor_app_info.selected_categories = category_names.name
+JOIN "onboardingStatus" ON vendor_app_info.status_id = "status".id
+JOIN "category_names" ON vendor_app_info.selected_categories = "category_names".name
 WHERE vendor_app_info.id = $1;
 `;
   pool
