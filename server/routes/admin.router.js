@@ -47,11 +47,12 @@ router.get("/:id", rejectUnauthenticated, (req, res) => {
   vendor_app_info.nonprofit_selection as "partnerNonProfit",
   vendor_app_info.nonprofit_description as "nonprofitDescription",
   vendor_app_info.heard_about_us as "hearAboutUs",
-  vendor_app_info.date_created as "intakeDate",
-  status.status as "onboardingStatus"
+  vendor_app_info.date_edited as "date_edited",
+  status.status as "status",
+  vendor_app_info.is_active as "is_active"
 FROM vendor_app_info
 JOIN "user" ON vendor_app_info.user_id = "user".id
-JOIN "onboardingStatus" ON vendor_app_info.status_id = "status".id
+JOIN status ON vendor_app_info.status_id = "status".id
 JOIN "category_names" ON vendor_app_info.selected_categories = "category_names".name
 WHERE vendor_app_info.id = $1;
 `;

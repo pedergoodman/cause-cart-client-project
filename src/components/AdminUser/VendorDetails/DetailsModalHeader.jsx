@@ -48,7 +48,7 @@ export const ONBOARDING_STAGE_ICONS = {
 };
 
 
-const DetailsModalHeader = ({ onboardingStatus }) => {
+const DetailsModalHeader = ({ status }) => {
   return (
     <>
       <Box
@@ -66,7 +66,7 @@ const DetailsModalHeader = ({ onboardingStatus }) => {
           justifyContent="center"
         >
           <Box backgroundColor="#F9BC9E" p={0.5}>
-            {ONBOARDING_STAGE_ICONS[onboardingStatus]}
+            {ONBOARDING_STAGE_ICONS[status]}
           </Box>
           <Box>
             <Box>
@@ -81,7 +81,7 @@ const DetailsModalHeader = ({ onboardingStatus }) => {
             </Box>
             <Box>
               <Typography variant="body1" align="left" marginLeft="8px">
-                {onboardingStatus}
+                {status}
               </Typography>
             </Box>
           </Box>
