@@ -93,17 +93,17 @@ VALUES
 -- Insert dummy data into user DUMMY DATA
 INSERT INTO "user" (email, password, authorization_level)
 VALUES
-('contact@ecohomecreations.com', 'password1', 0),
-('info@charitythreads.org', 'password2', 0),
-('support@pawpals.com', 'password3', 0),
-('info@nurturenatureco.com', 'password4', 0),
-('hello@jewelvogue.net', 'password5', 0),
-('inquiries@greengrowthcoop.com', 'password6', 0),
-('help@tinypaws.store', 'password7', 0),
-('hello@fashionfusion.co', 'password8', 0),
-('info@brightbeginnings.org', 'password9', 0),
-('contact@naturegemsjewels.com', 'password10', 0),
-('emeraldcausecart@outlook.com', 'password11', 1);
+('contact@ecohomecreations.com', '$2a$10$/jCjDDoD4cUJaNCwfszYgetKrmVhBvpmiYnAtzjnzbS8ovMyD2qVi', 0),
+('info@charitythreads.org', '$2a$10$/jCjDDoD4cUJaNCwfszYgetKrmVhBvpmiYnAtzjnzbS8ovMyD2qVi', 0),
+('support@pawpals.com', '$2a$10$/jCjDDoD4cUJaNCwfszYgetKrmVhBvpmiYnAtzjnzbS8ovMyD2qVi', 0),
+('info@nurturenatureco.com', '$2a$10$/jCjDDoD4cUJaNCwfszYgetKrmVhBvpmiYnAtzjnzbS8ovMyD2qVi', 0),
+('hello@jewelvogue.net', '$2a$10$/jCjDDoD4cUJaNCwfszYgetKrmVhBvpmiYnAtzjnzbS8ovMyD2qVi', 0),
+('inquiries@greengrowthcoop.com', '$2a$10$/jCjDDoD4cUJaNCwfszYgetKrmVhBvpmiYnAtzjnzbS8ovMyD2qVi', 0),
+('help@tinypaws.store', '$2a$10$/jCjDDoD4cUJaNCwfszYgetKrmVhBvpmiYnAtzjnzbS8ovMyD2qVi', 0),
+('hello@fashionfusion.co', '$2a$10$/jCjDDoD4cUJaNCwfszYgetKrmVhBvpmiYnAtzjnzbS8ovMyD2qVi', 0),
+('info@brightbeginnings.org', '$2a$10$/jCjDDoD4cUJaNCwfszYgetKrmVhBvpmiYnAtzjnzbS8ovMyD2qVi', 0),
+('contact@naturegemsjewels.com', '$2a$10$/jCjDDoD4cUJaNCwfszYgetKrmVhBvpmiYnAtzjnzbS8ovMyD2qVi', 0),
+('emeraldcausecart@outlook.com', '$2a$10$/jCjDDoD4cUJaNCwfszYgetKrmVhBvpmiYnAtzjnzbS8ovMyD2qVi', 1);
 
 -- Insert statements for the vendor_app_info table DUMMY DATA
 INSERT INTO "vendor_app_info" (
