@@ -34,11 +34,17 @@ router.post("/register", (req, res, next) => {
   const nonProfitPartnerDescriptionFieldInput =
     req.body.nonProfitPartnerDescriptionFieldInput;
   const howDidYouHear = req.body.howDidYouHear;
+  const userGroup = req.body.userGroup;
+
+  // Determine 'authorizationLevel' based on the 'userGroup'
+  // If 'userGroup' is "Admin", set 'authorizationLevel' to 1, otherwise set it to 0
+  const authorizationLevel = userGroup === "Admin" ? 1 : 0;
 
   // * Queries
   // For adding to email, password, and authorization level to 'user' table
-  const registerAccountQuery = `INSERT INTO "user" (email, password, authorization_level)
-    VALUES ($1, $2, 0) RETURNING id`;
+  const registerNewUserQuery = `INSERT INTO "user" (email, password, authorization_level)
+      VALUES ($1, $2, $3) RETURNING id`;
+
   // For adding all vendor application form data to 'vendor_app_info' table
   // ! needs user id for insertion
   // ! also may need to create query for adding a status for this new user
@@ -56,10 +62,9 @@ router.post("/register", (req, res, next) => {
     heard_about_us) 
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) 
     WHERE "user"."id" LIKE $`; // Add vendor app form query
-
   pool
-    .query(registerAccountQuery, [email, password]) // First query: new user
-    .then(() => res.sendStatus(201), console.log("Vendor account created"))
+    .query(registerNewUserQuery, [email, password, authorizationLevel])
+    .then(() => res.sendStatus(201))
     // ! Second Query Below: new vendor application (already ordered correctly)
     // .query(vendorAppInfoQuery, [
     //   brandName,
@@ -85,15 +90,26 @@ router.post("/register", (req, res, next) => {
       console.log("User registration failed: ", err);
       res.sendStatus(500);
     });
-}); // end '/register' post route
+}); // end register user and vendor app info post request
 
 // Handles login form authenticate/login POST
 // userStrategy.authenticate('local') is middleware that we run on this route
 // this middleware will run our POST if successful
 // this middleware will send a 404 if not successful
-router.post("/login", userStrategy.authenticate("local"), (req, res) => {
-  res.sendStatus(200);
-});
+// router.post("/login", userStrategy.authenticate("local"), (req, res) => {
+//   res.sendStatus(200);
+// });
+router.post(
+  "/login",
+  (req, res, next) => {
+    console.log(req.body);
+    console.log(req.headers);
+    userStrategy.authenticate("local")(req, res, next);
+  },
+  (req, res) => {
+    res.sendStatus(200);
+  }
+);
 
 // clear all server session information about this user
 router.post("/logout", (req, res) => {

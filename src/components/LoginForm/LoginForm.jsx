@@ -1,10 +1,10 @@
 // * - IMPORTING -
 // React
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 // Redux
 import { useDispatch, useSelector } from "react-redux";
 // Router
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { useHistory } from "react-router-dom";
 // CSS
 import "../RegisterAndLoginForm.css";
 // MUI
@@ -13,6 +13,7 @@ import { Box, Button, InputLabel, OutlinedInput } from "@mui/material";
 // * - LoginForm COMPONENT -
 function LoginForm() {
   // * - STATE -
+  const user = useSelector((store) => store.user);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -21,7 +22,7 @@ function LoginForm() {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const login = (event) => {
+  const loginUser = (event) => {
     event.preventDefault();
 
     // Dispatch to login
@@ -33,18 +34,23 @@ function LoginForm() {
           password: password,
         },
       });
+  };
 
-      // Send to vendor view
-      history.push("/vendor-view")
-    } else {
+  useEffect(() => {
+    if (user.id) {
+      if (user.authorization_level === 1) {
+        history.push('/vendors-list');
+      } else if (user.authorization_level === 0) {
+        history.push('/vendorstepper');
+      } else {
       dispatch({ type: "LOGIN_INPUT_ERROR" });
-    }
-  }; // end login
+    }}
+  }, [user, history]);
 
   // * - RENDERING -
   return (
     <form 
-    className="formPanel" onSubmit={login}>
+    className="formPanel" onSubmit={loginUser}>
       <header>
         <h2 className="register-and-login-form-h2">
           Welcome back <br /> eco-friendly seller!
@@ -129,13 +135,13 @@ function LoginForm() {
           className="register-or-login-button btn"
           variant="contained"
           type="submit"
-          onClick={login}
+          onClick={loginUser}
         >
           Login
         </Button>
       </Box>
     </form>
   );
-}
+}}
 
 export default LoginForm;
