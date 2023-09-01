@@ -19,7 +19,7 @@ import UserPage from '../UserPage/UserPage';
 import InfoPage from '../InfoPage/InfoPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
-
+import EmailForm from "../EmailComponent/EmailComponent";
 
 import VendorsList from "../AdminUser/VendorsList/VendorsList";
 import TemplateLists from "../AdminUser/Templates/TemplateLists";
@@ -73,6 +73,13 @@ function App() {
           >
             <VendorsList />
           </ProtectedRoute>
+          <Route
+            // logged in shows VendorsList else shows LoginPage
+            exact
+            path="/email"
+          >
+           <EmailForm />
+          </Route>
 
           <Route
             exact
