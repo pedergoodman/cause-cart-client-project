@@ -18,6 +18,7 @@ import UserPage from "../UserPage/UserPage";
 import InfoPage from "../InfoPage/InfoPage";
 import LoginPage from "../LoginPage/LoginPage";
 import RegisterPage from "../RegisterPage/RegisterPage";
+import EmailForm from "../EmailComponent/EmailComponent";
 
 // ** ADMIN
 import AdminRegisterPage from "../AdminUser/Registration/AdminRegisterPage";
@@ -101,6 +102,13 @@ function App() {
           >
             <VendorsList />
           </ProtectedRoute>
+          <Route
+            // logged in shows VendorsList else shows LoginPage
+            exact
+            path="/email"
+          >
+           <EmailForm />
+          </Route>
 
           <ProtectedRoute
             // VENDOR Logged-In: Shows VendorsStepper
