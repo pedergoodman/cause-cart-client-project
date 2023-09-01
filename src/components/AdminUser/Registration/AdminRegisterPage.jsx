@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 
 // CSS
-import "../../RegisterForm/RegisterForm.css";
+import "../../RegisterAndLoginForm.css";
 
 function AdminRegisterPage() {
     const user = useSelector((store) => store.user);

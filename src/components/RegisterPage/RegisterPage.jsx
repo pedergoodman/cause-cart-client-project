@@ -4,7 +4,7 @@ import React from "react";
 // Router
 import { useHistory } from "react-router-dom";
 // CSS
-import "./RegisterPage.css";
+import "../../components/RegisterAndLoginPage.css";
 // MUI
 import { Box, Container } from "@mui/material";
 // Components
@@ -19,16 +19,16 @@ function RegisterPage() {
   // * - RENDERING -
   return (
     <Container
-      className="register-page-container"
+      className="register-and-login-page-container"
       maxWidth="xl" // Standard desktop width
     >
       {/* Image */}
       <img
-        className="register-page-image"
+        className="register-and-login-page-image"
         src="/images/shane-rounce-DNkoNXQti3c-unsplash.jpg"
         alt="Image of multiple hands touching the bark of a tree."
       />
-      <div className="register-page-register-form-container">
+      <div className="register-and-login-page-form-container">
         <RegisterForm />
       </div>
     </Container>

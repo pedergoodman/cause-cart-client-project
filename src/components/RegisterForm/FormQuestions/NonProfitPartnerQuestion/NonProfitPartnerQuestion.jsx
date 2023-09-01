@@ -48,7 +48,7 @@ function NonProfitPartnerQuestion({
 
       {/* Give Back Options */}
       <RadioGroup
-        className="register-form-input-field-radio"
+        className="register-and-login-form-input-field-radio"
         aria-labelledby="non-profit-label"
         name="radio-buttons-group"
       >
@@ -85,9 +85,9 @@ function NonProfitPartnerQuestion({
       nonProfitPartner === "No" ? (
         <TextField
           style={{
-            marginTop: "15px",
+            marginTop: "25px",
           }}
-          className="register-form-input-field"
+          className="register-and-login-form-input-field"
           fullWidth
           id="outlined-multiline-flexible"
           label="Description"

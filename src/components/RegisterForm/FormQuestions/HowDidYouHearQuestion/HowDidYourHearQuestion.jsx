@@ -13,7 +13,7 @@ function HowDidYouHearQuestion({ howDidYouHear, setHowDidYouHear }) {
         How did you hear about us?
       </InputLabel>
       <Select
-        className="register-form-input-field"
+        className="register-and-login-form-input-field"
         fullWidth
         placeholder="How did you hear about us?"
         labelId="how-did-you-hear-label"
