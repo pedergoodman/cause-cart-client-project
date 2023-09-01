@@ -126,19 +126,33 @@ function VendorsList() {
   };
 
   const columns = [
+    // {
+    //   field: "brand_name",
+    //   headerName: "Vendor",
+    //   flex: 1,
+    //   renderCell: (params) => (
+    //     <span
+    //       onClick={() => handleVendorClick(params.row)}
+    //       style={{ color: "#286264", cursor: "pointer", fontWeight: "bold" }}
+    //     >
+    //       {params.value}
+    //     </span>
+    //   ),
+    // },
+
     {
-      field: "brand_name",
-      headerName: "Vendor",
-      flex: 1,
-      renderCell: (params) => (
-        <span
-          onClick={() => handleVendorClick(params.row)}
-          style={{ color: "#286264", cursor: "pointer", fontWeight: "bold" }}
-        >
-          {params.value}
-        </span>
-      ),
-    },
+        field: "brand_name",
+        headerName: "Vendor",
+        flex: 1,
+        renderCell: (params) => (
+          <span
+            onClick={() => handleVendorClick(params.row)}
+            style={{ color: "#286264", cursor: "pointer", fontWeight: "bold" }}
+          >
+            {params.value}
+          </span>
+        ),
+      },
 
     // { field: "status", headerName: "Status", flex: 1 },
     {
@@ -152,7 +166,6 @@ function VendorsList() {
         </div>
       ),
     },
-    // { field: "sdg", headerName: "Sustainable Development Goals", flex: 2 },
     {
       field: "number_of_products",
       headerName: "Number of Products",
