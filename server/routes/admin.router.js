@@ -59,6 +59,7 @@ WHERE vendor_app_info.id = $1;
   pool
     .query(queryText, [vendorId])
     .then((result) => {
+        console.log('Results from database: ', result)
       res.send(result.rows);
     })
     .catch((error) => {

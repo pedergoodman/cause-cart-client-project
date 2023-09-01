@@ -11,9 +11,8 @@ import CardHeader from "@mui/material/CardHeader";
 import { DataGrid, useGridApiRef } from "@mui/x-data-grid";
 import { Icon } from "@iconify/react";
 import { format } from "date-fns";
-import { Card, CardContent, Typography } from "@mui/material";
+import { Box, CardContent, Typography } from "@mui/material";
 
-import AdminNavBar from "../AdminNavBar/AdminNavBar";
 import VendorDetails from "../VendorDetails/VendorDetails";
 
 import "./VendorsList.css";
@@ -141,18 +140,18 @@ function VendorsList() {
     // },
 
     {
-        field: "brand_name",
-        headerName: "Vendor",
-        flex: 1,
-        renderCell: (params) => (
-          <span
-            onClick={() => handleVendorClick(params.row)}
-            style={{ color: "#286264", cursor: "pointer", fontWeight: "bold" }}
-          >
-            {params.value}
-          </span>
-        ),
-      },
+      field: "brand_name",
+      headerName: "Vendor",
+      flex: 1.5,
+      renderCell: (params) => (
+        <Box
+          onClick={() => handleVendorClick(params.row)}
+          sx={{ color: "#286264", cursor: "pointer", fontWeight: "bold" }}
+        >
+          {params.value}
+        </Box>
+      ),
+    },
 
     // { field: "status", headerName: "Status", flex: 1 },
     {
@@ -220,7 +219,7 @@ function VendorsList() {
 
   return (
     <>
-      <div style={{ height: "100%", width: "100%" }}>
+      <Box>
         <CardContent sx={{ paddingTop: "32px", paddingBottom: "32px" }}>
           <Typography
             variant="h5"
@@ -238,11 +237,13 @@ function VendorsList() {
           </Typography>
         </CardContent>
         <DataGrid
+          autoHeight
           rows={vendors}
           columns={columns}
-          pageSize={5}
-          rowsPerPageOptions={[5]}
+          pageSize={20}
+          rowsPerPageOptions={[20, 40, 60]}
           apiRef={apiRef}
+          disableRowSelectionOnClick
         />
         {selectedVendor && (
           <VendorDetails
@@ -251,7 +252,7 @@ function VendorsList() {
             onClose={handleCloseModal}
           />
         )}
-      </div>
+      </Box>
     </>
   );
 }
