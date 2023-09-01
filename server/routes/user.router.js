@@ -54,6 +54,7 @@ router.post("/register", async (req, res, next) => {
       VALUES ($1, $2, $3) RETURNING id`;
 
 
+
     // // For adding all vendor application form data to 'vendor_app_info' table
     const vendorAppInfoQuery = `INSERT INTO "vendor_app_info" 
     (

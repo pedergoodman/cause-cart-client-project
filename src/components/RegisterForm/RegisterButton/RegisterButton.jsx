@@ -69,11 +69,13 @@ function RegisterButton({
       console.log(`${formInput}:`, vendorFormData[formInput]);
 
       // if property is undefined
-      if (
-        vendorFormData[formInput] === "" ||
-        vendorFormData.productCategories.length === 0
-      ) {
+      if (vendorFormData[formInput] === "") {
+        // Open empty fields prompt
         setShowMissingInputErrorPrompt(true);
+
+        // Logging
+        console.log("All fields must be completed.");
+        return;
       }
       // if passwords do not match
       if (formInput === "password") {
@@ -84,15 +86,30 @@ function RegisterButton({
     }
     // don't match then set prompt true
     if (!passwordsMatch) {
+      // Close empty field and password error prompts
+      setShowMissingInputErrorPrompt(false);
       setShowPasswordNotMatchingPrompt(true);
+      return;
     } // else dispatch
     else {
+      // Close prompts
       setShowMissingInputErrorPrompt(false);
       setShowPasswordNotMatchingPrompt(false);
+
+      // Logging
+      console.log("Dispatch of vendor form application data sent!");
+
+      // ? Future modal functionality pop up for information confirmation
+     
+      // Dispatching
       dispatch({
         type: "REGISTER",
         payload: vendorFormData, // For account creation
       });
+
+      // Send to vendor view
+      history.push("/vendorstepper");
+      return;
     }
   }; // end handleRegisterUser
 
