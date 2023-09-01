@@ -19,11 +19,13 @@ function LoginForm() {
 
   // * - DECLARATIONS -
   const errors = useSelector((store) => store.errors);
+
   const dispatch = useDispatch();
   const history = useHistory();
 
   const loginUser = (event) => {
     event.preventDefault();
+
 
     // Dispatch to login
     if (email && password) {
@@ -45,6 +47,7 @@ function LoginForm() {
       } else {
       dispatch({ type: "LOGIN_INPUT_ERROR" });
     }}
+
   }, [user, history]);
 
   // * - RENDERING -
@@ -144,4 +147,4 @@ function LoginForm() {
   );
 }}
 
-export default LoginForm;
+export default LoginPage;

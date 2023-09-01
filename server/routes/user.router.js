@@ -92,6 +92,7 @@ router.post("/register", (req, res, next) => {
     });
 }); // end register user and vendor app info post request
 
+
 // Handles login form authenticate/login POST
 // userStrategy.authenticate('local') is middleware that we run on this route
 // this middleware will run our POST if successful
@@ -99,17 +100,16 @@ router.post("/register", (req, res, next) => {
 // router.post("/login", userStrategy.authenticate("local"), (req, res) => {
 //   res.sendStatus(200);
 // });
-router.post(
-  "/login",
-  (req, res, next) => {
+
+router.post("/login", (req, res, next) => {
     console.log(req.body);
     console.log(req.headers);
     userStrategy.authenticate("local")(req, res, next);
-  },
-  (req, res) => {
+  }, (req, res) => {
     res.sendStatus(200);
-  }
-);
+  });
+  
+
 
 // clear all server session information about this user
 router.post("/logout", (req, res) => {
