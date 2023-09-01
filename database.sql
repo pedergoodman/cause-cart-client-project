@@ -1,28 +1,25 @@
-
 -- Create user_table
 CREATE TABLE "user" (
     id SERIAL PRIMARY KEY,
     email VARCHAR(1000),
     password VARCHAR(1000),
-    authorization_level INTEGER
+    authorization_level INTEGER NOT NULL DEFAULT 0
 );
 
 -- Create status
-CREATE TABLE status (
+CREATE TABLE "status" (
     id SERIAL PRIMARY KEY,
     status VARCHAR(500)
 );
 
 -- Create category_names
-
-CREATE TABLE category_names (
+CREATE TABLE "category_names" (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255)
 );
 
-
 -- Create vendor_app_info
-CREATE TABLE vendor_app_info (
+CREATE TABLE "vendor_app_info" (
     id SERIAL PRIMARY KEY,
     brand_name VARCHAR(255),
     website_url VARCHAR(1500),
@@ -62,7 +59,7 @@ VALUES
 ('Calendly Link', 'scheduling', 'https://calendly.com/' );
 
 -- Insert initial values into category_names REQUIRED DATA
-INSERT INTO category_names (status)
+INSERT INTO category_names (name)
 VALUES 
 ('Home Décor'),
 ('Jewelry'),
@@ -78,7 +75,7 @@ VALUES
 
 
 -- Insert initial values into Onboarding status REQUIRED DATA
-INSERT INTO status (name)
+INSERT INTO status (status)
 VALUES 
 ('Intake Form Submitted'),
 ('Approved Intake Form'),
@@ -90,25 +87,23 @@ VALUES
 ('Onboarding Complete'),
 ('Paused Onboarding');
 
+-- ** END REQUIRED DATA **
 
 
 -- Insert dummy data into user DUMMY DATA
 INSERT INTO "user" (email, password, authorization_level)
 VALUES
-('contact@ecohomecreations.com', 'password1', 0),
-('info@charitythreads.org', 'password2', 0),
-('support@pawpals.com', 'password3', 0),
-('info@nurturenatureco.com', 'password4', 0),
-('hello@jewelvogue.net', 'password5', 0),
-('inquiries@greengrowthcoop.com', 'password6', 0),
-('help@tinypaws.store', 'password7', 0),
-('hello@fashionfusion.co', 'password8', 0),
-('info@brightbeginnings.org', 'password9', 0),
-('contact@naturegemsjewels.com', 'password10', 0),
-('emeraldcausecart@outlook.com', 'password11', 1);
-
-
-
+('contact@ecohomecreations.com', '$2a$10$/jCjDDoD4cUJaNCwfszYgetKrmVhBvpmiYnAtzjnzbS8ovMyD2qVi', 0),
+('info@charitythreads.org', '$2a$10$/jCjDDoD4cUJaNCwfszYgetKrmVhBvpmiYnAtzjnzbS8ovMyD2qVi', 0),
+('support@pawpals.com', '$2a$10$/jCjDDoD4cUJaNCwfszYgetKrmVhBvpmiYnAtzjnzbS8ovMyD2qVi', 0),
+('info@nurturenatureco.com', '$2a$10$/jCjDDoD4cUJaNCwfszYgetKrmVhBvpmiYnAtzjnzbS8ovMyD2qVi', 0),
+('hello@jewelvogue.net', '$2a$10$/jCjDDoD4cUJaNCwfszYgetKrmVhBvpmiYnAtzjnzbS8ovMyD2qVi', 0),
+('inquiries@greengrowthcoop.com', '$2a$10$/jCjDDoD4cUJaNCwfszYgetKrmVhBvpmiYnAtzjnzbS8ovMyD2qVi', 0),
+('help@tinypaws.store', '$2a$10$/jCjDDoD4cUJaNCwfszYgetKrmVhBvpmiYnAtzjnzbS8ovMyD2qVi', 0),
+('hello@fashionfusion.co', '$2a$10$/jCjDDoD4cUJaNCwfszYgetKrmVhBvpmiYnAtzjnzbS8ovMyD2qVi', 0),
+('info@brightbeginnings.org', '$2a$10$/jCjDDoD4cUJaNCwfszYgetKrmVhBvpmiYnAtzjnzbS8ovMyD2qVi', 0),
+('contact@naturegemsjewels.com', '$2a$10$/jCjDDoD4cUJaNCwfszYgetKrmVhBvpmiYnAtzjnzbS8ovMyD2qVi', 0),
+('emeraldcausecart@outlook.com', '$2a$10$/jCjDDoD4cUJaNCwfszYgetKrmVhBvpmiYnAtzjnzbS8ovMyD2qVi', 1);
 
 -- Insert statements for the vendor_app_info table DUMMY DATA
 INSERT INTO "vendor_app_info" (

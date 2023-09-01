@@ -4,15 +4,14 @@ import React from "react";
 // Router
 import { useHistory } from "react-router-dom";
 // CSS
-import "./RegisterPage.css";
+import "../../RegisterForm/RegisterForm.css";
 // MUI
 import { Box, Container } from "@mui/material";
 // Components
-import VendorNavBar from "../VendorUser/VendorNavBar/VendorNavBar";
-import RegisterForm from "../RegisterForm/RegisterForm";
+import AdminLoginForm from "./AdminLoginForm";
 
-// * - RegisterPage COMPONENT -
-function RegisterPage() {
+
+function AdminLoginPage() {
   // * - DECLARATIONS -
   const history = useHistory(); //useHistory
 
@@ -29,11 +28,10 @@ function RegisterPage() {
         alt="Image of multiple hands touching the bark of a tree."
       />
       <div className="register-page-register-form-container">
-        <RegisterForm />
+        <AdminLoginForm />
       </div>
     </Container>
   );
-} // * - END RegisterPage COMPONENT -
+}
 
-// * Exporting RegisterPage Component
-export default RegisterPage;
+export default AdminLoginPage;

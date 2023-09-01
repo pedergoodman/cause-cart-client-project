@@ -38,7 +38,6 @@ function* updateOnboardingStage(action) {
   }
   
   
-
 function* adminSaga() {
   yield takeLatest("FETCH_VENDORS_REQUEST", fetchVendors);
   yield takeLatest("FETCH_VENDOR_DETAILS_REQUEST", fetchVendorDetails);
