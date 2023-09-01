@@ -18,6 +18,7 @@ import UserPage from "../UserPage/UserPage";
 import InfoPage from "../InfoPage/InfoPage";
 import LoginPage from "../LoginPage/LoginPage";
 import RegisterPage from "../RegisterPage/RegisterPage";
+import EmailForm from "../EmailComponent/EmailComponent";
 
 // ** ADMIN
 import AdminRegisterPage from "../AdminUser/Registration/AdminRegisterPage";
@@ -30,6 +31,7 @@ import AdminLoginPage from "../AdminUser/Login/AdminLoginPage";
 import VendorStepper from "../VendorStepper/VendorStepper";
 
 import "./App.css";
+import ValidationComponent from "../ValidationComponent/ValidationComponent";
 
 function App() {
   const dispatch = useDispatch();
@@ -82,6 +84,14 @@ function App() {
             <LoginPage />
           </Route>
 
+          <Route
+            // shows LoginPage at all times (logged in or not)
+            exact
+            path="/validate"
+          >
+            <ValidationComponent />
+          </Route>
+
           {/* For protected routes, the view could show one of several things on the same route.
             Visiting localhost:3000/user will show the UserPage if the user is logged in.
             If the user is not logged in, the ProtectedRoute will show the LoginPage (component).
@@ -101,6 +111,13 @@ function App() {
           >
             <VendorsList />
           </ProtectedRoute>
+          <Route
+            // logged in shows VendorsList else shows LoginPage
+            exact
+            path="/email"
+          >
+           <EmailForm />
+          </Route>
 
           <ProtectedRoute
             // VENDOR Logged-In: Shows VendorsStepper

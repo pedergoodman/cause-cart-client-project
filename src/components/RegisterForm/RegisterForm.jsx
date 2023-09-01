@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 // Router
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 // CSS
-import "../RegisterAndLoginForm.css";
+import "../../components/RegisterAndLoginForm.css";
 // MUI
 import { Box } from "@mui/material";
 // Components
