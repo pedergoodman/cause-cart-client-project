@@ -36,9 +36,6 @@ export const ONBOARDING_STAGE_ICONS = {
   "Product Spreadsheet Submitted": (
     <Icon icon="fluent:box-arrow-up-20-filled" style={{ fontSize: "24px" }} />
   ),
-//   "Approved Product": (
-//     <Icon icon="fluent:box-checkmark-20-regular" style={{ fontSize: "24px" }} />
-//   ),
   "Denied Application": (
     <Icon icon="octicon:x-circle-fill-16" style={{ fontSize: "20px" }} />
   ),
@@ -53,8 +50,8 @@ export const ONBOARDING_STAGE_ICONS = {
   ),
 };
 
+
 const DetailsModalHeader = ({ status }) => {
-// const DetailsModalHeader = ({ onboardingStage }) => {
   return (
     <>
       <Box
@@ -72,7 +69,6 @@ const DetailsModalHeader = ({ status }) => {
           justifyContent="center"
         >
           <Box backgroundColor="#F9BC9E" p={0.5}>
-            {/* {ONBOARDING_STAGE_ICONS[onboardingStage]} */}
             {ONBOARDING_STAGE_ICONS[status]}
           </Box>
           <Box>
@@ -83,12 +79,11 @@ const DetailsModalHeader = ({ status }) => {
                 fontWeight="bold"
                 marginLeft="8px"
               >
-                Onboarding Stage
+                Onboarding Status
               </Typography>
             </Box>
             <Box>
               <Typography variant="body1" align="left" marginLeft="8px">
-                {/* {onboardingStage} */}
                 {status}
               </Typography>
             </Box>
@@ -100,17 +95,8 @@ const DetailsModalHeader = ({ status }) => {
           color="warning"
           sx={{ backgroundColor: "#F9BC9E" }}
         >
-          {/* <Badge
-            badgeContent={tasksCount}
-            color="warning"
-            anchorOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-          >
             {" "}
             Pending Tasks{""}
-          </Badge> */}
         </Button>
       </Box>
     </>
