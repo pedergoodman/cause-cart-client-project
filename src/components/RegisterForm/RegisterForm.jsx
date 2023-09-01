@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 // Router
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 // CSS
-import "./RegisterForm.css";
+import "../RegisterAndLoginForm.css";
 // MUI
 import { Box } from "@mui/material";
 // Components
@@ -59,13 +59,13 @@ function RegisterForm() {
   // * - RENDERING -
   return (
     //  Form Box Container
-    <form className="formPanel register-form-box">
+    <form className="formPanel register-and-login-form-box">
       <header>
-        <h2 className="register-form-h2">
+        <h2 className="register-and-login-form-h2">
           Grow your business while being sustainable
         </h2>
         {/* Cause-Cart Link and Login Route */}
-        <div className="register-form-link-and-routing-container">
+        <div className="register-and-login-form-link-and-routing-container">
           {/* Link to Cause-Cart site */}
           <p>
             <a
@@ -92,7 +92,7 @@ function RegisterForm() {
       </header>
 
       {/* Input Field Box Container */}
-      <Box className="register-form-input-field-container">
+      <Box className="register-and-login-form-input-field-container">
         {/* Form Questions */}
         {/* Brand Name */}
         <BrandNameQuestion brandname={brandName} setBrandName={setBrandName} />
@@ -120,7 +120,7 @@ function RegisterForm() {
 
         {/* Country */}
         {/* Container for the Two Inline Components */}
-        <div className="register-form-input-field-double-inline">
+        <div className="register-and-login-form-input-field-double-inline">
           <CountryQuestion country={country} setCountry={setCountry} />
 
           {/* Product Category */}

@@ -62,7 +62,7 @@ function CreatePasswordQuestion({
         </InputLabel>
         <OutlinedInput
           aria-labelledby="password-label"
-          className="register-form-input-field"
+          className="register-and-login-form-input-field"
           fullWidth
           id="password-input"
           required
@@ -95,7 +95,7 @@ function CreatePasswordQuestion({
         </InputLabel>
         <OutlinedInput
           aria-labelledby="re-enter-password-label"
-          className="register-form-input-field"
+          className="register-and-login-form-input-field"
           fullWidth
           id="re-enter-password-input"
           required

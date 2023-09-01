@@ -69,7 +69,10 @@ function RegisterButton({
       console.log(`${formInput}:`, vendorFormData[formInput]);
 
       // if property is undefined
-      if (vendorFormData[formInput] === "" || vendorFormData[formInput] === undefined) {
+      if (
+        vendorFormData[formInput] === "" ||
+        vendorFormData.productCategories.length === 0
+      ) {
         setShowMissingInputErrorPrompt(true);
       }
       // if passwords do not match
@@ -99,11 +102,11 @@ function RegisterButton({
     <div
       style={{
         width: "80%",
-        margin: "0 auto", 
+        margin: "0 auto",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
-        textAlign: "center"
+        textAlign: "center",
       }}
     >
       {/* Error Prompts */}
@@ -117,7 +120,7 @@ function RegisterButton({
       </div>
       <Button
         style={{ fontSize: "1rem", backgroundColor: "teal" }}
-        className="register-button btn"
+        className="register-or-login-button btn"
         variant="contained"
         type="submit"
         onClick={handleRegisterUser}

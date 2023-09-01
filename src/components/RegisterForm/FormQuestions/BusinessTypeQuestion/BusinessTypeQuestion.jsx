@@ -12,7 +12,7 @@ function BusinessTypeQuestion({ businessType, setBusinessType }) {
     <div>
       <InputLabel id="business-type-label">Business type</InputLabel>
       <Select
-        className="register-form-input-field"
+        className="register-and-login-form-input-field"
         fullWidth
         placeholder="Select a business type"
         labelId="business-type-label"

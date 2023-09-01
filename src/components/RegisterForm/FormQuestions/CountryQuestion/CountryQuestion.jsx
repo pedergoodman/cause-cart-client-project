@@ -13,7 +13,7 @@ function CountryQuestion({ country, setCountry }) {
         Country
       </InputLabel>
       <Select
-        className="register-form-input-field"
+        className="register-and-login-form-input-field"
         fullWidth
         placeholder="Select country"
         labelId="country-label"

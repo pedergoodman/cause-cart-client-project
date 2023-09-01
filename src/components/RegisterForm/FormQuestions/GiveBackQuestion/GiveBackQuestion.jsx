@@ -48,7 +48,7 @@ function GiveBackQuestion({
       </FormLabel>
       {/* Give Back Options */}
       <RadioGroup
-        className="register-form-input-field-radio"
+        className="register-and-login-form-input-field-radio"
         aria-labelledby="give-back-label"
         name="radio-buttons-group"
       >
@@ -85,7 +85,7 @@ function GiveBackQuestion({
           style={{
             marginTop: "25px",
           }}
-          className="register-form-input-field"
+          className="register-and-login-form-input-field"
           fullWidth
           id="outlined-multiline-flexible"
           label="Description"

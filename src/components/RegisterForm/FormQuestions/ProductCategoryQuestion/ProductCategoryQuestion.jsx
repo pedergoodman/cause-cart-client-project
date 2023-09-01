@@ -83,7 +83,7 @@ function productCategoriesQuestion({
         Product categories
       </InputLabel>
       <Select
-        className="register-form-input-field"
+        className="register-and-login-form-input-field"
         fullWidth
         multiple
         placeholder="Select product categories"
@@ -120,7 +120,7 @@ function productCategoriesQuestion({
           style={{
             marginTop: "25px",
           }}
-          className="register-form-input-field"
+          className="register-and-login-form-input-field"
           fullWidth
           id="outlined-multiline-flexible"
           label="Category name(s)"
