@@ -36,7 +36,6 @@ router.post("/register", async (req, res, next) => {
       businessType,
       email,
       password,
-      reEnterPassword,
       country,
       productCategories,
       numberOfProducts,
@@ -56,7 +55,7 @@ router.post("/register", async (req, res, next) => {
       VALUES ($1, $2, $3) RETURNING id`;
 
 
-    // For adding all vendor application form data to 'vendor_app_info' table
+    // // For adding all vendor application form data to 'vendor_app_info' table
     const vendorAppInfoQuery = `INSERT INTO "vendor_app_info" 
     (
       brand_name, 
@@ -81,6 +80,8 @@ router.post("/register", async (req, res, next) => {
 
     const createdUserId = await pool.query(registerNewUserQuery, [email, password, authorizationLevel])
 
+
+    console.log('createdUserId is:', createdUserId);
     // ! Second Query Below: new vendor application 
     await pool.query(vendorAppInfoQuery, [
       brandName,
@@ -90,7 +91,7 @@ router.post("/register", async (req, res, next) => {
       numberOfProducts,
       howDidYouHear,
       giveBack,
-      createdUserId,
+      createdUserId.rows[0].id,
       giveBackDescriptionFieldInput,
       nonProfitPartner,
       nonProfitPartnerDescriptionFieldInput,
@@ -104,7 +105,7 @@ router.post("/register", async (req, res, next) => {
 
   } catch (error) {
     await client.query('ROLLBACK')
-    console.log("User registration failed: ", err);
+    console.log("User registration failed: ", error);
     res.sendStatus(500);
   } finally {
     client.release()
