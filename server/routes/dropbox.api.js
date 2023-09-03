@@ -10,7 +10,7 @@ const { Query } = require('pg');
 
 
 // *** create Vendor folder 
-// *** save folder_id, folder_path, and shared link to database
+// save folder_id, folder_path, and shared link to database
 router.post('/folder/:userId', async (req, res) => {
 
   // TODO bring in unique vendor folder name
@@ -18,9 +18,9 @@ router.post('/folder/:userId', async (req, res) => {
   const { userId } = req.params
   let sharedFolderLink;
 
-  // *** START requests
+  // ** START requests
   try {
-    // *** create new vendor folder in Dropbox
+    // ** create new vendor folder in Dropbox
     const newVendorFolder = await dbx
       .filesCreateFolderV2({
         path: `/vendor-submitted-onboarding-docs/${vendorFolderName}`, // TODO: folder name is based on vendor details
@@ -30,7 +30,6 @@ router.post('/folder/:userId', async (req, res) => {
     // data needed from shared folder result
     const folderPath = newVendorFolder.result.metadata.path_lower
     const folderId = newVendorFolder.result.metadata.id
-
 
     // *** create new shared dropbox link based on created folder path
     // * check if a shared link exists
@@ -84,8 +83,48 @@ router.post('/folder/:userId', async (req, res) => {
 
 
 
-// TODO -- upload one or more files to vendor's dropbox
+// TODO **** upload one or more files to vendor's dropbox
 router.post('/upload/:userId', rejectUnauthenticated, async (req, res) => {
+  // ? TODO - this should only be called from a users account
+  // ! remove userId from route if using req.user
+  // const userId = req?.user?.id;
+
+  // array of file objects
+  const { files, dropbox_folder_path } = req.body
+
+  // GET route code here
+  console.log("createdFolderPath is:", createdFolderPath);
+  console.log("files added is:", files);
+  // console.log("files added is:", files[0].name);
+  // console.log("files added is:", files[1].name);
+  try {
+
+    // handling multiple file uploads with a simple for loop
+    await Promise.all(files.map(file => {
+      // handle single file upload to vendor folder
+      return dbx
+        .filesUpload({
+          contents: file,
+          path: `${dropbox_folder_path}${file.name}`, // TODO: make this accept a vendors folder path
+          mode: "add",
+          autorename: true,
+          mute: false,
+          strict_conflict: false,
+        })
+    }))
+
+    // send status created
+    res.sendStatus(201)
+  } catch (error) {
+    console.error(error);
+  }
+
+
+
+
+
+  // console.log("upload file response", response);
+
 
 
 
