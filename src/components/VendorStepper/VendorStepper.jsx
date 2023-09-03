@@ -1,116 +1,112 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+// * - IMPORTING -
+// React
+import * as React from "react";
+// MUI
+import Box from "@mui/material/Box";
+import Stepper from "@mui/material/Stepper";
+import Step from "@mui/material/Step";
+import StepLabel from "@mui/material/StepLabel";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+// Components
+import AccountVerification from "./AccountVerification/AccountVerification";
+import Meeting from "./Meeting/Meeting";
+import Contract from "./Contract/Contract";
+import AddProducts from "./AddProducts/AddProducts";
+import OnboardingComplete from "./OnboardingComplete/OnboardingComplete";
 
+// * - VENDOR ONBOARDING STEPS -
+// * For Stepper
+const steps = [
+  "Account Verification",
+  "Meeting",
+  "Contract",
+  "Add Products",
+  "Onboarding Complete",
+];
 
-const steps = ['Account Verification', 'Meeting', 'Contract', 'Product Sheet Upload'];
+// * For Component Rendering
+const stepComponents = [
+  <AccountVerification />,
+  <Meeting />,
+  <Contract />,
+  <AddProducts />,
+  <OnboardingComplete />,
+];
 
-
-
+// * - VendorStepper COMPONENT -
 export default function VendorStepper() {
-  const [activeStep, setActiveStep] = React.useState(0);
-  const [skipped, setSkipped] = React.useState(new Set());
+  // * - STATE -
+  // For keeping track of the active / current step vendor is on
+  const [activeStep, setActiveStep] = React.useState(0); // * Represents steps index
 
-  const isStepOptional = (step) => {
-    return step === 1;
-  };
-
-  const isStepSkipped = (step) => {
-    return skipped.has(step);
-  };
-
+  // * - HELPER FUNCTIONS -
+  // Handles progression to the next step in the multi-step process
   const handleNext = () => {
-    let newSkipped = skipped;
-    if (isStepSkipped(activeStep)) {
-      newSkipped = new Set(newSkipped.values());
-      newSkipped.delete(activeStep);
-    }
-
+    // Increment the active step by 1
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped(newSkipped);
-  };
+  }; // end handleNext
 
+  // Handles going back to previous step
   const handleBack = () => {
+    // Decrement the active step by 1
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
+  }; // end handleBack
 
-  const handleSkip = () => {
-    if (!isStepOptional(activeStep)) {
-      // You probably want to guard against something like this,
-      // it should never occur unless someone's actively trying to break something.
-      throw new Error("You can't skip a step that isn't optional.");
-    }
-
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped((prevSkipped) => {
-      const newSkipped = new Set(prevSkipped.values());
-      newSkipped.add(activeStep);
-      return newSkipped;
-    });
-  };
-
+  // Handles resetting stepper
   const handleReset = () => {
+    // Reset the active step to the first step
     setActiveStep(0);
-  };
+  }; // end handleReset
 
+  // * - RENDERING -
   return (
-    <>
-    <Box sx={{ width: '100%' }}>
-      <Stepper activeStep={activeStep}>
-        {steps.map((label, index) => {
-          const stepProps = {};
-          const labelProps = {};
-         
-          if (isStepSkipped(index)) {
-            stepProps.completed = false;
-          }
-          return (
-            <Step key={label} {...stepProps}>
-              <StepLabel {...labelProps}>{label}</StepLabel>
-            </Step>
-          );
-        })}
-      </Stepper>
-      {activeStep === steps.length ? (
-        <React.Fragment>
-          <Typography sx={{ mt: 2, mb: 1 }}>
-            All steps completed - you&apos;re finished
-          </Typography>
-          <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-            <Box sx={{ flex: '1 1 auto' }} />
-            <Button onClick={handleReset}>Reset</Button>
-          </Box>
-        </React.Fragment>
-      ) : (
-        <React.Fragment>
-          <Typography sx={{ mt: 2, mb: 1 }}>This is some dummy text, here we will show a component, depending on the step</Typography>
-          <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-            <Button
-              color="inherit"
-              disabled={activeStep === 0}
-              onClick={handleBack}
-              sx={{ mr: 1 }}
-            >
-              Back
-            </Button>
-            <Box sx={{ flex: '1 1 auto' }} />
-            {isStepOptional(activeStep) && (
-              <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
-                Skip
-              </Button>
-            )}
+    <Box sx={{ width: "100%" }}>
+      {/* Rendering Stepper */}
+      <div style={{ width: "90%", margin: "2rem auto" }}>
+        <Stepper activeStep={activeStep}>
+          {/* Iterating over each step with it's name. Index and stepAttributes here for future customization flexibility.
+            Ex: if (index === 0) { stepAttributes.style = { backgroundColor: 'lightblue' } } */}
+          {steps.map((label, index) => {
+            const stepAttributes = {};
+            // Rendering each step with a key and potential customized attributes (stepAttributes)
+            return (
+              <Step key={label} {...stepAttributes}>
+                <StepLabel>{label}</StepLabel>
+              </Step>
+            );
+          })}
+        </Stepper>
+      </div>
+      {/* Rendering steps */}
+        {/* Render the current step component */}
+        <div>
+          {/* When active step changes, so does the component */}
+          {stepComponents[activeStep]}
+        </div>
 
-            <Button onClick={handleNext}>
-              {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-            </Button>
-          </Box>
-        </React.Fragment>
-      )}
+        {/* Rendering Buttons */}
+        <Box
+          sx={{
+            margin: "3rem auto",
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            gap: "2px",
+          }}
+        >
+          <Button
+            color="inherit"
+            disabled={activeStep === 0}
+            onClick={handleBack}
+            sx={{ mr: 1 }}
+          >
+            Back
+          </Button>
+          <Button onClick={handleNext}>
+            {activeStep === steps.length - 1 ? "Finish" : "Next"}
+          </Button>
+        </Box>
     </Box>
-    </>
   );
 }
