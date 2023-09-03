@@ -33,7 +33,7 @@ router.post('/folder/:userId', async (req, res) => {
 
 
     // *** create new shared dropbox link based on created folder path
-    // check if a shared link exists
+    // * check if a shared link exists
     const checkForSharedLink = await dbx.sharingListSharedLinks({
       path: folderPath
     });
@@ -44,7 +44,8 @@ router.post('/folder/:userId', async (req, res) => {
       sharedFolderLink = checkForSharedLink.result.links[0].url
 
     } else {
-      // if a shared link does not exist, create new shared link from provided path
+      // if a shared link does not exist, 
+      // * create new shared link from provided path
       const createNewSharedLink =
         await dbx.sharingCreateSharedLinkWithSettings({
           path: folderPath
@@ -55,36 +56,28 @@ router.post('/folder/:userId', async (req, res) => {
     }
 
 
+    // *** add dropbox references to database
+    queryText = `
+      UPDATE "vendor_app_info"
+      SET
+        "dropbox_folder_id" = $1,
+        "dropbox_folder_path" = $2,
+        "dropbox_shared_link" = $3 
+      WHERE "user_id" = $4
+    `;
 
-    
-    
+    queryItems = [folderId, folderPath, sharedFolderLink, userId]
 
+    // * sends to database
+    await pool.query(queryText, queryItems)
 
-
-    res.sendStatus(200)
-    // ! do not need to send result, this is just for testing the response
-    console.log('userId is:', userId);
-    console.log('folderPath is:', folderPath);
-    console.log('folderId is:', folderId);
-    console.log('sharedFolderLink is:', sharedFolderLink);
-
-
-
-    // res.send(queryItems)
-
-
-
-
-
-
-
+    // send created status
+    res.sendStatus(201)
 
   } catch (error) {
     console.error('error creating vendor folder:', error);
   }
 });
-
-
 
 
 
