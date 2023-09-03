@@ -82,17 +82,16 @@ router.post('/folder/:userId', async (req, res) => {
 
 
 
-
-// TODO **** upload one or more files to vendor's dropbox
+// TODO - test this route
+// **** upload one or more files to vendor's dropbox
 router.post('/upload/:userId', rejectUnauthenticated, async (req, res) => {
   // ? TODO - this should only be called from a users account
-  // ! remove userId from route if using req.user
+  // ! remove userId from route IF using req.user
   // const userId = req?.user?.id;
 
   // array of file objects
   const { files, dropbox_folder_path } = req.body
 
-  // GET route code here
   console.log("createdFolderPath is:", createdFolderPath);
   console.log("files added is:", files);
   // console.log("files added is:", files[0].name);
@@ -116,27 +115,38 @@ router.post('/upload/:userId', rejectUnauthenticated, async (req, res) => {
     // send status created
     res.sendStatus(201)
   } catch (error) {
-    console.error(error);
+    console.error('error uploading file(s) to Dropbox', error);
   }
+});
 
 
 
 
 
-  // console.log("upload file response", response);
+// TODO - test this route
+// **** download selected file from a vendor folder
+router.post('/download', (req, res) => {
+  // variables needed
+  const {linkToFile} = req.body
 
+dbx.filesDownload({
+  // TEST download path
+    path: "/vendor-submitted-onboarding-docs/test-client-file/product set up basic generic.xlsx",
+  // SWAP for variable download path
+    // path: linkToFile
+  }).then((response) => {
+      const fileName = response.result.name;
+  const blob = response.result.fileBlob;
+
+  // send file with info and blob
+  res.send(response.result)
+  }).catch((err) => {
+    console.log('error downloading file', err);
+  });
 
 
 
 });
-
-// TODO -- grab all the files in a vendors folder
-router.post('/files/:userId', rejectUnauthenticated, async (req, res) => {
-
-
-
-});
-
 
 
 
