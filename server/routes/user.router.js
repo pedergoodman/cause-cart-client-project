@@ -17,7 +17,7 @@ router.get("/", rejectUnauthenticated, (req, res) => {
 // Handles POST request with new user data
 // The only thing different from this and every other post we've seen
 // is that the password gets encrypted before being inserted
-router.post("/register", async (req, res, next) => {
+router.post("/register", rejectUnauthenticated, async (req, res, next) => {
   const password = encryptLib.encryptPassword(req.body.password);
   const client = await pool.connect()
 
@@ -45,16 +45,15 @@ router.post("/register", async (req, res, next) => {
       howDidYouHear
     } = req.body
 
-    // setting initial date
+    // * setting initial date
     const initialDate = new Date();
 
-    // * Queries
+    // * Query text
     // For adding to email, password, and authorization level to 'user' table
     const registerNewUserQuery = `INSERT INTO "user" (email, password, authorization_level)
       VALUES ($1, $2, $3) RETURNING id`;
 
-
-    // // For adding all vendor application form data to 'vendor_app_info' table
+    // For adding all vendor application form data to 'vendor_app_info' table
     const vendorAppInfoQuery = `INSERT INTO "vendor_app_info" 
     (
       brand_name, 
@@ -75,13 +74,14 @@ router.post("/register", async (req, res, next) => {
     ) 
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $13, $14)`;
 
+
+    // * Begin SQL query
     await client.query('BEGIN')
 
+    // create user in database, return id
     const createdUserId = await pool.query(registerNewUserQuery, [email, password, authorizationLevel])
 
-
-    console.log('createdUserId is:', createdUserId);
-    // ! Second Query Below: new vendor application 
+    // POST new vendor application to database
     await pool.query(vendorAppInfoQuery, [
       brandName,
       websiteURL,
@@ -99,10 +99,12 @@ router.post("/register", async (req, res, next) => {
       1
     ])
 
+    // end and commit query to database, sey complete status
     await client.query('COMMIT')
     res.sendStatus(201);
 
   } catch (error) {
+    // rollback if any errors occur
     await client.query('ROLLBACK')
     console.log("User registration failed: ", error);
     res.sendStatus(500);
@@ -124,7 +126,6 @@ router.post("/register", async (req, res, next) => {
 // router.post("/login", userStrategy.authenticate("local"), (req, res) => {
 //   res.sendStatus(200);
 // });
-
 router.post("/login", (req, res, next) => {
   console.log(req.body);
   console.log(req.headers);
