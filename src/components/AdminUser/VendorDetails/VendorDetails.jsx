@@ -7,6 +7,8 @@ import { Box, Button, Divider, Grid, Modal, Typography } from "@mui/material";
 import DetailsModalHeader from "../VendorDetails/DetailsModalHeader";
 import DetailsProductSpreadsheet from "../VendorDetails/DetailsProductSpreadsheet";
 import DetailsContract from "../VendorDetails/DetailsContract";
+import FileContainer from "../../DropboxComponents/FileContainer/FileContainer"
+
 
 import { Icon } from "@iconify/react";
 
@@ -74,7 +76,7 @@ function VendorDetails({ open, onClose, vendorId }) {
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            width: "600px",
+            width: "800px",
             maxHeight: "925px",
             bgcolor: "background.paper",
             boxShadow: 24,
@@ -213,6 +215,8 @@ function VendorDetails({ open, onClose, vendorId }) {
           TODO: ** AMY IMPLEMENT DROPBOX API **
           <DetailsProductSpreadsheet spreadsheets={spreadsheets} />
           <DetailsContract contracts={contracts} /> */}
+          
+          <FileContainer />
           <Box
             sx={{
               backgroundColor: "#C2D2D2",
