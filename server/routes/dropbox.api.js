@@ -121,37 +121,51 @@ router.post('/upload/:userId', rejectUnauthenticated, async (req, res) => {
 
 
 
-
-
 // TODO - test this route
 // **** download selected file from a vendor folder
 router.post('/download', (req, res) => {
   // variables needed
-  const {linkToFile} = req.body
+  const { linkToFile } = req.body
 
-dbx.filesDownload({
-  // TEST download path
-    path: "/vendor-submitted-onboarding-docs/test-client-file/product set up basic generic.xlsx",
-  // SWAP for variable download path
-    // path: linkToFile
+  dbx.filesDownload({
+    // ! TEST download path
+    // path: "/vendor-submitted-onboarding-docs/test-client-file/product set up basic generic.xlsx",
+    // ! SWAP for variable download path
+    path: linkToFile
   }).then((response) => {
-      const fileName = response.result.name;
-  const blob = response.result.fileBlob;
+    const fileName = response.result.name;
+    const blob = response.result.fileBlob;
 
-  // send file with info and blob
-  res.send(response.result)
+    // send file with info and blob
+    res.send(response.result)
   }).catch((err) => {
     console.log('error downloading file', err);
   });
-
-
-
 });
 
 
 
 
 
+// **** grab all the files in a vendors folder
+router.post('/files/', async (req, res) => {
+  // variables needed
+  const { folderPath, } = req.body
+
+  dbx
+    .filesListFolder({
+      path: "/vendor-submitted-onboarding-docs/test-client-file",
+    })
+    .then(function (response) {
+      console.log(response);
+      filesInDropboxFolder = response.result.entries;
+      res.send(filesInDropboxFolder)
+    })
+    .catch(function (error) {
+      console.error(error);
+    });
+
+});
 
 
 
