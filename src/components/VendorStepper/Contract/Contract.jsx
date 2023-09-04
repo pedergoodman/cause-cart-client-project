@@ -7,7 +7,7 @@ import React from "react";
 // * - Contract COMPONENT -
 function Contract() {
   // * - RENDERING -
-  return <h3>Contract Component</h3>;
+  return <h2>Contract Component</h2>;
 } // * - END Contract COMPONENT -
 
 // * Exporting Contract Component

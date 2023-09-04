@@ -7,7 +7,7 @@ import React from "react";
 // * - AddProducts COMPONENT -
 function AddProducts() {
   // * - RENDERING -
-  return <h3>Add Products Component</h3>;
+  return <h2>Add Products Component</h2>;
 } // * - END AddProducts COMPONENT -
 
 // * Exporting AddProducts Component

@@ -7,7 +7,7 @@ import React from "react";
 // * - OnboardingComplete COMPONENT -
 function OnboardingComplete() {
   // * - RENDERING -
-  return <h3>Onboarding Complete Component</h3>;
+  return <h2>Onboarding Complete Component</h2>;
 } // * - END OnboardingComplete COMPONENT -
 
 // * Exporting OnboardingComplete Component

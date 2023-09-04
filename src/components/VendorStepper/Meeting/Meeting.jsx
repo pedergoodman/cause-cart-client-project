@@ -7,7 +7,7 @@ import React from "react";
 // * - Meeting COMPONENT -
 function Meeting() {
   // * - RENDERING -
-  return <h3>Meeting Component</h3>;
+  return <h2>MeetingComponent</h2>;
 } // * - END Meeting COMPONENT -
 
 // * Exporting Meeting Component
