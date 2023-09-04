@@ -5,7 +5,8 @@ import React from "react";
 // Components
 
 // * - AccountVerification COMPONENT -
-function AccountVerification() {
+function AccountVerification({ status }) {
+  console.log("status is:", status);
 
   // * - RENDERING -
   return (
@@ -27,10 +28,22 @@ function AccountVerification() {
       </header>
 
       <main>
-        Status: {/* Status will go here */}
+        Status: {status}
         <div>
           {/* Message will go here */}
           {/* Redux to keep track of messages and status? */}
+
+          {/* Vendor Status & Messages
+  // switch statement for setting vendor status message depending on status
+  const vendorStatusReducer = (state = {}, action) => {
+  console.log("action.payload:", action.payload);
+  switch (action.type) {
+  case "SET_VENDOR_STATUS":
+return action.payload;
+default:
+return state;
+}
+}; */}
         </div>
       </main>
     </div>

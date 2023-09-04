@@ -16,34 +16,35 @@ import Contract from "./Contract/Contract";
 import AddProducts from "./AddProducts/AddProducts";
 import OnboardingComplete from "./OnboardingComplete/OnboardingComplete";
 
-// * - VENDOR ONBOARDING STEPS -
-// * For Stepper
-const steps = [
-  "Account Verification",
-  "Meeting",
-  "Contract",
-  "Add Products",
-  "Onboarding Complete",
-];
-
-// * For Component Rendering
-const stepComponents = [
-  <AccountVerification />,
-  <Meeting />,
-  <Contract />,
-  <AddProducts />,
-  <OnboardingComplete />,
-];
-
 // * - VendorStepper COMPONENT -
 export default function VendorStepper() {
   // * - DECLARATIONS -
   const user = useSelector((store) => store.user); // declaring user from redux store
   const vendorReducer = useSelector((store) => store.vendorReducer); // declaring vendorReducer from redux store
   const dispatch = useDispatch(); // declaring useDispatch as variable
-
+  // Declaring vendor information as variable
+  const vendorInfo = vendorReducer[0];
   // Logging
-  console.log("vendorReducer is:", vendorReducer);
+  console.log("vendorInfo is:", vendorInfo);
+
+  // * - VENDOR ONBOARDING STEPS -
+  // * For Stepper
+  const steps = [
+    "Account Verification",
+    "Meeting",
+    "Contract",
+    "Add Products",
+    "Onboarding Complete",
+  ];
+
+  // * For Component Rendering
+  const stepComponents = [
+    <AccountVerification status={vendorInfo?.status} />,
+    <Meeting status={vendorInfo?.status} />,
+    <Contract status={vendorInfo?.status} />,
+    <AddProducts status={vendorInfo?.status} />,
+    <OnboardingComplete status={vendorInfo?.status} />,
+  ];
 
   // * - STATE -
   // For keeping track of the active / current step vendor is on
@@ -68,18 +69,6 @@ export default function VendorStepper() {
     // Reset the active step to the first step
     setActiveStep(0);
   }; // end handleReset
-
-  // * Vendor Status & Messages
-  // switch statement for setting vendor status message depending on status
-  // const vendorStatusReducer = (state = {}, action) => {
-  //   console.log("action.payload:", action.payload);
-  //   switch (action.type) {
-  //     case "SET_VENDOR_STATUS":
-  //       return action.payload;
-  //     default:
-  //       return state;
-  //   }
-  // };
 
   // * Sending dispatch on page load to retrieve all information of logged in vendor
   useEffect(() => {
