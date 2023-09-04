@@ -1,0 +1,40 @@
+/* Vendor Stepper Style Guide */
+/* Step Component Container */
+.vendor-step-container {
+  /* background-color: rgb(244, 244, 244); */
+  width: 20%;
+  padding: 1rem;
+  margin: 5rem auto;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+  /* box-shadow: 4px 14px 59px -35px rgb(42, 42, 42); */
+  /* border: solid black 3px; */
+}
+/* Step Heading Container */
+.vendor-step-header {
+  width: 100%;
+  text-align: center;
+  /* border: 3px solid black; */
+}
+/* Step Status */
+.vendor-step-status {
+  font-size: 1.2rem;
+}
+/* Messaging Container */
+.vendor-step-messaging-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+/* Buttons for Navigating Steps (temporary till final release) */
+.vendor-stepper-navigation-buttons-container {
+  margin: 3rem auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 2px;
+}

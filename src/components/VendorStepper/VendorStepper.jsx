@@ -3,6 +3,8 @@
 import React, { useEffect } from "react";
 // Redux
 import { useDispatch, useSelector } from "react-redux";
+// CSS
+import "../VendorStepper/VendorStepper.css";
 // MUI
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
@@ -26,25 +28,6 @@ export default function VendorStepper() {
   const vendorInfo = vendorReducer[0];
   // Logging
   console.log("vendorInfo is:", vendorInfo);
-
-  // * - VENDOR ONBOARDING STEPS -
-  // * For Stepper
-  const steps = [
-    "Account Verification",
-    "Meeting",
-    "Contract",
-    "Add Products",
-    "Onboarding Complete",
-  ];
-
-  // * For Component Rendering
-  const stepComponents = [
-    <AccountVerification status={vendorInfo?.status} />,
-    <Meeting status={vendorInfo?.status} />,
-    <Contract status={vendorInfo?.status} />,
-    <AddProducts status={vendorInfo?.status} />,
-    <OnboardingComplete status={vendorInfo?.status} />,
-  ];
 
   // * - STATE -
   // For keeping track of the active / current step vendor is on
@@ -75,6 +58,25 @@ export default function VendorStepper() {
     dispatch({ type: "FETCH_VENDOR_INFO", payload: { userID: user.id } }); // going to login saga
   }, [dispatch]);
 
+  // * - VENDOR ONBOARDING STEPS -
+  // * For Stepper
+  const steps = [
+    "Account Verification",
+    "Meeting",
+    "Contract",
+    "Add Products",
+    "Onboarding Complete",
+  ];
+
+  // * For Component Rendering
+  const stepComponents = [
+    <AccountVerification status={vendorInfo?.status} handleNext={handleNext} />,
+    <Meeting status={vendorInfo?.status} handleNext={handleNext} />,
+    <Contract status={vendorInfo?.status} handleNext={handleNext} />,
+    <AddProducts status={vendorInfo?.status} handleNext={handleNext} />,
+    <OnboardingComplete status={vendorInfo?.status} />,
+  ];
+
   // * - RENDERING -
   return (
     <Box sx={{ width: "100%" }}>
@@ -96,20 +98,12 @@ export default function VendorStepper() {
       </div>
       {/* Rendering steps */}
       {/* Render the current step component */}
-      <div>
-        {/* When active step changes, so does the component */}
-        {stepComponents[activeStep]}
-      </div>
+      {stepComponents[activeStep]}
 
-      {/* Rendering Buttons */}
-      <Box
-        sx={{
-          margin: "3rem auto",
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-          gap: "2px",
-        }}
+      {/* Buttons for Navigating Steps (Will remove in final release) */}
+      {/* Comment/Uncomment to toggle navigation */}
+      {/* <Box
+        className="vendor-stepper-navigation-buttons-container"
       >
         <Button
           color="inherit"
@@ -122,7 +116,7 @@ export default function VendorStepper() {
         <Button onClick={handleNext}>
           {activeStep === steps.length - 1 ? "Finish" : "Next"}
         </Button>
-      </Box>
+      </Box> */}
     </Box>
   );
 }
