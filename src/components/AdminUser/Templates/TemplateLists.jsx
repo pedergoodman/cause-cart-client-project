@@ -1,61 +1,57 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { CardContent, Typography, Fab, Dialog, DialogTitle, DialogContent, DialogActions, Button } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import ContractTemplates from './ContractTemplates';
-import ProductSpreadsheetTemplates from './ProductSpreadsheetTemplates';
+import React, { useState, useEffect } from "react";
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import FolderIcon from '@mui/icons-material/Folder';
+import { styled } from '@mui/material/styles';
+import { useDispatch } from "react-redux";
+
+
+
+function generate(element) {
+  return [0, 1, 2].map((value) =>
+    React.cloneElement(element, {
+      key: value,
+    }),
+  );
+}
+
 
 function TemplateLists() {
-  const [openModal, setOpenModal] = useState(false);
+  const [dense, setDense] = React.useState(false);
+  const [secondary, setSecondary] = React.useState(false);
+  const dispatch = useDispatch()
+  const Demo = styled('div')(({ theme }) => ({
+    backgroundColor: theme.palette.background.paper,
+  }));
 
-  const handleOpen = () => {
-    setOpenModal(true);
-  };
 
-  const handleClose = () => {
-    setOpenModal(false);
-  };
+  useEffect(() => {
+    dispatch({ type: "FETCH_ADMIN_TEMPLATES" });
+  }, []);
+  
 
   return (
-    <>
-      <div style={{ height: "100%", width: "100%" }}>
-        <CardContent sx={{ paddingTop: "32px", paddingBottom: "32px" }}>
-          <Typography
-            variant="h5"
-            component="div"
-            color="#000000"
-            fontSize="32px"
-            fontStyle="normal"
-            fontWeight="400"
-          >
-            Templates
-          </Typography>
-          <Typography sx={{ mb: 1.5 }} color="text.secondary">
-            Replace outdated product spreadsheets and contracts by uploading the
-            latest file. Add a spreadsheet for a new product.
-          </Typography>
-        </CardContent>
-        {/* <ContractTemplates /> */}
-        <ProductSpreadsheetTemplates />
-        <Fab color="primary" aria-label="add" style={{ position: 'fixed', bottom: '16px', right: '16px' }} onClick={handleOpen}>
-          <AddIcon />
-        </Fab>
-        <Dialog open={openModal} onClose={handleClose}>
-          <DialogTitle>Upload New Product Spreadsheet</DialogTitle>
-          <DialogContent>
-            {/* TODO: Add form for file upload */}
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose} color="primary">
-              Cancel
-            </Button>
-            <Button onClick={handleClose} color="primary">
-              Upload
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
-    </>
+    <Grid item xs={12} md={6}>
+    <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
+      Icon with text
+    </Typography>
+    <Demo>
+      <List dense={dense}>
+        {generate(
+          <ListItem>
+            <ListItemText
+              primary="Text"
+              secondary={secondary ? 'Secondary text' : null}
+            />
+          </ListItem>
+        )}
+      </List>
+    </Demo>
+  </Grid>
   );
 }
 
