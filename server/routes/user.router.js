@@ -17,7 +17,7 @@ router.get("/", rejectUnauthenticated, (req, res) => {
 // * Handles POST request with new user data
 // The only thing different from this and every other post we've seen
 // is that the password gets encrypted before being inserted
-router.post("/register", async (req, res, next) => {
+router.post("/register", rejectUnauthenticated, async (req, res, next) => {
   const password = encryptLib.encryptPassword(req.body.password);
   const client = await pool.connect();
 
@@ -60,8 +60,34 @@ router.post("/register", async (req, res, next) => {
       giveBackDescriptionFieldInput,
       nonProfitPartner,
       nonProfitPartnerDescriptionFieldInput,
-      howDidYouHear,
-    } = req.body;
+      howDidYouHear
+    } = req.body
+
+
+  // **** refrence query for posting backend
+    // ! need to fix posting categories to database as names instead of as IDs
+
+//     // For adding all vendor application form data to 'vendor_app_info' table
+//     const vendorAppInfoQuery = `INSERT INTO "vendor_app_info" 
+//     (
+//       brand_name, 
+//       website_url, 
+//       business_type, 
+//       country, 
+//       number_of_products,
+//       heard_about_us, 
+//       giveback_selection, 
+//       user_id, 
+//       giveback_description,
+//       nonprofit_selection, 
+//       nonprofit_description, 
+//       selected_categories,
+//       date_created, 
+//       date_edited, 
+//       status_id 
+//     ) 
+//     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $13, $14)`;
+
 
 
     const prodCategoriesOtherOptionDescInput =
@@ -107,11 +133,14 @@ router.post("/register", async (req, res, next) => {
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16);
     `;
 
-    const createdUserId = await client.query(registerNewUserQuery, [
-      email,
-      password,
-      authorizationLevel,
-    ]);
+
+    
+    
+    // * Begin SQL query
+    await client.query('BEGIN')
+
+    // create user in database, return id
+    const createdUserId = await pool.query(registerNewUserQuery, [email, password, authorizationLevel])
 
     // ! Second Query Below: new vendor application
     await client.query(vendorAppInfoQuery, [
@@ -133,10 +162,13 @@ router.post("/register", async (req, res, next) => {
       1,
     ]);
 
-    await client.query("COMMIT");
+
+    // end and commit query to database, sey complete status
+    await client.query('COMMIT')
     res.sendStatus(201);
   } catch (error) {
-    await client.query("ROLLBACK");
+    // rollback if any errors occur
+    await client.query('ROLLBACK')
     console.log("User registration failed: ", error);
     res.sendStatus(500);
   } finally {
@@ -193,6 +225,7 @@ router.post(
     res.sendStatus(200);
   }
 ); // end '/login' route
+
 
 // * clear all server session information about this user
 router.post("/logout", (req, res) => {

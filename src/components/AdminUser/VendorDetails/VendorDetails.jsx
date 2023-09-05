@@ -12,7 +12,9 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Box, Button, Divider, Grid, Modal, Typography } from "@mui/material";
 
 import DetailsModalHeader from "../VendorDetails/DetailsModalHeader";
+import DropboxFileContainer from "../../DropboxComponents/DropboxFileContainer/DropboxFileContainer";
 import DenyApplication from "../AdminButtons/DenyApplication";
+
 
 import { Icon } from "@iconify/react";
 
@@ -46,9 +48,7 @@ const TypographyWithDivider = ({ children }) => (
 
 function VendorDetails({ open, onClose, vendorId }) {
   const dispatch = useDispatch();
-  const vendorDetails = useSelector(
-    (state) => state.vendorDetails.vendorDetails
-  );
+  const vendorDetails = useSelector(state => state.vendorDetails.vendorDetails);
 
   useEffect(() => {
     if (vendorId) {
@@ -71,6 +71,9 @@ function VendorDetails({ open, onClose, vendorId }) {
   //     onClose();
   //   };
 
+  // grab folder path
+  const dropboxFolderPath = vendor.dropboxFolderPath;
+
   return (
     <ThemeProvider theme={theme}>
       <Modal open={open} onClose={onClose}>
@@ -80,7 +83,7 @@ function VendorDetails({ open, onClose, vendorId }) {
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            width: "600px",
+            width: "800px",
             maxHeight: "925px",
             bgcolor: "background.paper",
             boxShadow: 24,
@@ -89,6 +92,7 @@ function VendorDetails({ open, onClose, vendorId }) {
           }}
         >
           <DetailsModalHeader status={vendor.onboardingStatus} />
+
           <Box
             display="flex"
             flexDirection="column"
@@ -224,6 +228,14 @@ function VendorDetails({ open, onClose, vendorId }) {
           TODO: ** AMY IMPLEMENT DROPBOX API **
           <DetailsProductSpreadsheet spreadsheets={spreadsheets} />
           <DetailsContract contracts={contracts} /> */}
+
+          {/* If there are files in the dropbox folder, show them */}
+          {dropboxFolderPath ? (
+            <DropboxFileContainer dropboxFolderPath={dropboxFolderPath} />
+          ) : (
+            <></>
+          )}
+
           <Box
             sx={{
               backgroundColor: "#C2D2D2",

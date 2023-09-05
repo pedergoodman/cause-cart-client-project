@@ -40,7 +40,11 @@ router.get("/:id", rejectUnauthenticated, (req, res) => {
     "user".email,
     "vendor_app_info".website_url as "website",
     "vendor_app_info".business_type as "businessType",
+    
+    -- THIS MIGHT CHANGE
+    "vendor_app_info".selected_categories as "primaryProductCategory",
     "vendor_app_info".other_category_description as "otherDescription",
+    
     "vendor_app_info".country,
     "vendor_app_info".number_of_products as "numberOfProducts",
     "vendor_app_info".giveback_selection as "vendorGiveback",
@@ -49,17 +53,24 @@ router.get("/:id", rejectUnauthenticated, (req, res) => {
     "vendor_app_info".nonprofit_description as "nonprofitDescription",
     "vendor_app_info".heard_about_us as "hearAboutUs",
     "vendor_app_info".date_created as "intakeDate",
+    "vendor_app_info".date_edited as "dateEdited",
     "status".status as "onboardingStatus",
+    "status".id as "onboardingStatusId",
+    "vendor_app_info".is_active as "is_active",
+    "vendor_app_info".dropbox_folder_path as "dropboxFolderPath",
+    "vendor_app_info".dropbox_shared_link as "dropboxSharedLink"
+    
+    -- THIS MIGHT CHANGE
     array(
         SELECT name
         FROM category_names
         WHERE id = ANY(string_to_array(vendor_app_info.category_name_ids, ',')::INTEGER[])
     ) as "selectedCategories"
+   
+    
     FROM vendor_app_info
     JOIN "user" ON vendor_app_info.user_id = "user".id
     JOIN "status" ON vendor_app_info.status_id = "status".id
-    -- remove the line below
-    -- LEFT JOIN "category_names" ON "category_names".id = vendor_app_info.primary_product_category_id
     WHERE "vendor_app_info".id = $1;
   `;
   pool
