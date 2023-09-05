@@ -4,7 +4,7 @@ require('dotenv').config();
 
 // from sandbox
 const dbx = new Dropbox({
-    accessToken: "sl.Ble4WDA-VlCJggIwD1Wi1Jku7LBETseTKWU9G5R_WhIFf22lR3GYPtt1I1Hmi9NKmkKWO-2QZSeK5r1ut32toDh89Rjjayl8ikAoJl6R7csTaLfp6juz37H2zAqysY0mJ0npBwfhDm9KKrk"
+    accessToken: "sl.BlcSsN_DDEpvHhMjFi76OpJIMh4i_QHXty8Z7yTrUjEAhT6nqoFNufpW43zvgM4oNB40GBFP5CBUcqH9_O6rQglKHuOrNdoDi0KCd96HRynNZLn-aQkgy9R6rHdzRf2i19s290gzpk3QQ04"
 }); // Replace with your access token
 
 

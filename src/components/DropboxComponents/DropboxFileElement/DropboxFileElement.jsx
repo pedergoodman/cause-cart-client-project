@@ -1,16 +1,10 @@
 import React from "react";
-import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import Avatar from "@mui/material/Avatar";
-import ImageIcon from "@mui/icons-material/Image";
-import WorkIcon from "@mui/icons-material/Work";
-import BeachAccessIcon from "@mui/icons-material/BeachAccess";
-import { Box, Divider, IconButton, Typography } from "@mui/material";
-import LaunchOutlinedIcon from "@mui/icons-material/LaunchOutlined";
+import { Box, IconButton, Typography } from "@mui/material";
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
 import dropboxFileElementStyling from "./DropboxFileElementStyle";
+import { useDispatch } from "react-redux";
 
 // * STYLING
 const {
@@ -23,9 +17,13 @@ console.log("dropboxFileElementStyling is:", dropboxFileElementStyling);
 
 // * DROPBOX FILE ELEMENT
 export default function DropboxFileElement({ file }) {
+  const dispatch = useDispatch();
+
+  // file info
   const fileName = file.name.split('.').shift();
   const fileType = file.name.split(".").pop().toUpperCase();
   const filePath = file.path_lower;
+  // format date
   const fileModified = new Date(file.client_modified).toLocaleDateString(
     "en-us",
     {
@@ -35,14 +33,20 @@ export default function DropboxFileElement({ file }) {
     }
   );
 
-  console.log("fileName is:", fileName);
-  console.log("fileType is:", fileType);
-  console.log("filePath is:", filePath);
-  console.log("fileModified is:", fileModified);
-  console.log("file is:", file);
+  // console.log("fileName is:", fileName);
+  // console.log("fileType is:", fileType);
+  // console.log("filePath is:", filePath);
+  // console.log("fileModified is:", fileModified);
+  // console.log("file is:", file);
 
   const downloadFileButton = () => {
     console.log("download file path:", filePath);
+
+        dispatch({
+      type: "DOWNLOAD_DROPBOX_FILE",
+      payload: filePath,
+    });
+
   };
 
   return (

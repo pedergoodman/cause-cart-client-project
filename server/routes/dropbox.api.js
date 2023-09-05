@@ -125,19 +125,21 @@ router.post('/upload/:userId', rejectUnauthenticated, async (req, res) => {
 // **** download selected file from a vendor folder
 router.post('/download', (req, res) => {
   // variables needed
-  const { linkToFile } = req.body
+  const { filePathToDownload } = req.body
+
+  console.log('filePathToDownload is:', filePathToDownload);
 
   dbx.filesDownload({
     // ! TEST download path
     // path: "/vendor-submitted-onboarding-docs/test-client-file/product set up basic generic.xlsx",
     // ! SWAP for variable download path
-    path: linkToFile
+    path: filePathToDownload
   }).then((response) => {
-    const fileName = response.result.name;
-    const blob = response.result.fileBlob;
+    // const fileName = response.result.name;
+    // const blob = response.result.fileBlob;
 
     // send file with info and blob
-    res.send(response.result)
+    res.send(response)
   }).catch((err) => {
     console.log('error downloading file', err);
   });

@@ -1,5 +1,6 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
+import { saveAs } from 'file-saver';
 
 
 function* createVendorFolder(action) {
@@ -26,8 +27,41 @@ function* uploadDropboxFile(action) {
 
 function* downloadDropboxFile(action) {
   try {
+    const filePathToDownload = action.payload
+
+    console.log('filePathToDownload is:', filePathToDownload);
+
     // TODO: send request to grab download data
+    const downloadResult = yield axios.post('/api/dropbox/download', { filePathToDownload })
+
+
+    console.log('in dropboxSaga, downloadResult is:', downloadResult);
+
+
+
+    // ! working on file blobs here!
+    // const fileName = downloadResult.data.result.name;
+    // const blobFileBinary = downloadResult.data.result.fileBinary
+      
+      
+    // const newFileBlob = new Blob(blobFileBinary);
+
+    // var blob = new Blob(["Hello, world!"], {type: "text/plain;charset=utf-8"});
+
+
+    // console.log('in dropboxSaga, fileName is:', fileName);
+    // console.log('in dropboxSaga, blob is:', blob);
+    // console.log('in dropboxSaga, newFileBlob is:', newFileBlob);
+
     // TODO: trigger download.. here? or do you store it?
+    
+
+
+    // yield saveAs(newFileBlob, fileName)
+
+
+
+
   } catch (error) {
     console.log('in dropbox saga, error making download request', error);
   }
@@ -36,8 +70,6 @@ function* downloadDropboxFile(action) {
 
 
 function* fetchVendorDropboxFiles(action) {
-
-
   try {
 
     // ! TEST FOLDER PATH
