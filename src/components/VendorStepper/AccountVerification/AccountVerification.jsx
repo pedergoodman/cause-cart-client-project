@@ -1,39 +1,58 @@
 // * - IMPORTING -
 // React
-import React from "react";
+import React, { useState } from "react";
 // MUI
 import { Button } from "@mui/material";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 
 // * - AccountVerification COMPONENT -
-function AccountVerification({ status, handleNext }) {
+function AccountVerification({ status, setActiveStep, activeStep }) {
   // Testing of dynamic status and messaging
-  status = "Approved Intake Form";
+  // status = "Approved Intake Form";
 
   // * - DECLARATIONS -
+  // State variable to hold the final status of this step
+  const [finalStatus, setFinalStatus] = useState("");
   // Switch statement for setting vendor status message depending on status
   const accountVerificationMessage = (state = "", status) => {
+    // Variable for changing/showing message
+    let message = state;
+
     switch (status) {
       case "Intake Form Submitted":
+        // New message
+        message = "Your application is currently being reviewed.";
         return (
           <div className="vendor-step-messaging-container">
-            <p>"Your application is currently being reviewed."</p>
+            <p>{message}</p>
           </div>
         );
       case "Approved Intake Form":
+        // New message
+        message = "Your account has been verified!";
+        // Setting the final status
+        setFinalStatus("Approved Intake Form"); // Set the final status
         return (
           <div className="vendor-step-messaging-container">
-            <p>Your account has been verified!</p>
-            <Button onClick={handleNext}>
+            <p>{message}</p>
+            <Button onClick={handleNextStep}>
               Next Step
               <NavigateNextIcon />
             </Button>
           </div>
         );
       default:
-        return state;
+        return message;
     }
-  };
+  }; // end accountVerificationMessage
+
+  // Handles progression to the next step in the multi-step process
+  const handleNextStep = () => {
+    // Increment the active step by 1
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+
+    // Set new vendor status via dispatch
+  }; // end handleNextStep
 
   // * - RENDERING -
   return (
@@ -44,7 +63,7 @@ function AccountVerification({ status, handleNext }) {
 
         {/* Status */}
         <p className="vendor-step-status">
-          <strong>Status:</strong> {status}
+          <strong>Status:</strong> {finalStatus ? finalStatus : status}
         </p>
       </header>
 
