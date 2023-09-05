@@ -49,7 +49,10 @@ export default function DropboxFileContainer({ dropboxFolderPath }) {
         }}
       >
         {dropboxFiles?.map(file => (
-          <DropboxFileElement file={file} />
+          <DropboxFileElement 
+          key={file.id}
+          file={file} 
+          />
         ))}
 
         {/* TEST display */}
