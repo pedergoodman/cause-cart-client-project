@@ -33,29 +33,32 @@ router.get("/", rejectUnauthenticated, (req, res) => {
 router.get("/:id", rejectUnauthenticated, (req, res) => {
   const vendorId = req.params.id;
   const queryText = `
-  SELECT 
-  vendor_app_info.id,
-  vendor_app_info.brand_name as "vendorName",
-  "user".email,
-  vendor_app_info.website_url as "website",
-  vendor_app_info.business_type as "businessType",
-  vendor_app_info.country,
-  category_names.name as "primaryProductCategory",
-  vendor_app_info.number_of_products as "numberOfProducts",
-  vendor_app_info.giveback_selection as "vendorGiveback",
-  vendor_app_info.giveback_description as "givebackDescription",
-  vendor_app_info.nonprofit_selection as "partnerNonProfit",
-  vendor_app_info.nonprofit_description as "nonprofitDescription",
-  vendor_app_info.heard_about_us as "hearAboutUs",
-  vendor_app_info.date_edited as "date_edited",
-  status.status as "status",
-  vendor_app_info.is_active as "is_active"
-FROM vendor_app_info
-JOIN "user" ON vendor_app_info.user_id = "user".id
-JOIN status ON vendor_app_info.status_id = "status".id
-JOIN "category_names" ON vendor_app_info.selected_categories = "category_names".name
-WHERE vendor_app_info.id = $1;
-`;
+    SELECT 
+      vendor_app_info.id,
+      vendor_app_info.brand_name as "vendorName",
+      "user".email,
+      vendor_app_info.website_url as "website",
+      vendor_app_info.business_type as "businessType",
+      vendor_app_info.country, 
+      vendor_app_info.selected_categories as "primaryProductCategory",
+      vendor_app_info.number_of_products as "numberOfProducts",
+      vendor_app_info.giveback_selection as "vendorGiveback",
+      vendor_app_info.giveback_description as "givebackDescription",
+      vendor_app_info.nonprofit_selection as "partnerNonProfit",
+      vendor_app_info.nonprofit_description as "nonprofitDescription",
+      vendor_app_info.heard_about_us as "hearAboutUs",
+      vendor_app_info.date_created as "date_created",
+      vendor_app_info.date_edited as "date_edited",
+      status.id as "statusId",
+      status.status as "status",
+      vendor_app_info.is_active as "is_active",
+      vendor_app_info.dropbox_folder_path as "dropboxFolderPath",
+      vendor_app_info.dropbox_shared_link as "dropboxSharedLink"
+    FROM vendor_app_info
+    JOIN "user" ON vendor_app_info.user_id = "user".id
+    JOIN status ON vendor_app_info.status_id = "status".id
+    WHERE vendor_app_info.id = $1;
+  `;
   pool
     .query(queryText, [vendorId])
     .then((result) => {
