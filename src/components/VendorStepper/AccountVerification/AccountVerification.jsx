@@ -8,9 +8,11 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 // * - AccountVerification COMPONENT -
 function AccountVerification({ status, setActiveStep }) {
   // Testing of dynamic status and messaging
-  status = "Approved Intake Form";
+  // status = "Approved Intake Form";
 
   // * - DECLARATIONS -
+  // State variable to hold the final status of this step
+  const [finalStatus, setFinalStatus] = useState("");
   // Switch statement for setting vendor status message depending on status
   const accountVerificationMessage = (state = "", status) => {
     // Variable for changing/showing message
@@ -59,7 +61,7 @@ function AccountVerification({ status, setActiveStep }) {
 
         {/* Status */}
         <p className="vendor-step-status">
-          <strong>Status:</strong> {status}
+          <strong>Status:</strong> {finalStatus ? finalStatus : status}
         </p>
       </header>
 
