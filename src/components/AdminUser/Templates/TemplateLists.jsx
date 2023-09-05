@@ -4,20 +4,25 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import Paper from "@mui/material/Paper"; // Import Paper component
+import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
 import { useDispatch, useSelector } from "react-redux";
 import ListItemButton from "@mui/material/ListItemButton";
 import Container from "@mui/material/Container";
-import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import IconButton from '@mui/material/IconButton'
-import Divider from '@mui/material/Divider';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
+import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import IconButton from "@mui/material/IconButton";
+import Divider from "@mui/material/Divider";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+
 function TemplateLists() {
-  const [dense, setDense] = React.useState(false);
-  const [secondary, setSecondary] = React.useState(false);
+  const [dense, setDense] = useState(false);
+  const [secondary, setSecondary] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [categoryName, setCategoryName] = useState("");
+  const [editingCategory, setEditingCategory] = useState(null); // Track the currently editing category
+
   const templates = useSelector((store) => store.templateLinkReducer);
   const categories = useSelector((store) => store.categoryNameReducer);
 
@@ -31,9 +36,14 @@ function TemplateLists() {
     dispatch({ type: "FETCH_ADMIN_CATEGORIES" });
   }, []);
 
-  function OpenModal() {
-    console.log("clicked");
-    return;
+  function editCategory(name) {
+    setCategoryName(name);
+    setEditingCategory(name); // Set the category to be edited
+  }
+
+  function saveCategory() {
+    // You can dispatch an action here to update the category in your Redux store or handle the update in your component
+    setEditingCategory(null); // Clear the currently editing category
   }
 
   return (
@@ -48,30 +58,63 @@ function TemplateLists() {
       <Grid container spacing={2}>
         <Grid item xs={12} md={6}>
           <Paper elevation={3} sx={{ padding: "16px", borderRadius: "10px" }}>
-            <List dense={dense} sx={{ display: "flex-wrap"}}>
-              <Typography sx={{ mb: 2 }} variant="h6" component="div">
+            <List dense={dense} sx={{ display: "flex-wrap" }}>
+              <div style={{display:"flex"}}>
+              <Typography sx={{ mb: 2, mt:'10px' }} variant="h6" component="div">
                 Category Names
               </Typography>
-              <TextField id="outlined-basic" label="Add Category" variant="outlined" />
-              <Button variant="contained" sx={{margin:'10px'}}>Add</Button>
+              <TextField
+                id="outlined-basic"
+                label="Add Category"
+                variant="outlined"
+                sx={{display:'flex', ml:'20px', width:'250px'}}
+              />
+              <Button sx={{ margin: "10px"}} variant="contained">
+                Add
+              </Button>
+              </div>
               {categories.map((category) => {
                 return (
-                  <>
-                  <Container key={category.id}>
-                    <ListItem>
-                        <ListItemText
-                          primary={category.name}
+                  <div key={category.id}>
+                    {editingCategory === category.name ? (
+                      <>
+                        <TextField
+                          id="outlined-basic"
+                          label="Edit Category"
+                          variant="outlined"
+                          value={categoryName}
+                          onChange={(e) => setCategoryName(e.target.value)}
+                          sx={{mt:'20px', mb:'10px'}}
                         />
-                        <IconButton sx={{justifyContent:"right"}}>
-                        <EditOutlinedIcon />
-                        </IconButton>
-                        <IconButton sx={{justifyContent:"right"}}>
-                        <DeleteForeverOutlinedIcon />
-                        </IconButton>
-                    </ListItem>
-                  </Container>
-                  <Divider />
-                  </>
+                        <Button
+                          sx={{ margin: "30px", display:'inline' }}
+                          variant="contained"
+                          onClick={saveCategory}
+                        >
+                          Save
+                        </Button>
+                        <Divider />
+                      </>
+                    ) : (
+                      <>
+                        <ListItem>
+                          <ListItemText primary={category.name} />
+                          <IconButton
+                            sx={{ justifyContent: "right" }}
+                            onClick={() => {
+                              editCategory(category.name);
+                            }}
+                          >
+                            <EditOutlinedIcon />
+                          </IconButton>
+                          <IconButton sx={{ justifyContent: "right" }}>
+                            <DeleteForeverOutlinedIcon />
+                          </IconButton>
+                        </ListItem>
+                        <Divider />
+                      </>
+                    )}
+                  </div>
                 );
               })}
             </List>
@@ -80,29 +123,29 @@ function TemplateLists() {
 
         <Grid item xs={12} md={6}>
           <Paper elevation={3} sx={{ padding: "16px", borderRadius: "10px" }}>
-            <List dense={dense} sx={{ display: "flex-wrap"}}>
-              <Typography sx={{mb: 2 }} variant="h6" component="div">
+            <List dense={dense} sx={{ display: "flex-wrap" }}>
+              <Typography sx={{ mb: 2 }} variant="h6" component="div">
                 Template Links
               </Typography>
               {templates.map((template) => {
                 return (
                   <>
-                  <Container key={template.id}>
-                    <ListItem>
-                      <ListItemButton
-                        component="a"
-                        href={template.link}
-                        target="_blank"
-                      >
-                        <ListItemText
-                          primary={template.name}
-                          secondary={"click to view link"}
-                        />
-                      </ListItemButton>
-                    </ListItem>
-                  </Container>
-                <Divider />
-                </>
+                    <Container key={template.id}>
+                      <ListItem>
+                        <ListItemButton
+                          component="a"
+                          href={template.link}
+                          target="_blank"
+                        >
+                          <ListItemText
+                            primary={template.name}
+                            secondary={"click to view link"}
+                          />
+                        </ListItemButton>
+                      </ListItem>
+                    </Container>
+                    <Divider />
+                  </>
                 );
               })}
             </List>
