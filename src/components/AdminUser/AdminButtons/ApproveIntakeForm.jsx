@@ -10,7 +10,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Box, Button, Container, Divider, Grid, Modal, Typography } from "@mui/material";
 import { Icon } from "@iconify/react";
 
-import LinkEmailSender from "../../EmailComponent/EmailComponent";
+import LinkEmailSender from "../../EmailComponent/EmailComponent.jsx";
 
 function ApproveIntakeForm({ vendor, onClose }) {
   const dispatch = useDispatch();
