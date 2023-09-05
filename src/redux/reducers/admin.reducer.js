@@ -78,4 +78,12 @@ const templateLinkReducer = (state = [], action) => {
 
 }
 
-export { adminReducer, vendorDetailsReducer, templateLinkReducer };
+const categoryNameReducer = (state = [], action) => {
+  if (action.type == "UPDATE_ADMIN_CATEGORY") {
+    return action.payload
+  }
+
+  return state 
+
+}
+export { adminReducer, vendorDetailsReducer, templateLinkReducer, categoryNameReducer };

@@ -42,6 +42,19 @@ router.get("/templates", rejectUnauthenticated, (req, res) => {
     });
 });
 
+router.get("/category", rejectUnauthenticated, (req, res) => {
+  const queryText = `SELECT * FROM category_names;`;
+  pool
+    .query(queryText)
+    .then((result) => {
+      res.send(result.rows);
+    })
+    .catch((error) => {
+      console.log("Error getting category_names", error);
+      res.sendStatus(500);
+    });
+});
+
 // GET request to fetch data unique to a specific vendor
 router.get("/:id", rejectUnauthenticated, (req, res) => {
   const vendorId = req.params.id;
