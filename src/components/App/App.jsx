@@ -31,6 +31,7 @@ import AdminLoginPage from "../AdminUser/Login/AdminLoginPage";
 import VendorStepper from "../VendorStepper/VendorStepper";
 
 import "./App.css";
+import ValidationComponent from "../ValidationComponent/ValidationComponent";
 
 function App() {
   const dispatch = useDispatch();
@@ -58,13 +59,14 @@ function App() {
             <AboutPage />
           </Route>
 
-          <ProtectedRoute
+
+          <Route
             // shows AdminRegisterPage at all times (logged in or not)
             exact
             path="/admin-register"
           >
             <AdminRegisterPage />
-          </ProtectedRoute>
+          </Route>
 
           {/* <Route
             // shows AdminLoginPage at all times (logged in or not)
@@ -81,6 +83,14 @@ function App() {
             path="/login"
           >
             <LoginPage />
+          </Route>
+
+          <Route
+            // shows LoginPage at all times (logged in or not)
+            exact
+            path="/validate"
+          >
+            <ValidationComponent />
           </Route>
 
           {/* For protected routes, the view could show one of several things on the same route.

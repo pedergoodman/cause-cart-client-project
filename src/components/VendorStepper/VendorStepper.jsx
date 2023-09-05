@@ -1,116 +1,142 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+// * - IMPORTING -
+// React
+import React, { useEffect } from "react";
+// Redux
+import { useDispatch, useSelector } from "react-redux";
+// CSS
+import "../VendorStepper/VendorStepper.css";
+// MUI
+import Box from "@mui/material/Box";
+import Stepper from "@mui/material/Stepper";
+import Step from "@mui/material/Step";
+import StepLabel from "@mui/material/StepLabel";
+import Button from "@mui/material/Button";
+// Components
+import AccountVerification from "./AccountVerification/AccountVerification";
+import Meeting from "./Meeting/Meeting";
+import Contract from "./Contract/Contract";
+import AddProducts from "./AddProducts/AddProducts";
+import OnboardingComplete from "./OnboardingComplete/OnboardingComplete";
 
-
-const steps = ['Account Verification', 'Meeting', 'Contract', 'Product Sheet Upload'];
-
-
-
+// * - VendorStepper COMPONENT -
 export default function VendorStepper() {
-  const [activeStep, setActiveStep] = React.useState(0);
-  const [skipped, setSkipped] = React.useState(new Set());
+  // * - DECLARATIONS -
+  const user = useSelector((store) => store.user); // declaring user from redux store
+  const vendorReducer = useSelector((store) => store.vendorReducer); // declaring vendorReducer from redux store
+  const dispatch = useDispatch(); // declaring useDispatch as variable
+  // Declaring vendor information as variable
+  const vendorInfo = vendorReducer[0];
+  // Logging
+  console.log("vendorInfo is:", vendorInfo);
 
-  const isStepOptional = (step) => {
-    return step === 1;
-  };
+  // * - STATE -
+  // For keeping track of the active / current step vendor is on
+  const [activeStep, setActiveStep] = React.useState(0); // * Represents steps index
 
-  const isStepSkipped = (step) => {
-    return skipped.has(step);
-  };
-
+  // * - HELPER FUNCTIONS -
+  // * Stepper Functions
+  // Handles progression to the next step in the multi-step process
   const handleNext = () => {
-    let newSkipped = skipped;
-    if (isStepSkipped(activeStep)) {
-      newSkipped = new Set(newSkipped.values());
-      newSkipped.delete(activeStep);
-    }
-
+    // Increment the active step by 1
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped(newSkipped);
-  };
+  }; // end handleNext
 
+  // Handles going back to previous step
   const handleBack = () => {
+    // Decrement the active step by 1
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
+  }; // end handleBack
 
-  const handleSkip = () => {
-    if (!isStepOptional(activeStep)) {
-      // You probably want to guard against something like this,
-      // it should never occur unless someone's actively trying to break something.
-      throw new Error("You can't skip a step that isn't optional.");
-    }
-
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped((prevSkipped) => {
-      const newSkipped = new Set(prevSkipped.values());
-      newSkipped.add(activeStep);
-      return newSkipped;
-    });
-  };
-
+  // Handles resetting stepper
   const handleReset = () => {
+    // Reset the active step to the first step
     setActiveStep(0);
-  };
+  }; // end handleReset
 
+  // * Sending dispatch on page load to retrieve all information of logged in vendor
+  useEffect(() => {
+    dispatch({ type: "FETCH_VENDOR_INFO", payload: { userID: user.id } }); // going to login saga
+  }, [dispatch]);
+
+  // * - VENDOR ONBOARDING STEPS -
+  // * For Stepper
+  const steps = [
+    "Account Verification",
+    "Meeting",
+    "Contract",
+    "Add Products",
+    "Onboarding Complete",
+  ];
+
+  // * For Component Rendering
+  const stepComponents = [
+    <AccountVerification
+      status={vendorInfo?.status}
+      setActiveStep={setActiveStep}
+      activeStep={activeStep}
+      userID={user.id}
+    />,
+    <Meeting
+      status={vendorInfo?.status}
+      setActiveStep={setActiveStep}
+      activeStep={activeStep}
+      userID={user.id}
+    />,
+    <Contract
+      status={vendorInfo?.status}
+      setActiveStep={setActiveStep}
+      activeStep={activeStep}
+      userID={user.id}
+    />,
+    <AddProducts
+      status={vendorInfo?.status}
+      setActiveStep={setActiveStep}
+      activeStep={activeStep}
+      userID={user.id}
+    />,
+    <OnboardingComplete status={vendorInfo?.status} />,
+  ];
+
+  // * - RENDERING -
   return (
-    <>
-    <Box sx={{ width: '100%' }}>
-      <Stepper activeStep={activeStep}>
-        {steps.map((label, index) => {
-          const stepProps = {};
-          const labelProps = {};
-         
-          if (isStepSkipped(index)) {
-            stepProps.completed = false;
-          }
-          return (
-            <Step key={label} {...stepProps}>
-              <StepLabel {...labelProps}>{label}</StepLabel>
-            </Step>
-          );
-        })}
-      </Stepper>
-      {activeStep === steps.length ? (
-        <React.Fragment>
-          <Typography sx={{ mt: 2, mb: 1 }}>
-            All steps completed - you&apos;re finished
-          </Typography>
-          <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-            <Box sx={{ flex: '1 1 auto' }} />
-            <Button onClick={handleReset}>Reset</Button>
-          </Box>
-        </React.Fragment>
-      ) : (
-        <React.Fragment>
-          <Typography sx={{ mt: 2, mb: 1 }}>This is some dummy text, here we will show a component, depending on the step</Typography>
-          <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-            <Button
-              color="inherit"
-              disabled={activeStep === 0}
-              onClick={handleBack}
-              sx={{ mr: 1 }}
-            >
-              Back
-            </Button>
-            <Box sx={{ flex: '1 1 auto' }} />
-            {isStepOptional(activeStep) && (
-              <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
-                Skip
-              </Button>
-            )}
+    <Box sx={{ width: "100%" }}>
+      {/* Rendering Stepper */}
+      <div style={{ width: "90%", margin: "2rem auto" }}>
+        <Stepper activeStep={activeStep}>
+          {/* Iterating over each step with it's name. Index and stepAttributes here for future customization flexibility.
+            Ex: if (index === 0) { stepAttributes.style = { backgroundColor: 'lightblue' } } */}
+          {steps.map((label, index) => {
+            const stepAttributes = {};
+            // Rendering each step with a key and potential customized attributes (stepAttributes)
+            return (
+              <Step key={label} {...stepAttributes}>
+                <StepLabel>{label}</StepLabel>
+              </Step>
+            );
+          })}
+        </Stepper>
+      </div>
+      {/* Rendering steps */}
+      {/* Render the current step component */}
+      {stepComponents[activeStep]}
 
-            <Button onClick={handleNext}>
-              {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-            </Button>
-          </Box>
-        </React.Fragment>
-      )}
+      {/* Buttons for Navigating Steps (Will remove in final release) */}
+      {/* Comment/Uncomment to toggle navigation */}
+      {/* <Box
+        className="vendor-stepper-navigation-buttons-container"
+      >
+        <Button
+          color="inherit"
+          disabled={activeStep === 0}
+          onClick={handleBack}
+          sx={{ mr: 1 }}
+        >
+          Back
+        </Button>
+        <Button onClick={handleNext}>
+          {activeStep === steps.length - 1 ? "Finish" : "Next"}
+        </Button>
+      </Box> */}
     </Box>
-    </>
   );
 }
