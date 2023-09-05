@@ -7,8 +7,7 @@ import { Box, Button, Divider, Grid, Modal, Typography } from "@mui/material";
 import DetailsModalHeader from "../VendorDetails/DetailsModalHeader";
 import DetailsProductSpreadsheet from "../VendorDetails/DetailsProductSpreadsheet";
 import DetailsContract from "../VendorDetails/DetailsContract";
-import DropboxFileContainer from "../../DropboxComponents/DropboxFileContainer/DropboxFileContainer"
-
+import DropboxFileContainer from "../../DropboxComponents/DropboxFileContainer/DropboxFileContainer";
 
 import { Icon } from "@iconify/react";
 
@@ -42,9 +41,7 @@ const TypographyWithDivider = ({ children }) => (
 
 function VendorDetails({ open, onClose, vendorId }) {
   const dispatch = useDispatch();
-  const vendorDetails = useSelector(
-    (state) => state.vendorDetails.vendorDetails
-  );
+  const vendorDetails = useSelector(state => state.vendorDetails.vendorDetails);
 
   useEffect(() => {
     if (vendorId) {
@@ -67,6 +64,9 @@ function VendorDetails({ open, onClose, vendorId }) {
     onClose();
   };
 
+  // grab folder path
+  const dropboxFolderPath = vendor.dropboxFolderPath;
+
   return (
     <ThemeProvider theme={theme}>
       <Modal open={open} onClose={onClose}>
@@ -84,7 +84,7 @@ function VendorDetails({ open, onClose, vendorId }) {
             overflow: "auto",
           }}
         >
-          <DetailsModalHeader  status={vendor.status} />
+          <DetailsModalHeader status={vendor.status} />
           <Box
             display="flex"
             flexDirection="column"
@@ -215,8 +215,14 @@ function VendorDetails({ open, onClose, vendorId }) {
           TODO: ** AMY IMPLEMENT DROPBOX API **
           <DetailsProductSpreadsheet spreadsheets={spreadsheets} />
           <DetailsContract contracts={contracts} /> */}
-          
-          <DropboxFileContainer />
+
+          {/* If there are files in the dropbox folder, show them */}
+          {dropboxFolderPath ? (
+            <DropboxFileContainer dropboxFolderPath={dropboxFolderPath} />
+          ) : (
+            <></>
+          )}
+
           <Box
             sx={{
               backgroundColor: "#C2D2D2",

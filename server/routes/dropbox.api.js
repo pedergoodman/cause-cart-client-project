@@ -150,13 +150,11 @@ router.post('/download', (req, res) => {
 // **** grab all the files in a vendors folder
 router.post('/files/', async (req, res) => {
   // variables needed
-  const { folderPath, } = req.body
-
-  // console.log('in server folder path is:', folderPath);
+  const { dropboxFolderPath, } = req.body
 
   dbx
     .filesListFolder({
-      path: "/vendor-submitted-onboarding-docs/test-client-file",
+      path: dropboxFolderPath,
     })
     .then(function (response) {
       console.log(response);

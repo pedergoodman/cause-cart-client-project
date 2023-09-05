@@ -5,7 +5,7 @@ import axios from 'axios';
 function* createVendorFolder(action) {
   try {
     // TODO: send name data to create vendor folder
-      // todo need NAME & ID
+    // todo need NAME & ID
   } catch (error) {
     console.log('in dropbox saga, error making vendor folder request', error);
   }
@@ -16,7 +16,7 @@ function* createVendorFolder(action) {
 function* uploadDropboxFile(action) {
   try {
     // TODO: send files data to upload
-      // todo need PATH & ID
+    // todo need PATH & ID
   } catch (error) {
     console.log('in dropbox saga, error making upload request', error);
   }
@@ -37,15 +37,19 @@ function* downloadDropboxFile(action) {
 
 function* fetchVendorDropboxFiles(action) {
 
-  
+
   try {
-    const folderPath = "/vendor-submitted-onboarding-docs/test-client-file"
-    
-    // TODO: axios request to fetch vendor files
-      // todo need PATH
-      const result = yield axios.post('/api/dropbox/files', {folderPath})
-    
-      // TODO: put resuest to save result in store
+
+    // ! TEST FOLDER PATH
+    // const dropboxFolderPath = "/vendor-submitted-onboarding-docs/test-client-file"
+
+    // selected vendor folder path
+    const dropboxFolderPath = action.payload
+
+    // axios request to fetch vendor files
+    const result = yield axios.post('/api/dropbox/files', { dropboxFolderPath })
+
+    // put request to save result in store
     yield put({
       type: "SET_VENDOR_DROPBOX_FILES",
       payload: result

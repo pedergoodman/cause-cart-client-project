@@ -3,23 +3,23 @@ import React, { useEffect } from "react";
 import DropboxFileElement from "../DropboxFileElement/DropboxFileElement";
 import { useDispatch, useSelector } from "react-redux";
 
-
-
-export default function DropboxFileContainer() {
+// DROPBOX FILE CONTAINER
+export default function DropboxFileContainer({ dropboxFolderPath }) {
   const dispatch = useDispatch();
 
-  const dropboxVendorFiles = useSelector(
-    (state) => state.dropboxVendorFiles
-  );
-
-console.log('dropboxVendorFiles are:', dropboxVendorFiles);
-
-
-
-
+  // fetch data on files inside specific dropbox folder
+  // and save in the store.
   useEffect(() => {
-    dispatch({ type: "FETCH_VENDOR_DROPBOX_FILES" });
-  }, [dispatch]);
+    dispatch({
+      type: "FETCH_VENDOR_DROPBOX_FILES",
+      payload: dropboxFolderPath,
+    });
+  }, []);
+
+  // grab dropbox files data from store
+  const dropboxVendorFiles = useSelector(state => state.dropboxVendorFiles);
+
+  console.log("dropboxVendorFiles are:", dropboxVendorFiles);
 
   return (
     <Box
