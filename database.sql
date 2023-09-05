@@ -18,6 +18,7 @@ CREATE TABLE "category_names" (
     name VARCHAR(255)
 );
 
+
 -- Create vendor_app_info
 CREATE TABLE "vendor_app_info" (
     id SERIAL PRIMARY KEY,
@@ -34,13 +35,15 @@ CREATE TABLE "vendor_app_info" (
     nonprofit_description VARCHAR(500),
     date_created DATE,
     date_edited DATE,
-    status_id INTEGER REFERENCES status(id),
-    selected_categories VARCHAR(255),
+    status_id INTEGER REFERENCES "status"(id),
+    category_name_ids VARCHAR(255),
+    other_category_description VARCHAR(500),
     is_active BOOLEAN DEFAULT true, 
     dropbox_folder_id VARCHAR(255),
     dropbox_folder_path VARCHAR(255),
     dropbox_shared_link VARCHAR(350)
 );
+
 
 -- Links to send to user
 CREATE TABLE template_links (
@@ -53,10 +56,11 @@ link VARCHAR(350)
 
 INSERT INTO template_links ("name", "type", link)
 VALUES
-('Consignemnt Agreement', 'contract', 'https://www.dropbox.com/scl/fi/a2ql6gtl5mu4uuaxn0uod/Cause-Cart-Consignment-Agreement.pdf?rlkey=azcb8d6qu2991smm260ue5b89&dl=0'),
+('Consignment Agreement', 'contract', 'https://www.dropbox.com/scl/fi/a2ql6gtl5mu4uuaxn0uod/Cause-Cart-Consignment-Agreement.pdf?rlkey=azcb8d6qu2991smm260ue5b89&dl=0'),
 ('Vendor Agreement', 'contract', 'https://www.dropbox.com/scl/fi/lqypzmz6cdqavs7hrgrxj/Vendor-Agreement.pdf?rlkey=skccrco7cwclgxmsuhenu6rx1&dl=0'),
 ('Product Templates', 'product templates', 'https://www.dropbox.com/scl/fo/yw434q1cn2nuz7gwdcfi0/h?rlkey=u5g1pfgpzdimtwus80u74k1h1&dl=0'),
 ('Calendly Link', 'scheduling', 'https://calendly.com/' );
+
 
 -- Insert initial values into category_names REQUIRED DATA
 INSERT INTO category_names (name)
@@ -65,12 +69,12 @@ VALUES
 ('Jewelry'),
 ('Kids Apparel'),
 ('Kids + Baby (non-Apparel)'),
-('Men`s accessories'),
-('Men`s apparel'),
-('Beauty + Wellness'),
+('Men’s accessories'),
+('Men’s apparel'),
+('Beauty & Wellness'),
 ('Pets'),
-('Women`s accessories'),
-('Women`s apparel'),
+('Women’s accessories'),
+('Women’s apparel'),
 ('Other');
 
 

@@ -26,8 +26,28 @@ router.post("/register", async (req, res, next) => {
   // If 'userGroup' is "Admin", set 'authorizationLevel' to 1, otherwise set it to 0
   const authorizationLevel = userGroup === "Admin" ? 1 : 0;
 
+  // * Queries
+  // For adding to email, password, and authorization level to 'user' table
+  const registerNewUserQuery = `
+        INSERT INTO "user" (email, password, authorization_level)
+        VALUES ($1, $2, $3) RETURNING id
+      `;
+
+  //  * Declarations of all vendor app info
   try {
-    // * Declarations of all vendor app info
+    await client.query("BEGIN");
+
+    if (userGroup === "Admin") {
+      await client.query(registerNewUserQuery, [
+        req.body.email,
+        password,
+        authorizationLevel,
+      ]);
+      await client.query("COMMIT");
+      res.sendStatus(201);
+      return;
+    }
+
     const {
       brandName,
       websiteURL,
@@ -43,46 +63,58 @@ router.post("/register", async (req, res, next) => {
       howDidYouHear,
     } = req.body;
 
-    // setting initial date
-    const initialDate = new Date();
 
-    // * Queries
-    // For adding to email, password, and authorization level to 'user' table
-    const registerNewUserQuery = `INSERT INTO "user" (email, password, authorization_level)
-      VALUES ($1, $2, $3) RETURNING id`;
+    const prodCategoriesOtherOptionDescInput =
+      req.body.prodCategoriesOtherOptionDescInput || "";
 
-    // // For adding all vendor application form data to 'vendor_app_info' table
-    const vendorAppInfoQuery = `INSERT INTO "vendor_app_info" 
-    (
-      brand_name, 
-      website_url, 
-      business_type, 
-      country, 
-      number_of_products,
-      heard_about_us, 
-      giveback_selection, 
-      user_id, 
-      giveback_description,
-      nonprofit_selection, 
-      nonprofit_description, 
-      selected_categories,
-      date_created, 
-      date_edited, 
-      status_id 
-    ) 
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $13, $14)`;
+    if (prodCategoriesOtherOptionDescInput.length > 255) {
+      throw new Error("Description too long!");
+    }
 
-    await client.query("BEGIN");
+    const initialDate = new Date(); // setting initial date
+    const lastActiveDate = new Date(); // Create a new timestamp for date_edited
 
-    const createdUserId = await pool.query(registerNewUserQuery, [
+    // Query to fetch category IDs
+    const categoryIdsQuery = `
+        SELECT id FROM category_names WHERE name = ANY($1::VARCHAR[]);
+      `;
+    const categoryResponse = await client.query(categoryIdsQuery, [
+      productCategories,
+    ]);
+    const categoryIdsArray = categoryResponse.rows.map((row) => row.id);
+
+    // For adding all vendor application form data to 'vendor_app_info' table
+    const vendorAppInfoQuery = `
+      INSERT INTO "vendor_app_info" 
+      (
+        brand_name, 
+        website_url, 
+        business_type, 
+        country, 
+        number_of_products,
+        heard_about_us, 
+        giveback_selection, 
+        user_id, 
+        giveback_description,
+        nonprofit_selection, 
+        nonprofit_description, 
+        category_name_ids,
+        other_category_description,
+        date_created, 
+        date_edited, 
+        status_id 
+      ) 
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16);
+    `;
+
+    const createdUserId = await client.query(registerNewUserQuery, [
       email,
       password,
       authorizationLevel,
     ]);
 
-    console.log("createdUserId is:", createdUserId);
     // ! Second Query Below: new vendor application
-    await pool.query(vendorAppInfoQuery, [
+    await client.query(vendorAppInfoQuery, [
       brandName,
       websiteURL,
       businessType,
@@ -94,8 +126,10 @@ router.post("/register", async (req, res, next) => {
       giveBackDescriptionFieldInput,
       nonProfitPartner,
       nonProfitPartnerDescriptionFieldInput,
-      productCategories,
+      categoryIdsArray.join(","),
+      prodCategoriesOtherOptionDescInput,
       initialDate,
+      lastActiveDate,
       1,
     ]);
 
@@ -110,6 +144,8 @@ router.post("/register", async (req, res, next) => {
   }
 }); // end register user and vendor app info post request
 
+
+// logged in vendor infor for frontend
 // * GET request to retrieve user data using user_id using parameterization
 // Handles retrieving all data  from vendor_app_info table of currently logged in vendor
 router.get("/login/:userID", (req, res) => {
@@ -141,13 +177,11 @@ WHERE "user".id = $1;
     });
 }); // end '/login:userID' route
 
-// * Handles login form authenticate/login POST
+
+// Handles login form authenticate/login POST
 // userStrategy.authenticate('local') is middleware that we run on this route
 // this middleware will run our POST if successful
 // this middleware will send a 404 if not successful
-// router.post("/login", userStrategy.authenticate("local"), (req, res) => {
-//   res.sendStatus(200);
-// });
 router.post(
   "/login",
   (req, res, next) => {

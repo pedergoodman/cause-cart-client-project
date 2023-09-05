@@ -24,6 +24,7 @@ const pages = [
 function Nav() {
   const user = useSelector((store) => store.user);
   const dispatch = useDispatch();
+  // Set anchorElNav to null and then update it to the correct HTML element/NavBar based on userGroup.
   const [anchorElNav, setAnchorElNav] = useState(null);
 
   const handleOpenNavMenu = (event) => {
