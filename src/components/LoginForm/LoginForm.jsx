@@ -12,41 +12,40 @@ import { Box, Button, InputLabel, OutlinedInput } from "@mui/material";
 
 // * - LoginForm COMPONENT -
 function LoginForm() {
-  // * - STATE -
-  const user = useSelector((store) => store.user);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  // * - DECLARATIONS -
-  const errors = useSelector((store) => store.errors);
-
-  const dispatch = useDispatch();
-  const history = useHistory();
-
-  const login = (event) => {
-    event.preventDefault();
-    if (email && password) {
-      dispatch({
-        type: "LOGIN",
-        payload: {
-          email: email,
-          password: password,
-        },
-      });
-    } else {
-      dispatch({ type: "LOGIN_INPUT_ERROR" });
-    }
-  }; // end login
-
-  useEffect(() => {
-    if (user.id) {
-      if (user.authorization_level === 1) {
-        history.push("/vendors-list");
+    const user = useSelector((store) => store.user);
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const errors = useSelector((store) => store.errors);
+    const dispatch = useDispatch();
+    const history = useHistory();
+  
+    const loginUser = (event) => {
+      event.preventDefault();
+  
+      if (email && password) {
+        dispatch({
+          type: "LOGIN",
+          payload: {
+            email: email,
+            password: password,
+          },
+        });
       } else {
-        history.push("/vendorstepper");
+        dispatch({ type: "LOGIN_INPUT_ERROR" });
       }
-    }
-  }, [user, history]);
+    }; // end login
+  
+  
+    useEffect(() => {
+      if (user.id) {
+        if (user.authorization_level === 1) {
+          history.push('/vendors-list');
+        } else {
+          history.push('/vendorstepper');
+        }
+      }
+    }, [user, history]);
+  
 
   // * - RENDERING -
   return (
@@ -70,17 +69,6 @@ function LoginForm() {
             </a>
           </p>
           <br />
-          {/* Route to Vendor-Login Page */}
-          <button
-            type="button"
-            className="btn btn_asLink"
-            onClick={() => {
-              history.push("/login");
-            }}
-          >
-            Already a vendor? Login here
-          </button>
-          <br />
           {/* Route to Register Page */}
           <button
             type="button"
@@ -98,7 +86,7 @@ function LoginForm() {
 
       {/* Input Field Box Container */}
       <Box className="register-and-login-form-input-field-container">
-        <form className="formPanel" onSubmit={login}>
+        <form className="formPanel" onSubmit={loginUser}>
           <h2>Login</h2>
           {errors.loginMessage && (
             <h3 className="alert" role="alert">

@@ -21,6 +21,7 @@ const pages = [
 
 function AdminNavBar() {
   const dispatch = useDispatch();
+// Set anchorElNav to null and then update it to the correct HTML element/NavBar based on userGroup.
   const [anchorElNav, setAnchorElNav] = useState(null);
 
   const handleOpenNavMenu = (event) => {
@@ -65,9 +66,7 @@ function AdminNavBar() {
               />
             </Box>
           </Link>
-
           <Box sx={{ flexGrow: 1 }} />
-
           <Box
             sx={{
               display: { xs: "none", sm: "flex" },
@@ -104,43 +103,45 @@ function AdminNavBar() {
               <Typography variant="body1">Logout</Typography>
             </div>
           </Box>
-
-          <Menu
-            id="menu-appbar"
-            anchorEl={anchorElNav}
-            anchorOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            keepMounted
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            open={Boolean(anchorElNav)}
-            onClose={handleCloseNavMenu}
-            sx={{ display: { xs: "block", sm: "none" } }}
-          >
-            {pages.map((page) => (
-              <MenuItem
-                key={page.name}
-                component={Link}
-                to={page.route}
-                onClick={handleCloseNavMenu}
-              >
-                <Typography textAlign="center">{page.name}</Typography>
-              </MenuItem>
-            ))}
-            <MenuItem
-              key="Logout"
-              onClick={() => {
-                handleCloseNavMenu();
-                handleLogout();
+          {/* Menu component will only be rendered when anchorElNav is a valid HTML element. */}
+          {anchorElNav && (
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorElNav}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
               }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              open={Boolean(anchorElNav)}
+              onClose={handleCloseNavMenu}
+              sx={{ display: { xs: "block", sm: "none" } }}
             >
-              <Typography textAlign="center">Logout</Typography>
-            </MenuItem>
-          </Menu>
+              {pages.map((page) => (
+                <MenuItem
+                  key={page.name}
+                  component={Link}
+                  to={page.route}
+                  onClick={handleCloseNavMenu}
+                >
+                  <Typography textAlign="center">{page.name}</Typography>
+                </MenuItem>
+              ))}
+              <MenuItem
+                key="Logout"
+                onClick={() => {
+                  handleCloseNavMenu();
+                  handleLogout();
+                }}
+              >
+                <Typography textAlign="center">Logout</Typography>
+              </MenuItem>
+            </Menu>
+          )}{" "}
         </Toolbar>
       </Container>
     </AppBar>

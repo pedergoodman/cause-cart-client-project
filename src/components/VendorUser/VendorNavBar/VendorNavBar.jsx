@@ -18,6 +18,7 @@ const pages = [{ name: "Home", route: "/home" }];
 
 function VendorNavBar() {
   const dispatch = useDispatch();
+  // Set anchorElNav to null and then update it to the correct HTML element/NavBar based on userGroup.
   const [anchorElNav, setAnchorElNav] = useState(null);
 
   const handleOpenNavMenu = (event) => {
@@ -34,23 +35,19 @@ function VendorNavBar() {
 
   return (
     <>
-      <AppBar position="static" style={{ backgroundColor: "#dcebeb" }}>
+      <AppBar position="static" style={{ backgroundColor: "#ffcfb9" }}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <IconButton
               edge="start"
-              color="#286264"
               aria-label="menu"
               onClick={handleOpenNavMenu}
-              sx={{ display: { xs: "flex", sm: "none" } }}
+              sx={{ color: "#fa8a5c", display: { xs: "flex", sm: "none" } }}
             >
               <MenuIcon />
             </IconButton>
             <Link to="/vendorstepper">
-              <IconButton
-                sx={{ display: { xs: "none", sm: "flex" }, mr: 1 }}
-                style={{ color: "#286264" }}
-              >
+              <IconButton sx={{ display: { xs: "none", sm: "flex" }, mr: 1 }}>
                 <Icon
                   icon="material-symbols:partner-exchange-rounded"
                   color="#fa8a5c"
@@ -68,60 +65,64 @@ function VendorNavBar() {
                 />
               </Box>
             </Link>
-
             <Box sx={{ flexGrow: 1 }} />
-
             <Box
               sx={{
                 display: { xs: "none", sm: "flex" },
                 alignItems: "center",
               }}
+              onClick={() => {
+                handleLogout();
+              }}
+              style={{
+                fontFamily: "Roboto, sans-serif",
+                textDecoration: "none",
+                color: "#000000",
+                marginLeft: "16px",
+                cursor: "pointer",
+              }}
             >
-              <Typography
-                variant="body1"
-                style={{ marginLeft: '16px', cursor: 'pointer' }}
-                onClick={handleLogout}
-              >
-                Logout
-              </Typography>
+              <Typography variant="body1">Logout</Typography>
             </Box>
-
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{ display: { xs: "block", sm: "none" } }}
-            >
-              {pages.map((page) => (
-                <MenuItem
-                  key={page.name}
-                  component={Link}
-                  to={page.route}
-                  onClick={handleCloseNavMenu}
-                >
-                  <Typography textAlign="center">{page.name}</Typography>
-                </MenuItem>
-              ))}
-              <MenuItem
-                key="Logout"
-                onClick={() => {
-                  handleCloseNavMenu();
-                  handleLogout();
+            {/* Menu component will only be rendered when anchorElNav is a valid HTML element. */}
+            {anchorElNav && (
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorElNav}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
                 }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorElNav)}
+                onClose={handleCloseNavMenu}
+                sx={{ display: { xs: "block", sm: "none" } }}
               >
-                <Typography textAlign="center">Logout</Typography>
-              </MenuItem>
-            </Menu>
+                {pages.map((page) => (
+                  <MenuItem
+                    key={page.name}
+                    component={Link}
+                    to={page.route}
+                    onClick={handleCloseNavMenu}
+                  >
+                    <Typography textAlign="center">{page.name}</Typography>
+                  </MenuItem>
+                ))}
+                <MenuItem
+                  key="Logout"
+                  onClick={() => {
+                    handleCloseNavMenu();
+                    handleLogout();
+                  }}
+                >
+                  <Typography textAlign="center">Logout</Typography>
+                </MenuItem>
+              </Menu>
+            )}{" "}
           </Toolbar>
         </Container>
       </AppBar>
