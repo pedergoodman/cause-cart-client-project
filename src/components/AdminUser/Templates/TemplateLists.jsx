@@ -1,28 +1,18 @@
 import React, { useState, useEffect } from "react";
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import FolderIcon from '@mui/icons-material/Folder';
 import { styled } from '@mui/material/styles';
-import { useDispatch } from "react-redux";
-
-
-
-function generate(element) {
-  return [0, 1, 2].map((value) =>
-    React.cloneElement(element, {
-      key: value,
-    }),
-  );
-}
-
+import { useDispatch, useSelector } from "react-redux";
 
 function TemplateLists() {
+
   const [dense, setDense] = React.useState(false);
   const [secondary, setSecondary] = React.useState(false);
+  const templates = useSelector((store) => store.templateLinkReducer);
+
   const dispatch = useDispatch()
   const Demo = styled('div')(({ theme }) => ({
     backgroundColor: theme.palette.background.paper,
@@ -41,14 +31,15 @@ function TemplateLists() {
     </Typography>
     <Demo>
       <List dense={dense}>
-        {generate(
-          <ListItem>
+            {templates.map((template) => {
+            <ListItem>
             <ListItemText
-              primary="Text"
+              primary={template.name}
               secondary={secondary ? 'Secondary text' : null}
             />
-          </ListItem>
-        )}
+            </ListItem>
+            })}
+
       </List>
     </Demo>
   </Grid>

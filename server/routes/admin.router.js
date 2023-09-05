@@ -30,7 +30,7 @@ router.get("/", rejectUnauthenticated, (req, res) => {
 });
 
 router.get("/templates", rejectUnauthenticated, (req, res) => {
-  const queryText = `SELECT * FROM "template_links";`;
+  const queryText = `SELECT * FROM template_links;`;
   pool
     .query(queryText)
     .then((result) => {

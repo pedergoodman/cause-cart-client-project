@@ -71,7 +71,7 @@ const vendorDetailsReducer = (state = initialDetailsState, action) => {
 
 const templateLinkReducer = (state = [], action) => {
   if (action.type == "UPDATE_ADMIN_TEMPLATES") {
-    return [action.payload]
+    return action.payload
   }
 
   return state 

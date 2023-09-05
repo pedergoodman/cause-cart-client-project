@@ -39,15 +39,15 @@ function* updateOnboardingStage(action) {
   
 function* fetchAdminTemplates() {
   try {
-    const response = yield axios.get("/api/admin/templates")
-    yield put ({type:'UPDATE_ADMIN_TEMPLATES', payload:response})
+    const response = yield axios.get("/api/admin/templates");
+    yield put ({type:'UPDATE_ADMIN_TEMPLATES', payload:response.data})
     console.log("success fetching admin templates", response.data)
   }
   catch (error) {
-    console.log('error fetching admin template')
+    console.log('error fetching admin template', error)
   }
 }
-  
+
 function* adminSaga() {
   yield takeLatest("FETCH_VENDORS_REQUEST", fetchVendors);
   yield takeLatest("FETCH_VENDOR_DETAILS_REQUEST", fetchVendorDetails);
