@@ -41,10 +41,10 @@ function* fetchVendorDropboxFiles(action) {
   try {
 
     // ! TEST FOLDER PATH
-    // const dropboxFolderPath = "/vendor-submitted-onboarding-docs/test-client-file"
+    const dropboxFolderPath = "/vendor-submitted-onboarding-docs/test-client-file"
 
     // selected vendor folder path
-    const dropboxFolderPath = action.payload
+    // const dropboxFolderPath = action.payload
 
     // axios request to fetch vendor files
     const result = yield axios.post('/api/dropbox/files', { dropboxFolderPath })
