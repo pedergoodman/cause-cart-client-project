@@ -1,12 +1,18 @@
 import React, { useEffect } from "react";
+import {
+  HashRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+} from "react-router-dom";
+
 import { useDispatch, useSelector } from "react-redux";
 
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Box, Button, Divider, Grid, Modal, Typography } from "@mui/material";
 
 import DetailsModalHeader from "../VendorDetails/DetailsModalHeader";
-import DetailsProductSpreadsheet from "../VendorDetails/DetailsProductSpreadsheet";
-import DetailsContract from "../VendorDetails/DetailsContract";
+import DenyApplication from "../AdminButtons/DenyApplication";
 
 import { Icon } from "@iconify/react";
 
@@ -56,14 +62,14 @@ function VendorDetails({ open, onClose, vendorId }) {
 
   const vendor = vendorDetails[0];
 
-  const handleApproveProducts = () => {
-    const approvedProductStage = "Approved Product";
-    dispatch({
-      type: "UPDATE_ONBOARDING_STAGE",
-      payload: { id: vendor.id, newOnboardingStage: approvedProductStage },
-    });
-    onClose();
-  };
+  //   const handleApproveProducts = () => {
+  //     const approvedProductStage = "Approved Product";
+  //     dispatch({
+  //       type: "UPDATE_ONBOARDING_STAGE",
+  //       payload: { id: vendor.id, newOnboardingStage: approvedProductStage },
+  //     });
+  //     onClose();
+  //   };
 
   return (
     <ThemeProvider theme={theme}>
@@ -82,7 +88,7 @@ function VendorDetails({ open, onClose, vendorId }) {
             overflow: "auto",
           }}
         >
-          <DetailsModalHeader status={vendor.status} />
+          <DetailsModalHeader status={vendor.onboardingStatus} />
           <Box
             display="flex"
             flexDirection="column"
@@ -152,14 +158,19 @@ function VendorDetails({ open, onClose, vendorId }) {
                   <Typography variant="subtitle1">Business Type:</Typography>
                   <Typography variant="body1">{vendor.businessType}</Typography>
                 </Box>
-                <Box display="flex" flexDirection="column" mt={1}>
+                <Box display="flex" flexDirection="column" marginBottom={1}>
                   <Typography variant="subtitle1">
-                    Primary Product Category:
+                    Selected Categories:
                   </Typography>
-                  <Typography variant="body1">
-                    {vendor.primaryProductCategory}
-                  </Typography>
+                  <ul>
+                    {vendor.selectedCategories.map((category) => (
+                      <li key={category}>
+                        <Typography variant="body1">{category}</Typography>
+                      </li>
+                    ))}
+                  </ul>
                 </Box>
+
                 <Box display="flex" flexDirection="column" mt={1}>
                   <Typography variant="subtitle1">
                     Number of Products:
@@ -193,7 +204,7 @@ function VendorDetails({ open, onClose, vendorId }) {
                 </Typography>
                 {vendor.partnerNonProfit && (
                   <TypographyWithDivider>
-                    {vendor.nonprofitName}
+                    {vendor.nonprofitDescription}
                   </TypographyWithDivider>
                 )}
               </Box>
@@ -221,27 +232,7 @@ function VendorDetails({ open, onClose, vendorId }) {
               padding: "25px",
             }}
           >
-            <Button
-              variant="contained"
-              sx={{
-                backgroundColor: "#286264",
-                "&:hover": {
-                  backgroundColor: "#75907b",
-                },
-              }}
-              startIcon={
-                <Icon
-                  icon="fluent:box-checkmark-24-regular"
-                  color="white"
-                  width="20"
-                  height="20"
-                  sx={{ mr: 1 }}
-                />
-              }
-              onClick={handleApproveProducts}
-            >
-              Approve Products
-            </Button>
+            <DenyApplication vendor={vendor} onClose={onClose} />
           </Box>
         </Box>
       </Modal>

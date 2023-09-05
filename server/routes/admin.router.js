@@ -32,56 +32,75 @@ router.get("/", rejectUnauthenticated, (req, res) => {
 // GET request to fetch data unique to a specific vendor
 router.get("/:id", rejectUnauthenticated, (req, res) => {
   const vendorId = req.params.id;
+  console.log("Received vendorId: ", vendorId);
   const queryText = `
-  SELECT 
-  vendor_app_info.id,
-  vendor_app_info.brand_name as "vendorName",
-  "user".email,
-  vendor_app_info.website_url as "website",
-  vendor_app_info.business_type as "businessType",
-  vendor_app_info.country,
-  category_names.name as "primaryProductCategory",
-  vendor_app_info.number_of_products as "numberOfProducts",
-  vendor_app_info.giveback_selection as "vendorGiveback",
-  vendor_app_info.giveback_description as "givebackDescription",
-  vendor_app_info.nonprofit_selection as "partnerNonProfit",
-  vendor_app_info.nonprofit_description as "nonprofitDescription",
-  vendor_app_info.heard_about_us as "hearAboutUs",
-  vendor_app_info.date_edited as "date_edited",
-  status.status as "status",
-  vendor_app_info.is_active as "is_active"
-FROM vendor_app_info
-JOIN "user" ON vendor_app_info.user_id = "user".id
-JOIN status ON vendor_app_info.status_id = "status".id
-JOIN "category_names" ON vendor_app_info.selected_categories = "category_names".name
-WHERE vendor_app_info.id = $1;
-`;
+    SELECT 
+    "vendor_app_info".id,
+    "vendor_app_info".brand_name as "vendorName",
+    "user".email,
+    "vendor_app_info".website_url as "website",
+    "vendor_app_info".business_type as "businessType",
+    "vendor_app_info".other_category_description as "otherDescription",
+    "vendor_app_info".country,
+    "vendor_app_info".number_of_products as "numberOfProducts",
+    "vendor_app_info".giveback_selection as "vendorGiveback",
+    "vendor_app_info".giveback_description as "givebackDescription",
+    "vendor_app_info".nonprofit_selection as "partnerNonProfit",
+    "vendor_app_info".nonprofit_description as "nonprofitDescription",
+    "vendor_app_info".heard_about_us as "hearAboutUs",
+    "vendor_app_info".date_created as "intakeDate",
+    "status".status as "onboardingStatus",
+    array(
+        SELECT name
+        FROM category_names
+        WHERE id = ANY(string_to_array(vendor_app_info.category_name_ids, ',')::INTEGER[])
+    ) as "selectedCategories"
+    FROM vendor_app_info
+    JOIN "user" ON vendor_app_info.user_id = "user".id
+    JOIN "status" ON vendor_app_info.status_id = "status".id
+    -- remove the line below
+    -- LEFT JOIN "category_names" ON "category_names".id = vendor_app_info.primary_product_category_id
+    WHERE "vendor_app_info".id = $1;
+  `;
   pool
     .query(queryText, [vendorId])
     .then((result) => {
-        console.log('Results from database: ', result)
-      res.send(result.rows);
+      console.log("Results from database: ", result);
+      const vendorData = result.rows[0];
+      const otherIndex = vendorData.selectedCategories.indexOf("Other");
+      if (otherIndex !== -1) {
+        vendorData.selectedCategories[
+          otherIndex
+        ] = `Other: ${vendorData.otherDescription}`;
+      }
+      res.send([vendorData]);
     })
     .catch((error) => {
-      console.log("Error GETting vendor details: ", error);
-      res.sendStatus(500);
+      console.error("Error GETting vendor details: ", error);
+      if (error.code === "ECONNREFUSED") {
+        res.status(500).send("Database connection was refused.");
+      } else {
+        res.status(500).send("An unknown error occurred.");
+      }
     });
 });
 
 router.put("/onboarding/:id", rejectUnauthenticated, (req, res) => {
   const vendorId = req.params.id;
   const newStatus = req.body.status;
+  const dateEdited = new Date();
 
   const queryText = `
-      UPDATE vendor_app_info 
-      SET status_id = (SELECT id FROM status WHERE status = $1),
-      is_active = CASE WHEN $1 = 'Onboarding Complete' THEN true ELSE is_active END
-      WHERE id = $2
-      RETURNING status_id;
-    `;
+          UPDATE vendor_app_info 
+          SET status_id = (SELECT id FROM status WHERE status = $1),
+          is_active = CASE WHEN $1 = 'Onboarding Complete' THEN true ELSE is_active END,
+          date_edited = $3
+          WHERE id = $2
+          RETURNING status_id;
+        `;
 
   pool
-    .query(queryText, [newStatus, vendorId])
+    .query(queryText, [newStatus, vendorId, dateEdited])
     .then((result) => {
       res.send(result.rows[0]);
     })

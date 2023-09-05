@@ -138,21 +138,19 @@ function VendorsList() {
     //     </span>
     //   ),
     // },
-
     {
-      field: "brand_name",
-      headerName: "Vendor",
-      flex: 1.5,
-      renderCell: (params) => (
-        <Box
-          onClick={() => handleVendorClick(params.row)}
-          sx={{ color: "#286264", cursor: "pointer", fontWeight: "bold" }}
-        >
-          {params.value}
-        </Box>
-      ),
-    },
-
+        field: "brand_name",
+        headerName: "Vendor",
+        flex: 1,
+        renderCell: (params) => (
+          <span
+            onClick={() => handleVendorClick(params.row)}
+            style={{ color: "#286264", cursor: "pointer", fontWeight: "bold" }}
+          >
+            {params.value}
+          </span>
+        ),
+      },
     // { field: "status", headerName: "Status", flex: 1 },
     {
       field: "status",
@@ -176,27 +174,28 @@ function VendorsList() {
       flex: 1,
       renderCell: (params) => format(new Date(params.value), "MM/dd/yyyy"),
     },
-    {
-      field: "fastTrack",
-      headerName: "Fast Track",
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
-      renderCell: (params) => (
-        <>
-          <Icon
-            icon="mdi:check-decagram"
-            style={{ fontSize: "30px", color: "#286264" }}
-            onClick={() => handleCheck(params.row)}
-          ></Icon>
-          <Icon
-            icon="bxs:x-circle"
-            style={{ fontSize: "30px", color: "#F21E1E" }}
-            onClick={() => handleX(params.row)}
-          ></Icon>
-        </>
-      ),
-    },
+    // ** STRETCH: **
+    // {
+    //   field: "fastTrack",
+    //   headerName: "Fast Track",
+    //   flex: 1,
+    //   headerAlign: "center",
+    //   align: "center",
+    //   renderCell: (params) => (
+    //     <>
+    //       <Icon
+    //         icon="mdi:check-decagram"
+    //         style={{ fontSize: "30px", color: "#286264" }}
+    //         onClick={() => handleCheck(params.row)}
+    //       ></Icon>
+    //       <Icon
+    //         icon="bxs:x-circle"
+    //         style={{ fontSize: "30px", color: "#F21E1E" }}
+    //         onClick={() => handleX(params.row)}
+    //       ></Icon>
+    //     </>
+    //   ),
+    // },
     {
       field: "delete",
       // headerName: "Delete Vendor",
@@ -237,13 +236,11 @@ function VendorsList() {
           </Typography>
         </CardContent>
         <DataGrid
-          autoHeight
           rows={vendors}
           columns={columns}
           pageSize={20}
           rowsPerPageOptions={[20, 40, 60]}
           apiRef={apiRef}
-          disableRowSelectionOnClick
         />
         {selectedVendor && (
           <VendorDetails
