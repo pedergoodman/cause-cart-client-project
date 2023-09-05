@@ -7,7 +7,7 @@ import { Box, Button, Divider, Grid, Modal, Typography } from "@mui/material";
 import DetailsModalHeader from "../VendorDetails/DetailsModalHeader";
 import DetailsProductSpreadsheet from "../VendorDetails/DetailsProductSpreadsheet";
 import DetailsContract from "../VendorDetails/DetailsContract";
-import FileContainer from "../../DropboxComponents/FileContainer/FileContainer"
+import DropboxFileContainer from "../../DropboxComponents/DropboxFileContainer/DropboxFileContainer"
 
 
 import { Icon } from "@iconify/react";
@@ -216,7 +216,7 @@ function VendorDetails({ open, onClose, vendorId }) {
           <DetailsProductSpreadsheet spreadsheets={spreadsheets} />
           <DetailsContract contracts={contracts} /> */}
           
-          <FileContainer />
+          <DropboxFileContainer />
           <Box
             sx={{
               backgroundColor: "#C2D2D2",
