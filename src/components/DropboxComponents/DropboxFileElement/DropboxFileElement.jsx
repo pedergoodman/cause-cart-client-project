@@ -24,7 +24,9 @@ console.log('dropboxFileElementStyling is:', dropboxFileElementStyling );
 
 
 // * DROPBOX FILE ELEMENT
-export default function DropboxFileElement() {
+export default function DropboxFileElement({file}) {
+
+  console.log('pass file is:', file);
 
   const downloadFileButton = () => {
     console.log("download file: ---");

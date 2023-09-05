@@ -19,7 +19,7 @@ export default function DropboxFileContainer({ dropboxFolderPath }) {
   // grab dropbox files data from store
   const dropboxVendorFiles = useSelector(state => state.dropboxVendorFiles);
 
-  console.log("dropboxVendorFiles are:", dropboxVendorFiles);
+  const dropboxFiles = dropboxVendorFiles.data
 
   return (
     <Box
@@ -48,15 +48,19 @@ export default function DropboxFileContainer({ dropboxFolderPath }) {
           alignItems: "stretch",
         }}
       >
+        {dropboxFiles?.map((file) => 
+          (<DropboxFileElement file={file}/>)
+        )}
+
+        
+        {/* <DropboxFileElement />
         <DropboxFileElement />
         <DropboxFileElement />
         <DropboxFileElement />
         <DropboxFileElement />
         <DropboxFileElement />
         <DropboxFileElement />
-        <DropboxFileElement />
-        <DropboxFileElement />
-        <DropboxFileElement />
+        <DropboxFileElement /> */}
       </List>
     </Box>
   );
