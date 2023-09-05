@@ -1,7 +1,10 @@
-import { combineReducers } from 'redux';
-import errors from './errors.reducer';
-import user from './user.reducer';
-import { adminReducer, vendorDetailsReducer } from './admin.reducer';
+
+// * - IMPORTING -
+import { combineReducers } from "redux";
+import errors from "./errors.reducer";
+import user from "./user.reducer";
+import vendorReducer from "./vendor.reducer";
+import { adminReducer, vendorDetailsReducer } from "./admin.reducer";
 import dropboxVendorFiles from './dropbox.reducer';
 
 
@@ -14,9 +17,10 @@ import dropboxVendorFiles from './dropbox.reducer';
 const rootReducer = combineReducers({
   errors, // contains registrationMessage and loginMessage
   user, // will have an id and username if someone is logged in
-  admin: adminReducer, // manages state related to the admin user handling vendors 
+  admin: adminReducer, // manages state related to the admin user handling vendors
   vendorDetails: vendorDetailsReducer,
-  dropboxVendorFiles
+  dropboxVendorFiles,
+  vendorReducer,
 });
 
 export default rootReducer;

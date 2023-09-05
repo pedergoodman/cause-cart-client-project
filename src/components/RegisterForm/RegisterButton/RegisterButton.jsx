@@ -1,14 +1,8 @@
-// * - IMPORTING -
-// React
 import React, { useState } from "react";
-// Redux
 import { useDispatch } from "react-redux";
-// Router
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-// MUI
+import { useHistory } from "react-router-dom";
 import { Button } from "@mui/material";
 
-// * - RegisterButton COMPONENT -
 function RegisterButton({
   brandName,
   websiteURL,
@@ -18,7 +12,7 @@ function RegisterButton({
   reEnterPassword,
   country,
   productCategories,
-  prodCategoryOtherOptionInput,
+  prodCategoriesOtherOptionDescInput,
   numberOfProducts,
   giveBack,
   giveBackDescriptionFieldInput,
@@ -26,11 +20,9 @@ function RegisterButton({
   nonProfitPartnerDescriptionFieldInput,
   howDidYouHear,
 }) {
-  // * - DECLARATIONS -
-  const dispatch = useDispatch(); // Declaring useDispatch as variable
-  const history = useHistory(); // Declaring useHistory as variable
+  const dispatch = useDispatch();
+  const history = useHistory();
 
-  // * All vendor form data
   const vendorFormData = {
     brandName: brandName,
     websiteURL: websiteURL,
@@ -40,6 +32,7 @@ function RegisterButton({
     reEnterPassword: reEnterPassword,
     country: country,
     productCategories: productCategories,
+    prodCategoriesOtherOptionDescInput: prodCategoriesOtherOptionDescInput,
     numberOfProducts: numberOfProducts,
     giveBack: giveBack,
     giveBackDescriptionFieldInput: giveBackDescriptionFieldInput,
@@ -49,56 +42,47 @@ function RegisterButton({
     howDidYouHear: howDidYouHear,
   };
 
-  // * - STATE -
-  //  For displaying error message of missing/ empty fields
   const [showMissingInputErrorPrompt, setShowMissingInputErrorPrompt] =
     useState(false);
   const [showPasswordNotMatchingPrompt, setShowPasswordNotMatchingPrompt] =
     useState(false);
 
-  // * Function to register vendor
-  // Conditional for sending dispatch: no property values null, password and re-enter password match
   const handleRegisterUser = (event) => {
-    // Prevent default
     event.preventDefault();
 
-    let passwordsMatch = true; // Assume passwords match by default
+    let passwordsMatch = true;
 
-    // Loop through each form property
     for (let formInput in vendorFormData) {
-      console.log(`${formInput}:`, vendorFormData[formInput]);
-
-      // if property is undefined
-      if (
-        vendorFormData[formInput] === "" ||
-        vendorFormData.productCategories.length === 0
-      ) {
+      if (vendorFormData[formInput] === "") {
         setShowMissingInputErrorPrompt(true);
+        return;
       }
-      // if passwords do not match
       if (formInput === "password") {
         if (vendorFormData[formInput] !== vendorFormData.reEnterPassword) {
           passwordsMatch = false;
         }
       }
     }
-    // don't match then set prompt true
+
     if (!passwordsMatch) {
+      setShowMissingInputErrorPrompt(false);
       setShowPasswordNotMatchingPrompt(true);
-    } // else dispatch
-    else {
+      return;
+    } else {
       setShowMissingInputErrorPrompt(false);
       setShowPasswordNotMatchingPrompt(false);
+
       dispatch({
         type: "REGISTER",
-        payload: vendorFormData, // For account creation
+        payload: vendorFormData,
       });
-    }
-  }; // end handleRegisterUser
 
-  // * - RENDERING -
+      history.push("/vendorstepper");
+      return;
+    }
+  };
+
   return (
-    // Register Button
     <div
       style={{
         width: "80%",
@@ -109,7 +93,6 @@ function RegisterButton({
         textAlign: "center",
       }}
     >
-      {/* Error Prompts */}
       <div>
         {showMissingInputErrorPrompt && (
           <p style={{ color: "#E23D28" }}>You must fill out all fields.</p>
@@ -129,7 +112,6 @@ function RegisterButton({
       </Button>
     </div>
   );
-} // * - END RegisterButton COMPONENT -
+}
 
-// * Exporting RegisterButton Component
 export default RegisterButton;
