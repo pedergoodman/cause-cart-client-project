@@ -152,6 +152,8 @@ router.post('/files/', async (req, res) => {
   // variables needed
   const { folderPath, } = req.body
 
+  // console.log('in server folder path is:', folderPath);
+
   dbx
     .filesListFolder({
       path: "/vendor-submitted-onboarding-docs/test-client-file",
