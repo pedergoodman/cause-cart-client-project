@@ -70,10 +70,30 @@ export default function VendorStepper() {
 
   // * For Component Rendering
   const stepComponents = [
-    <AccountVerification status={vendorInfo?.status} handleNext={handleNext} />,
-    <Meeting status={vendorInfo?.status} handleNext={handleNext} />,
-    <Contract status={vendorInfo?.status} handleNext={handleNext} />,
-    <AddProducts status={vendorInfo?.status} handleNext={handleNext} />,
+    <AccountVerification
+      status={vendorInfo?.status}
+      setActiveStep={setActiveStep}
+      activeStep={activeStep}
+      userID={user.id}
+    />,
+    <Meeting
+      status={vendorInfo?.status}
+      setActiveStep={setActiveStep}
+      activeStep={activeStep}
+      userID={user.id}
+    />,
+    <Contract
+      status={vendorInfo?.status}
+      setActiveStep={setActiveStep}
+      activeStep={activeStep}
+      userID={user.id}
+    />,
+    <AddProducts
+      status={vendorInfo?.status}
+      setActiveStep={setActiveStep}
+      activeStep={activeStep}
+      userID={user.id}
+    />,
     <OnboardingComplete status={vendorInfo?.status} />,
   ];
 
