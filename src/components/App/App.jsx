@@ -59,13 +59,14 @@ function App() {
             <AboutPage />
           </Route>
 
-          <ProtectedRoute
+
+          <Route
             // shows AdminRegisterPage at all times (logged in or not)
             exact
             path="/admin-register"
           >
             <AdminRegisterPage />
-          </ProtectedRoute>
+          </Route>
 
           {/* <Route
             // shows AdminLoginPage at all times (logged in or not)

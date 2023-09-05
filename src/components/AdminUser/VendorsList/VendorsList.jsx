@@ -11,9 +11,8 @@ import CardHeader from "@mui/material/CardHeader";
 import { DataGrid, useGridApiRef } from "@mui/x-data-grid";
 import { Icon } from "@iconify/react";
 import { format } from "date-fns";
-import { Card, CardContent, Typography } from "@mui/material";
+import { Box, CardContent, Typography } from "@mui/material";
 
-import AdminNavBar from "../AdminNavBar/AdminNavBar";
 import VendorDetails from "../VendorDetails/VendorDetails";
 
 import "./VendorsList.css";
@@ -139,7 +138,6 @@ function VendorsList() {
     //     </span>
     //   ),
     // },
-
     {
         field: "brand_name",
         headerName: "Vendor",
@@ -153,7 +151,6 @@ function VendorsList() {
           </span>
         ),
       },
-
     // { field: "status", headerName: "Status", flex: 1 },
     {
       field: "status",
@@ -177,27 +174,28 @@ function VendorsList() {
       flex: 1,
       renderCell: (params) => format(new Date(params.value), "MM/dd/yyyy"),
     },
-    {
-      field: "fastTrack",
-      headerName: "Fast Track",
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
-      renderCell: (params) => (
-        <>
-          <Icon
-            icon="mdi:check-decagram"
-            style={{ fontSize: "30px", color: "#286264" }}
-            onClick={() => handleCheck(params.row)}
-          ></Icon>
-          <Icon
-            icon="bxs:x-circle"
-            style={{ fontSize: "30px", color: "#F21E1E" }}
-            onClick={() => handleX(params.row)}
-          ></Icon>
-        </>
-      ),
-    },
+    // ** STRETCH: **
+    // {
+    //   field: "fastTrack",
+    //   headerName: "Fast Track",
+    //   flex: 1,
+    //   headerAlign: "center",
+    //   align: "center",
+    //   renderCell: (params) => (
+    //     <>
+    //       <Icon
+    //         icon="mdi:check-decagram"
+    //         style={{ fontSize: "30px", color: "#286264" }}
+    //         onClick={() => handleCheck(params.row)}
+    //       ></Icon>
+    //       <Icon
+    //         icon="bxs:x-circle"
+    //         style={{ fontSize: "30px", color: "#F21E1E" }}
+    //         onClick={() => handleX(params.row)}
+    //       ></Icon>
+    //     </>
+    //   ),
+    // },
     {
       field: "delete",
       // headerName: "Delete Vendor",
@@ -220,7 +218,7 @@ function VendorsList() {
 
   return (
     <>
-      <div style={{ height: "100%", width: "100%" }}>
+      <Box>
         <CardContent sx={{ paddingTop: "32px", paddingBottom: "32px" }}>
           <Typography
             variant="h5"
@@ -240,8 +238,8 @@ function VendorsList() {
         <DataGrid
           rows={vendors}
           columns={columns}
-          pageSize={5}
-          rowsPerPageOptions={[5]}
+          pageSize={20}
+          rowsPerPageOptions={[20, 40, 60]}
           apiRef={apiRef}
         />
         {selectedVendor && (
@@ -251,7 +249,7 @@ function VendorsList() {
             onClose={handleCloseModal}
           />
         )}
-      </div>
+      </Box>
     </>
   );
 }

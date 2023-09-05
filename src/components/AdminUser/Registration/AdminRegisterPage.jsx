@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import AdminRegisterForm from "../Registration/AdminRegisterForm";
 import {
+  Button,
   Container,
   FormControl,
   FormControlLabel,
-  FormLabel,
+  Grid,
   Radio,
   RadioGroup,
-  Button,
+  TextField,
   Typography,
 } from "@mui/material";
 
@@ -17,7 +17,7 @@ import {
 import "../../RegisterAndLoginForm.css";
 
 function AdminRegisterPage() {
-    const user = useSelector((store) => store.user);
+  const user = useSelector((store) => store.user);
   const [userGroup, setUserGroup] = useState("Admin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -39,17 +39,15 @@ function AdminRegisterPage() {
   }; // end registerUser
 
   useEffect(() => {
-    if (user.registrationStatus === 'success') {
+    if (user.registrationStatus === "success") {
       if (user.authorization_level === 1) {
-        history.push('/vendors-list');
+        history.push("/vendors-list");
       } else {
-        // redirect to the /vendorstepper route for vendors
-        history.push('/vendorstepper');
+        // redirect to the home page for other user groups
+        history.push("/home");
       }
     }
   }, [user, history]);
-
-  
 
   return (
     <Container
@@ -65,7 +63,7 @@ function AdminRegisterPage() {
       <div className="register-page-register-form-container">
         <form className="formPanel" onSubmit={registerUser}>
           <Typography variant="h4" style={{ textAlign: "center" }}>
-            Register User
+            Register Admin User
           </Typography>
           {errors.registrationMessage && (
             <Typography
@@ -91,29 +89,41 @@ function AdminRegisterPage() {
                 control={<Radio />}
                 label="Admin"
               />
-              {/* <FormControlLabel
-                value="Vendor"
-                control={<Radio />}
-                label="Vendor"
-              /> */}
             </RadioGroup>
             {userGroup === "Admin" && (
-              <AdminRegisterForm
-                email={email}
-                password={password}
-                setEmail={setEmail}
-                setPassword={setPassword}
-                style={{ display: "flex", justifyContent: "center" }}
-              />
+              <Container style={{ textAlign: "center" }}>
+                <br></br>
+                <Typography variant="h5">Admin Registration:</Typography>
+                <br></br>
+                <Grid container spacing={2}>
+                  <br></br>
+                  <Grid item xs={12}>
+                    <TextField
+                      label="Email"
+                      type="text"
+                      name="email"
+                      value={email}
+                      required
+                      onChange={(event) => setEmail(event.target.value)}
+                      fullWidth
+                    />
+                  </Grid>
+                  <br></br>
+                  <Grid item xs={12}>
+                    <TextField
+                      label="Password"
+                      type="password"
+                      name="password"
+                      value={password}
+                      required
+                      onChange={(event) => setPassword(event.target.value)}
+                      fullWidth
+                    />
+                  </Grid>
+                </Grid>
+                <br></br>
+              </Container>
             )}
-            {/* {userGroup === "Vendor" && (
-            <VendorRegisterForm
-              email={email}
-              password={password}
-              setEmail={setEmail}
-              setPassword={setPassword}
-            />
-          )} */}
             <Button
               className="btn"
               type="submit"

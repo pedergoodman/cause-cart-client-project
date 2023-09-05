@@ -12,20 +12,23 @@ function* fetchVendors() {
 }
 
 function* fetchVendorDetails(action) {
-  try {
-    const response = yield axios.get(`/api/admin/${action.payload}`);
-    yield put({ type: "FETCH_VENDOR_DETAILS_SUCCESS", payload: response.data });
-  } catch (error) {
-    console.log("Error GETting details for a specific vendor id: ", error);
-    yield put({ type: "FETCH_VENDOR_DETAILS_FAILURE", error });
+    try {
+      console.log("Fetching vendor details for id: ", action.payload);
+      const response = yield axios.get(`/api/admin/${action.payload}`);
+      console.log("Response from API: ", response);
+      yield put({ type: "FETCH_VENDOR_DETAILS_SUCCESS", payload: response.data });
+    } catch (error) {
+      console.log("Error GETting details for a specific vendor id: ", error);
+      yield put({ type: "FETCH_VENDOR_DETAILS_FAILURE", error });
+    }
   }
-}
+  
 
 function* updateOnboardingStage(action) {
     try {
       const response = yield axios.put(
         `/api/admin/onboarding/${action.payload.id}`,
-        { onboarding_stage: action.payload.newOnboardingStage }
+        { status: action.payload.newOnboardingStage }
       );
       if (response.status === 200) {
         yield put({ type: "UPDATE_ONBOARDING_STAGE_SUCCESS", payload: response.data });
@@ -67,3 +70,4 @@ function* adminSaga() {
 }
 
 export default adminSaga;
+

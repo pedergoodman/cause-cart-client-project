@@ -1,12 +1,20 @@
 import React, { useEffect } from "react";
+import {
+  HashRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+} from "react-router-dom";
+
 import { useDispatch, useSelector } from "react-redux";
 
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Box, Button, Divider, Grid, Modal, Typography } from "@mui/material";
 
 import DetailsModalHeader from "../VendorDetails/DetailsModalHeader";
-import DetailsProductSpreadsheet from "../VendorDetails/DetailsProductSpreadsheet";
-import DetailsContract from "../VendorDetails/DetailsContract";
+import DropboxFileContainer from "../../DropboxComponents/DropboxFileContainer/DropboxFileContainer";
+import DenyApplication from "../AdminButtons/DenyApplication";
+
 
 import { Icon } from "@iconify/react";
 
@@ -40,9 +48,7 @@ const TypographyWithDivider = ({ children }) => (
 
 function VendorDetails({ open, onClose, vendorId }) {
   const dispatch = useDispatch();
-  const vendorDetails = useSelector(
-    (state) => state.vendorDetails.vendorDetails
-  );
+  const vendorDetails = useSelector(state => state.vendorDetails.vendorDetails);
 
   useEffect(() => {
     if (vendorId) {
@@ -56,14 +62,17 @@ function VendorDetails({ open, onClose, vendorId }) {
 
   const vendor = vendorDetails[0];
 
-  const handleApproveProducts = () => {
-    const approvedProductStage = "Approved Product";
-    dispatch({
-      type: "UPDATE_ONBOARDING_STAGE",
-      payload: { id: vendor.id, newOnboardingStage: approvedProductStage },
-    });
-    onClose();
-  };
+  //   const handleApproveProducts = () => {
+  //     const approvedProductStage = "Approved Product";
+  //     dispatch({
+  //       type: "UPDATE_ONBOARDING_STAGE",
+  //       payload: { id: vendor.id, newOnboardingStage: approvedProductStage },
+  //     });
+  //     onClose();
+  //   };
+
+  // grab folder path
+  const dropboxFolderPath = vendor.dropboxFolderPath;
 
   return (
     <ThemeProvider theme={theme}>
@@ -74,7 +83,7 @@ function VendorDetails({ open, onClose, vendorId }) {
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            width: "600px",
+            width: "800px",
             maxHeight: "925px",
             bgcolor: "background.paper",
             boxShadow: 24,
@@ -82,7 +91,8 @@ function VendorDetails({ open, onClose, vendorId }) {
             overflow: "auto",
           }}
         >
-          <DetailsModalHeader  status={vendor.status} />
+          <DetailsModalHeader status={vendor.onboardingStatus} />
+
           <Box
             display="flex"
             flexDirection="column"
@@ -152,14 +162,19 @@ function VendorDetails({ open, onClose, vendorId }) {
                   <Typography variant="subtitle1">Business Type:</Typography>
                   <Typography variant="body1">{vendor.businessType}</Typography>
                 </Box>
-                <Box display="flex" flexDirection="column" mt={1}>
+                <Box display="flex" flexDirection="column" marginBottom={1}>
                   <Typography variant="subtitle1">
-                    Primary Product Category:
+                    Selected Categories:
                   </Typography>
-                  <Typography variant="body1">
-                    {vendor.primaryProductCategory}
-                  </Typography>
+                  <ul>
+                    {vendor.selectedCategories.map((category) => (
+                      <li key={category}>
+                        <Typography variant="body1">{category}</Typography>
+                      </li>
+                    ))}
+                  </ul>
                 </Box>
+
                 <Box display="flex" flexDirection="column" mt={1}>
                   <Typography variant="subtitle1">
                     Number of Products:
@@ -193,7 +208,7 @@ function VendorDetails({ open, onClose, vendorId }) {
                 </Typography>
                 {vendor.partnerNonProfit && (
                   <TypographyWithDivider>
-                    {vendor.nonprofitName}
+                    {vendor.nonprofitDescription}
                   </TypographyWithDivider>
                 )}
               </Box>
@@ -213,6 +228,14 @@ function VendorDetails({ open, onClose, vendorId }) {
           TODO: ** AMY IMPLEMENT DROPBOX API **
           <DetailsProductSpreadsheet spreadsheets={spreadsheets} />
           <DetailsContract contracts={contracts} /> */}
+
+          {/* If there are files in the dropbox folder, show them */}
+          {dropboxFolderPath ? (
+            <DropboxFileContainer dropboxFolderPath={dropboxFolderPath} />
+          ) : (
+            <></>
+          )}
+
           <Box
             sx={{
               backgroundColor: "#C2D2D2",
@@ -221,27 +244,7 @@ function VendorDetails({ open, onClose, vendorId }) {
               padding: "25px",
             }}
           >
-            <Button
-              variant="contained"
-              sx={{
-                backgroundColor: "#286264",
-                "&:hover": {
-                  backgroundColor: "#75907b",
-                },
-              }}
-              startIcon={
-                <Icon
-                  icon="fluent:box-checkmark-24-regular"
-                  color="white"
-                  width="20"
-                  height="20"
-                  sx={{ mr: 1 }}
-                />
-              }
-              onClick={handleApproveProducts}
-            >
-              Approve Products
-            </Button>
+            <DenyApplication vendor={vendor} onClose={onClose} />
           </Box>
         </Box>
       </Modal>

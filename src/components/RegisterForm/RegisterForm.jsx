@@ -196,6 +196,9 @@ function RegisterForm() {
             nonProfitPartnerDescriptionFieldInput
           }
           howDidYouHear={howDidYouHear}
+          prodCategoriesOtherOptionDescInput={
+            prodCategoriesOtherOptionDescInput
+          } 
         />
       </Box>
     </form>
