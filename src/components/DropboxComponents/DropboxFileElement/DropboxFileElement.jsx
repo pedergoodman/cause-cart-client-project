@@ -10,45 +10,32 @@ import BeachAccessIcon from "@mui/icons-material/BeachAccess";
 import { Box, Divider, IconButton, Typography } from "@mui/material";
 import LaunchOutlinedIcon from "@mui/icons-material/LaunchOutlined";
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
+import dropboxFileElementStyling from "./DropboxFileElementStyle";
 
-const downloadFile = () => {
-  console.log("download file: ---");
-};
+// * STYLING 
+const {
+  listItemContainerStyling,
+  fileTypeContainerStyling,
+  fileTypeTextStyling,
+} = dropboxFileElementStyling;
 
-export default function FolderList() {
+console.log('dropboxFileElementStyling is:', dropboxFileElementStyling );
+
+
+
+// * DROPBOX FILE ELEMENT
+export default function DropboxFileElement() {
+
+  const downloadFileButton = () => {
+    console.log("download file: ---");
+  };
+
+
   return (
     <>
-      <ListItem
-        sx={{
-          border: "1px solid #ccc",
-          boxShadow: "0 0 2px 0px rgba(0,0,0,0.3)",
-          p: "0 0 0 0",
-          borderRadius: "4px",
-          fontWeight: "bold",
-        }}
-      >
-        <Box
-          sx={{
-            backgroundColor: "#F9BC9E",
-            width: "fit-content",
-            minWidth: "11%",
-            padding: "0px 6px",
-            height: "100%",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Typography
-            sx={{
-              textAlign: "center",
-              verticalAlign: "middle",
-              display: "table-cell",
-              fontWeight: "bold",
-            }}
-          >
-            XLSX
-          </Typography>
+      <ListItem className="list-item-container" sx={listItemContainerStyling}>
+        <Box className="file-type-container" sx={fileTypeContainerStyling}>
+          <Typography sx={fileTypeTextStyling}>XLSX</Typography>
         </Box>
 
         <ListItemText
@@ -58,7 +45,7 @@ export default function FolderList() {
         />
 
         <Box sx={{ padding: "0 6px 0 0" }}>
-          <IconButton onClick={downloadFile} aria-label="delete">
+          <IconButton onClick={downloadFileButton} aria-label="delete">
             <FileDownloadOutlinedIcon />
           </IconButton>
         </Box>
