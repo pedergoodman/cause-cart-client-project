@@ -1,14 +1,13 @@
 // * - IMPORTING -
 // React
 import React, { useState } from "react";
-// MUI
-import { Button } from "@mui/material";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+// Components
+import NextButtonToMeetingStep from "./NextButtonToMeetingStep";
 
 // * - AccountVerification COMPONENT -
 function AccountVerification({ status, setActiveStep }) {
   // Testing of dynamic status and messaging
-  // status = "Approved Intake Form";
+  status = "Approved Intake Form";
 
   // * - DECLARATIONS -
   // State variable to hold the final status of this step
@@ -33,10 +32,7 @@ function AccountVerification({ status, setActiveStep }) {
         return (
           <div className="vendor-step-messaging-container">
             <p>{message}</p>
-            <Button onClick={handleNextStep}>
-              Next Step
-              <NavigateNextIcon />
-            </Button>
+            <NextButtonToMeetingStep/>
           </div>
         );
       default:
