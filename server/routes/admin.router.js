@@ -54,57 +54,59 @@ router.get("/category", rejectUnauthenticated, (req, res) => {
       res.sendStatus(500);
     });
 });
-
+// PUT (Update) a category by ID
 router.put("/category/:id", rejectUnauthenticated, (req, res) => {
   const categoryId = req.params.id;
-  const updatedCategory = req.body; 
+  const updatedCategoryName = req.body.name;
 
   const queryText = `
     UPDATE category_names
-    SET category_name = $1
-    WHERE category_id = $2
+    SET name = $1
+    WHERE id = $2
   `;
 
-  const values = [updatedCategory.category_name, categoryId];
+  const values = [updatedCategoryName, categoryId];
 
   pool
     .query(queryText, values)
     .then(() => {
-      res.sendStatus(204);
+      res.sendStatus(204); // No Content (Successful Update)
     })
     .catch((error) => {
       console.log("Error updating category", error);
-      res.sendStatus(500);
+      res.sendStatus(500); // Internal Server Error
     });
 });
 
+// POST (Create) a new category
 router.post("/category", rejectUnauthenticated, (req, res) => {
-  const newCategory = req.body; 
+  const newCategoryName = req.body.name;
 
   const queryText = `
-    INSERT INTO category_names (category_name)
+    INSERT INTO category_names (name)
     VALUES ($1)
   `;
 
-  const values = [newCategory.category_name];
+  const values = [newCategoryName];
 
   pool
     .query(queryText, values)
     .then(() => {
-      res.sendStatus(201); 
+      res.sendStatus(201); // Created (Successful Creation)
     })
     .catch((error) => {
       console.log("Error creating category", error);
-      res.sendStatus(500);
+      res.sendStatus(500); // Internal Server Error
     });
 });
 
+// DELETE a category by ID
 router.delete("/category/:id", rejectUnauthenticated, (req, res) => {
   const categoryId = req.params.id;
 
   const queryText = `
     DELETE FROM category_names
-    WHERE category_id = $1
+    WHERE id = $1
   `;
 
   const values = [categoryId];
@@ -112,11 +114,11 @@ router.delete("/category/:id", rejectUnauthenticated, (req, res) => {
   pool
     .query(queryText, values)
     .then(() => {
-      res.sendStatus(204);
+      res.sendStatus(204); // No Content (Successful Deletion)
     })
     .catch((error) => {
       console.log("Error deleting category", error);
-      res.sendStatus(500);
+      res.sendStatus(500); // Internal Server Error
     });
 });
 

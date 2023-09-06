@@ -18,7 +18,7 @@ import Button from "@mui/material/Button";
 
 function TemplateLists() {
   const [dense, setDense] = useState(false);
-  const [categoryName, setCategoryName] = useState("");
+  const [categoryName, setCategoryName] = useState("Name");
   const [editingCategory, setEditingCategory] = useState(null);
 
   const templates = useSelector((store) => store.templateLinkReducer);
@@ -44,7 +44,7 @@ function TemplateLists() {
       type: "EDIT_ADMIN_CATEGORY",
       payload: {
         id: category.id,
-        name: categoryName,
+        name: categoryName
       },
     });
     setEditingCategory(null);
@@ -114,7 +114,9 @@ function TemplateLists() {
                           label="Edit Category"
                           variant="outlined"
                           value={categoryName}
-                          onChange={(e) => setCategoryName(e.target.value)}
+                          onChange={(e) => {
+                            setCategoryName(e.target.value);
+                          }}                          
                           sx={{ mt: "20px", mb: "10px" }}
                         />
                         <Button
