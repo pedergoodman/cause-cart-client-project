@@ -59,7 +59,7 @@ function App() {
             <AboutPage />
           </Route>
 
-
+          // TODO add protected route back
           <Route
             // shows AdminRegisterPage at all times (logged in or not)
             exact
