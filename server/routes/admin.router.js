@@ -55,6 +55,72 @@ router.get("/category", rejectUnauthenticated, (req, res) => {
     });
 });
 
+router.put("/category/:id", rejectUnauthenticated, (req, res) => {
+  const categoryId = req.params.id;
+  const updatedCategory = req.body; 
+
+  const queryText = `
+    UPDATE category_names
+    SET category_name = $1
+    WHERE category_id = $2
+  `;
+
+  const values = [updatedCategory.category_name, categoryId];
+
+  pool
+    .query(queryText, values)
+    .then(() => {
+      res.sendStatus(204);
+    })
+    .catch((error) => {
+      console.log("Error updating category", error);
+      res.sendStatus(500);
+    });
+});
+
+router.post("/category", rejectUnauthenticated, (req, res) => {
+  const newCategory = req.body; 
+
+  const queryText = `
+    INSERT INTO category_names (category_name)
+    VALUES ($1)
+  `;
+
+  const values = [newCategory.category_name];
+
+  pool
+    .query(queryText, values)
+    .then(() => {
+      res.sendStatus(201); 
+    })
+    .catch((error) => {
+      console.log("Error creating category", error);
+      res.sendStatus(500);
+    });
+});
+
+router.delete("/category/:id", rejectUnauthenticated, (req, res) => {
+  const categoryId = req.params.id;
+
+  const queryText = `
+    DELETE FROM category_names
+    WHERE category_id = $1
+  `;
+
+  const values = [categoryId];
+
+  pool
+    .query(queryText, values)
+    .then(() => {
+      res.sendStatus(204);
+    })
+    .catch((error) => {
+      console.log("Error deleting category", error);
+      res.sendStatus(500);
+    });
+});
+
+
 // GET request to fetch data unique to a specific vendor
 router.get("/:id", rejectUnauthenticated, (req, res) => {
   const vendorId = req.params.id;

@@ -61,12 +61,44 @@ function* fetchAdminCategories() {
   }
 }
 
+function* editAdminCategory(action) {
+  try {
+    const { id, name } = action.payload;
+    yield axios.put(`/api/admin/category/${id}`, { category_name: name });
+    yield put({ type: "FETCH_ADMIN_CATEGORIES" }); 
+  } catch (error) {
+    console.log("Error editing category", error);
+  }
+}
+
+function* deleteAdminCategory(action) {
+  try {
+    const categoryId = action.payload;
+    yield axios.delete(`/api/admin/category/${categoryId}`);
+    yield put({ type: "FETCH_ADMIN_CATEGORIES" });
+  } catch (error) {
+    console.log("Error deleting category", error);
+  }
+}
+
+function* addAdminCategory(action) {
+  try {
+    const { name } = action.payload;
+    yield axios.post(`/api/admin/category`, { category_name: name });
+    yield put({ type: "FETCH_ADMIN_CATEGORIES" }); 
+  } catch (error) {
+    console.log("Error adding category", error);
+  }
+}
 function* adminSaga() {
   yield takeLatest("FETCH_VENDORS_REQUEST", fetchVendors);
   yield takeLatest("FETCH_VENDOR_DETAILS_REQUEST", fetchVendorDetails);
   yield takeLatest("UPDATE_ONBOARDING_STAGE", updateOnboardingStage);
   yield takeLatest("FETCH_ADMIN_TEMPLATES", fetchAdminTemplates);
   yield takeLatest("FETCH_ADMIN_CATEGORIES", fetchAdminCategories)
+  yield takeLatest("EDIT_ADMIN_CATEGORY", editAdminCategory);
+  yield takeLatest("DELETE_ADMIN_CATEGORY", deleteAdminCategory);
+  yield takeLatest("ADD_ADMIN_CATEGORY", addAdminCategory);
 }
 
 export default adminSaga;

@@ -18,10 +18,8 @@ import Button from "@mui/material/Button";
 
 function TemplateLists() {
   const [dense, setDense] = useState(false);
-  const [secondary, setSecondary] = useState(false);
-  const [open, setOpen] = useState(false);
   const [categoryName, setCategoryName] = useState("");
-  const [editingCategory, setEditingCategory] = useState(null); // Track the currently editing category
+  const [editingCategory, setEditingCategory] = useState(null);
 
   const templates = useSelector((store) => store.templateLinkReducer);
   const categories = useSelector((store) => store.categoryNameReducer);
@@ -36,14 +34,37 @@ function TemplateLists() {
     dispatch({ type: "FETCH_ADMIN_CATEGORIES" });
   }, []);
 
-  function editCategory(name) {
-    setCategoryName(name);
-    setEditingCategory(name); // Set the category to be edited
+  function editCategory(category) {
+    setCategoryName(category.name);
+    setEditingCategory(category.id);
   }
 
-  function saveCategory() {
-    // You can dispatch an action here to update the category in your Redux store or handle the update in your component
-    setEditingCategory(null); // Clear the currently editing category
+  function saveCategory(category) {
+    dispatch({
+      type: "EDIT_ADMIN_CATEGORY",
+      payload: {
+        id: category.id,
+        name: categoryName,
+      },
+    });
+    setEditingCategory(null);
+  }
+
+  function deleteCategory(categoryId) {
+    dispatch({
+      type: "DELETE_ADMIN_CATEGORY",
+      payload: categoryId,
+    });
+  }
+
+  function addCategory() {
+    dispatch({
+      type: "ADD_ADMIN_CATEGORY",
+      payload: {
+        name: categoryName,
+      },
+    });
+    setCategoryName("");
   }
 
   return (
@@ -59,24 +80,34 @@ function TemplateLists() {
         <Grid item xs={12} md={6}>
           <Paper elevation={3} sx={{ padding: "16px", borderRadius: "10px" }}>
             <List dense={dense} sx={{ display: "flex-wrap" }}>
-              <div style={{display:"flex"}}>
-              <Typography sx={{ mb: 2, mt:'10px' }} variant="h6" component="div">
-                Category Names
-              </Typography>
-              <TextField
-                id="outlined-basic"
-                label="Add Category"
-                variant="outlined"
-                sx={{display:'flex', ml:'20px', width:'250px'}}
-              />
-              <Button sx={{ margin: "10px"}} variant="contained">
-                Add
-              </Button>
+              <div style={{ display: "flex" }}>
+                <Typography
+                  sx={{ mb: 2, mt: "10px" }}
+                  variant="h6"
+                  component="div"
+                >
+                  Category Names
+                </Typography>
+                <TextField
+                  id="outlined-basic"
+                  label="Add Category"
+                  variant="outlined"
+                  sx={{ display: "flex", ml: "20px", width: "250px" }}
+                  value={categoryName}
+                  onChange={(e) => setCategoryName(e.target.value)}
+                />
+                <Button
+                  sx={{ margin: "10px" }}
+                  variant="contained"
+                  onClick={addCategory}
+                >
+                  Add
+                </Button>
               </div>
               {categories.map((category) => {
                 return (
                   <div key={category.id}>
-                    {editingCategory === category.name ? (
+                    {editingCategory === category.id ? (
                       <>
                         <TextField
                           id="outlined-basic"
@@ -84,12 +115,12 @@ function TemplateLists() {
                           variant="outlined"
                           value={categoryName}
                           onChange={(e) => setCategoryName(e.target.value)}
-                          sx={{mt:'20px', mb:'10px'}}
+                          sx={{ mt: "20px", mb: "10px" }}
                         />
                         <Button
-                          sx={{ margin: "30px", display:'inline' }}
+                          sx={{ margin: "30px", display: "inline" }}
                           variant="contained"
-                          onClick={saveCategory}
+                          onClick={() => saveCategory(category)}
                         >
                           Save
                         </Button>
@@ -101,13 +132,14 @@ function TemplateLists() {
                           <ListItemText primary={category.name} />
                           <IconButton
                             sx={{ justifyContent: "right" }}
-                            onClick={() => {
-                              editCategory(category.name);
-                            }}
+                            onClick={() => editCategory(category)}
                           >
                             <EditOutlinedIcon />
                           </IconButton>
-                          <IconButton sx={{ justifyContent: "right" }}>
+                          <IconButton
+                            sx={{ justifyContent: "right" }}
+                            onClick={() => deleteCategory(category.id)}
+                          >
                             <DeleteForeverOutlinedIcon />
                           </IconButton>
                         </ListItem>
