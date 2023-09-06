@@ -93,7 +93,6 @@ function TemplateLists() {
                   label="Add Category"
                   variant="outlined"
                   sx={{ display: "flex", ml: "20px", width: "250px" }}
-                  value={categoryName}
                   onChange={(e) => setCategoryName(e.target.value)}
                 />
                 <Button
