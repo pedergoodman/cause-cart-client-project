@@ -2,6 +2,7 @@ const dbx = require('../modules/dropbox');
 const express = require('express');
 const router = express.Router();
 const pool = require('../modules/pool');
+const fs = require('fs');
 const {
   rejectUnauthenticated,
 } = require("../modules/authentication-middleware");
@@ -75,6 +76,7 @@ router.post('/folder/:userId', async (req, res) => {
 
   } catch (error) {
     console.error('error creating vendor folder:', error);
+    res.sendStatus(500)
   }
 });
 
@@ -116,12 +118,14 @@ router.post('/upload/:userId', rejectUnauthenticated, async (req, res) => {
     res.sendStatus(201)
   } catch (error) {
     console.error('error uploading file(s) to Dropbox', error);
+    res.sendStatus(500)
   }
 });
 
 
 
 // TODO - test this route
+// ! on hold
 // **** download selected file from a vendor folder
 router.post('/download', (req, res) => {
   // variables needed
@@ -130,21 +134,40 @@ router.post('/download', (req, res) => {
   console.log('filePathToDownload is:', filePathToDownload);
 
   dbx.filesDownload({
-    // ! TEST download path
-    // path: "/vendor-submitted-onboarding-docs/test-client-file/product set up basic generic.xlsx",
-    // ! SWAP for variable download path
-    path: filePathToDownload
-  }).then((response) => {
-    // const fileName = response.result.name;
-    // const blob = response.result.fileBlob;
+    path: filePathToDownload,
+
+  }).then((data) => {
+    console.log('response from dropbox', data.result);
+    
+    // const blob = data.result.fileBinary
+    // console.log(arrayBufferToBinaryString(blob))
+    
+    // const fileName = data.result.name;
+    // const blob = data.result.fileBlob;
 
     // send file with info and blob
-    res.send(response)
-  }).catch((err) => {
+    res.send(200)
+
+    // .then((data) => {
+
+
+      
+
+      // const downloadedFile = fs.writeFile(data.result.name, data.result.fileBinary, 'binary', (err) => {
+      //   if (err) { throw err; }
+      //   console.log(`File: ${data.result.name} saved.`);
+      // });
+    // })
+console.log('downloadedFile write file is:', downloadedFile);
+
+
+
+  })
+  .catch((err) => {
     console.log('error downloading file', err);
+    res.sendStatus(500)
   });
 });
-
 
 
 
@@ -165,6 +188,7 @@ router.post('/files/', async (req, res) => {
     })
     .catch(function (error) {
       console.error(error);
+      res.sendStatus(500)
     });
 
 });
