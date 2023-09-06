@@ -2,7 +2,6 @@ import { put, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
 import { saveAs } from 'file-saver';
 
-
 function* createVendorFolder(action) {
   try {
     // TODO: send name data to create vendor folder

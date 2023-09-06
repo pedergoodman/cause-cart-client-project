@@ -7,7 +7,7 @@ import NextButtonToMeetingStep from "./NextButtonToMeetingStep";
 // * - AccountVerification COMPONENT -
 function AccountVerification({ status, setActiveStep }) {
   // Testing of dynamic status and messaging
-  status = "Approved Intake Form";
+  // status = "Approved Intake Form";
 
   // * - DECLARATIONS -
   // State variable to hold the final status of this step
@@ -26,27 +26,10 @@ function AccountVerification({ status, setActiveStep }) {
             <p>{message}</p>
           </div>
         );
-      case "Approved Intake Form":
-        // New message
-        message = "Your account has been verified!";
-        return (
-          <div className="vendor-step-messaging-container">
-            <p>{message}</p>
-            <NextButtonToMeetingStep/>
-          </div>
-        );
       default:
         return message;
     }
   }; // end accountVerificationMessage
-
-  // Handles progression to the next step in the multi-step process
-  const handleNextStep = () => {
-    // Increment the active step by 1
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-
-    // Set new vendor status via dispatch
-  }; // end handleNextStep
 
   // * - RENDERING -
   return (

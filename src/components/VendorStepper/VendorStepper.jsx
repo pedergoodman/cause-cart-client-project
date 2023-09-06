@@ -1,6 +1,6 @@
 // * - IMPORTING -
 // React
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 // Redux
 import { useDispatch, useSelector } from "react-redux";
 // CSS
@@ -26,14 +26,23 @@ export default function VendorStepper() {
   const dispatch = useDispatch(); // declaring useDispatch as variable
   // Declaring vendor information as variable
   const vendorInfo = vendorReducer[0];
-  // Logging
-  console.log("vendorInfo is:", vendorInfo);
 
   // * - STATE -
   // For keeping track of the active / current step vendor is on
-  const [activeStep, setActiveStep] = React.useState(0); // * Represents steps index
+  const [activeStep, setActiveStep] = useState(0); // * Represents steps index
 
   // * - HELPER FUNCTIONS -
+
+  // * Sending dispatch on page load to retrieve all information of logged in vendor
+  // * Conditional for setting stepper steps
+  useEffect(() => {
+    dispatch({ type: "FETCH_VENDOR_INFO", payload: { userID: user.id } }); // going to login saga
+    
+    // Set activeStep to Meeting when status is "Approved Intake Form"
+    vendorInfo?.status === "Approved Intake Form" && setActiveStep(1);
+  }, [dispatch, vendorInfo?.status]);
+
+
   // * Stepper Functions
   // Handles progression to the next step in the multi-step process
   const handleNext = () => {
@@ -52,11 +61,6 @@ export default function VendorStepper() {
     // Reset the active step to the first step
     setActiveStep(0);
   }; // end handleReset
-
-  // * Sending dispatch on page load to retrieve all information of logged in vendor
-  useEffect(() => {
-    dispatch({ type: "FETCH_VENDOR_INFO", payload: { userID: user.id } }); // going to login saga
-  }, [dispatch]);
 
   // * - VENDOR ONBOARDING STEPS -
   // * For Stepper
@@ -97,6 +101,14 @@ export default function VendorStepper() {
     <OnboardingComplete status={vendorInfo?.status} />,
   ];
 
+  // * Testing of dynamic status and messaging
+  if (vendorInfo) {
+    vendorInfo.status = "Approved Intake Form";
+    // vendorInfo.status = "Sent Contract";
+    // vendorInfo.status = "Contract Submitted";
+    // vendorInfo.status = "Sent Product Spreadsheet";
+  }
+
   // * - RENDERING -
   return (
     <Box sx={{ width: "100%" }}>
@@ -118,13 +130,26 @@ export default function VendorStepper() {
       </div>
       {/* Rendering steps */}
       {/* Render the current step component */}
-      {stepComponents[activeStep]}
+
+      {/* Conditional */}
+      {/* If vendorInfo status  render Account Verification component  */}
+      {vendorInfo?.status === "Intake Form Submitted"
+        ? stepComponents[0]
+        : null}
+      {/* If vendorInfo status "Approved Intake Form" render Meeting component  */}
+      {vendorInfo?.status === "Approved Intake Form" && stepComponents[1]}
+
+      {/* If vendorInfo status "Sent Contract" render Contract component  */}
+      {/* If vendorInfo status "Contract Submitted" render Contract component  */}
+      {/* If vendorInfo status "Sent Product Spreadsheet" render Add Products component  */}
+      {/* If vendorInfo status "Product Spreadsheet Submitted" render OnboardingComplete component, set status to "Onboarding Complete"  */}
+      {/* If vendorInfo status "Onboarding Complete" render OnboardingComplete component  */}
+
+      {/* {stepComponents[activeStep]} */}
 
       {/* Buttons for Navigating Steps (Will remove in final release) */}
       {/* Comment/Uncomment to toggle navigation */}
-      {/* <Box
-        className="vendor-stepper-navigation-buttons-container"
-      >
+      <Box className="vendor-stepper-navigation-buttons-container">
         <Button
           color="inherit"
           disabled={activeStep === 0}
@@ -136,7 +161,7 @@ export default function VendorStepper() {
         <Button onClick={handleNext}>
           {activeStep === steps.length - 1 ? "Finish" : "Next"}
         </Button>
-      </Box> */}
+      </Box>
     </Box>
   );
 }
