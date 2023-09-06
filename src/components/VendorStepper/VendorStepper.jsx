@@ -37,30 +37,17 @@ export default function VendorStepper() {
   // * Conditional for setting stepper steps
   useEffect(() => {
     dispatch({ type: "FETCH_VENDOR_INFO", payload: { userID: user.id } }); // going to login saga
-    
-    // Set activeStep to Meeting when status is "Approved Intake Form"
+
+    // Set current/active step to...
+    // Meeting when status is "Approved Intake Form"
     vendorInfo?.status === "Approved Intake Form" && setActiveStep(1);
+    // Contract when status is "Sent Contract"
+    vendorInfo?.status === "Sent Contract" && setActiveStep(2);
+    // Contract (second view) when status is "Contract Submitted"
+    vendorInfo?.status === "Contract Submitted" && setActiveStep(2);
+    // Add Products when status is "Sent Product Spreadsheet"
+    vendorInfo?.status === "Sent Product Spreadsheet" && setActiveStep(3);
   }, [dispatch, vendorInfo?.status]);
-
-
-  // * Stepper Functions
-  // Handles progression to the next step in the multi-step process
-  const handleNext = () => {
-    // Increment the active step by 1
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  }; // end handleNext
-
-  // Handles going back to previous step
-  const handleBack = () => {
-    // Decrement the active step by 1
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  }; // end handleBack
-
-  // Handles resetting stepper
-  const handleReset = () => {
-    // Reset the active step to the first step
-    setActiveStep(0);
-  }; // end handleReset
 
   // * - VENDOR ONBOARDING STEPS -
   // * For Stepper
@@ -102,9 +89,10 @@ export default function VendorStepper() {
   ];
 
   // * Testing of dynamic status and messaging
+  // * Use this to view the various steps
   if (vendorInfo) {
-    vendorInfo.status = "Approved Intake Form";
-    // vendorInfo.status = "Sent Contract";
+    // vendorInfo.status = "Approved Intake Form";
+    vendorInfo.status = "Sent Contract";
     // vendorInfo.status = "Contract Submitted";
     // vendorInfo.status = "Sent Product Spreadsheet";
   }
@@ -140,28 +128,12 @@ export default function VendorStepper() {
       {vendorInfo?.status === "Approved Intake Form" && stepComponents[1]}
 
       {/* If vendorInfo status "Sent Contract" render Contract component  */}
+      {vendorInfo?.status === "Sent Contract" && stepComponents[2]}
+
       {/* If vendorInfo status "Contract Submitted" render Contract component  */}
       {/* If vendorInfo status "Sent Product Spreadsheet" render Add Products component  */}
       {/* If vendorInfo status "Product Spreadsheet Submitted" render OnboardingComplete component, set status to "Onboarding Complete"  */}
       {/* If vendorInfo status "Onboarding Complete" render OnboardingComplete component  */}
-
-      {/* {stepComponents[activeStep]} */}
-
-      {/* Buttons for Navigating Steps (Will remove in final release) */}
-      {/* Comment/Uncomment to toggle navigation */}
-      <Box className="vendor-stepper-navigation-buttons-container">
-        <Button
-          color="inherit"
-          disabled={activeStep === 0}
-          onClick={handleBack}
-          sx={{ mr: 1 }}
-        >
-          Back
-        </Button>
-        <Button onClick={handleNext}>
-          {activeStep === steps.length - 1 ? "Finish" : "Next"}
-        </Button>
-      </Box>
     </Box>
   );
 }

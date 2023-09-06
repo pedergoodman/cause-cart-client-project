@@ -26,15 +26,31 @@
 /* Messaging Container */
 .vendor-step-messaging-container {
   width: 100%;
+  text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-/* Buttons for Navigating Steps (temporary till final release) */
-.vendor-stepper-navigation-buttons-container {
-  margin: 3rem auto;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  gap: 2px;
+/* Links and Button Links */
+.links-and-link-buttons {
+  color: teal;
+  text-decoration: underline;
+  transition: color 0.3s;
+}
+
+/* Add a hover effect */
+.links-and-link-buttons:hover {
+  color: rgb(0, 177, 177);
+}
+
+/* Buttons */
+
+.buttons {
+  color: teal;
+  transition: color 0.3s;
+}
+
+/* Add a hover effect */
+.buttons:hover {
+  color: rgb(0, 177, 177);
 }

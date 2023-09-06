@@ -1,8 +1,6 @@
 // * - IMPORTING -
 // React
 import React, { useState } from "react";
-// Components
-import NextButtonToMeetingStep from "./NextButtonToMeetingStep";
 
 // * - AccountVerification COMPONENT -
 function AccountVerification({ status, setActiveStep }) {
@@ -20,7 +18,8 @@ function AccountVerification({ status, setActiveStep }) {
     switch (status) {
       case "Intake Form Submitted":
         // New message
-        message = "Your application is currently being reviewed.";
+        message =
+          "Thank you for submitting your application! It's currently under review, and we're working diligently to process it. ";
         return (
           <div className="vendor-step-messaging-container">
             <p>{message}</p>
