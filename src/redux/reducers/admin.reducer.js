@@ -70,4 +70,21 @@ const initialDetailsState = {
   };
   
 
-export { adminReducer, vendorDetailsReducer };
+const templateLinkReducer = (state = [], action) => {
+  if (action.type == "UPDATE_ADMIN_TEMPLATES") {
+    return action.payload
+  }
+
+  return state 
+
+}
+
+const categoryNameReducer = (state = [], action) => {
+  if (action.type == "UPDATE_ADMIN_CATEGORY") {
+    return action.payload
+  }
+
+  return state 
+
+}
+export { adminReducer, vendorDetailsReducer, templateLinkReducer, categoryNameReducer };
