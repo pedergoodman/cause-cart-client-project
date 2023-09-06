@@ -42,10 +42,10 @@ export default function DropboxFileElement({ file }) {
   const downloadFileButton = () => {
     console.log("download file path:", filePath);
     console.log("download disabled at the moment");
-    // dispatch({
-    //   type: "DOWNLOAD_DROPBOX_FILE",
-    //   payload: filePath,
-    // });
+    dispatch({
+      type: "DOWNLOAD_DROPBOX_FILE",
+      payload: filePath,
+    });
   };
   
   return (
@@ -62,9 +62,9 @@ export default function DropboxFileElement({ file }) {
         />
 
         <Box sx={{ padding: "0 6px 0 0" }}>
-          {/* <IconButton onClick={downloadFileButton} aria-label="download">
+          <IconButton onClick={downloadFileButton} aria-label="download">
             <FileDownloadOutlinedIcon />
-          </IconButton> */}
+          </IconButton>
         </Box>
       </ListItem>
     </>
