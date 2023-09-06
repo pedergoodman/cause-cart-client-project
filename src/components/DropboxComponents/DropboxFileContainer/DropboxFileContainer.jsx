@@ -2,10 +2,13 @@ import { Box, Button, List } from "@mui/material";
 import React, { useEffect } from "react";
 import DropboxFileElement from "../DropboxFileElement/DropboxFileElement";
 import { useDispatch, useSelector } from "react-redux";
+import dropboxFileElementStyling from "../DropboxFileElement/DropboxFileElementStyle";
 
 // DROPBOX FILE CONTAINER
-export default function DropboxFileContainer({ dropboxFolderPath }) {
+export default function DropboxFileContainer({ dropboxFolderPath, dropboxSharedLink }) {
   const dispatch = useDispatch();
+
+  console.log('in container, passed dropboxSharedLink are:', dropboxSharedLink);
 
   // fetch data on files inside specific dropbox folder
   // and save in the store.
@@ -25,16 +28,16 @@ export default function DropboxFileContainer({ dropboxFolderPath }) {
     <Box
       display="flex"
       flexDirection="column"
-      padding="20px 25px 20px 25px"
+      padding="0px 25px 20px 25px"
       alignItems="center"
     >
-      <Button
+      {/* <Button
         variant="contained"
-        href="https://www.dropbox.com"
+        href={dropboxSharedLink}
         target="_blank"
       >
-        View all files on Dropbox
-      </Button>
+        Download from on Dropbox
+      </Button> */}
 
       <List
         dense

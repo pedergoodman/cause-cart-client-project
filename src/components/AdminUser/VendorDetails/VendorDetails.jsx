@@ -15,7 +15,6 @@ import DetailsModalHeader from "../VendorDetails/DetailsModalHeader";
 import DropboxFileContainer from "../../DropboxComponents/DropboxFileContainer/DropboxFileContainer";
 import DenyApplication from "../AdminButtons/DenyApplication";
 
-
 import { Icon } from "@iconify/react";
 
 const theme = createTheme({
@@ -73,6 +72,7 @@ function VendorDetails({ open, onClose, vendorId }) {
 
   // grab folder path
   const dropboxFolderPath = vendor.dropboxFolderPath;
+  const dropboxSharedLink = vendor.dropboxSharedLink;
 
   return (
     <ThemeProvider theme={theme}>
@@ -167,7 +167,7 @@ function VendorDetails({ open, onClose, vendorId }) {
                     Selected Categories:
                   </Typography>
                   <ul>
-                    {vendor.selectedCategories.map((category) => (
+                    {vendor.selectedCategories?.map(category => (
                       <li key={category}>
                         <Typography variant="body1">{category}</Typography>
                       </li>
@@ -224,14 +224,28 @@ function VendorDetails({ open, onClose, vendorId }) {
           </Box>
 
           {/* 
-          
-          TODO: ** AMY IMPLEMENT DROPBOX API **
-          <DetailsProductSpreadsheet spreadsheets={spreadsheets} />
-          <DetailsContract contracts={contracts} /> */}
+           ** DROPBOX API **
 
           {/* If there are files in the dropbox folder, show them */}
+          <Button
+            variant="contained"
+            href={dropboxSharedLink}
+            target="_blank"
+            sx={{
+              display: "flex",
+              m: "15px auto",
+              width: "fit-content",
+              padding: "8px 20px",
+              alignItems: "center",
+            }}
+          >
+            Download from on Dropbox
+          </Button>
           {dropboxFolderPath ? (
-            <DropboxFileContainer dropboxFolderPath={dropboxFolderPath} />
+            <DropboxFileContainer
+              dropboxFolderPath={dropboxFolderPath}
+              dropboxSharedLink={dropboxSharedLink}
+            />
           ) : (
             <></>
           )}

@@ -1,7 +1,7 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
 import { saveAs } from 'file-saver';
-
+import { arrayBufferToBinaryString } from 'blob-util'
 
 function* createVendorFolder(action) {
   try {
@@ -40,13 +40,14 @@ function* downloadDropboxFile(action) {
 
 
     // ! working on file blobs here!
-    // const fileName = downloadResult.data.result.name;
-    // const blobFileBinary = downloadResult.data.result.fileBinary
-      
-      
-    // const newFileBlob = new Blob(blobFileBinary);
+    const fileName = downloadResult.data.result.name;
+    const fileBinary = downloadResult.data.result.fileBinary
+    
+    console.log('in dropboxSaga, fileBinary is:', fileBinary);
+    // const newFileBlob = new Blob(fileBinary, fileName);
+    console.log('in dropbox saga, array buffer is:',arrayBufferToBinaryString(fileBinary))
 
-    // var blob = new Blob(["Hello, world!"], {type: "text/plain;charset=utf-8"});
+    // var blob = new Blob(newFileBlob);
 
 
     // console.log('in dropboxSaga, fileName is:', fileName);
