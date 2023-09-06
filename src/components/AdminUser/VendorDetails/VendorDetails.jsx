@@ -73,6 +73,7 @@ function VendorDetails({ open, onClose, vendorId }) {
 
   // grab folder path
   const dropboxFolderPath = vendor.dropboxFolderPath;
+  const dropboxSharedLink = vendor.dropboxSharedLink
 
   return (
     <ThemeProvider theme={theme}>
@@ -167,7 +168,7 @@ function VendorDetails({ open, onClose, vendorId }) {
                     Selected Categories:
                   </Typography>
                   <ul>
-                    {vendor.selectedCategories.map((category) => (
+                    {vendor.selectedCategories?.map((category) => (
                       <li key={category}>
                         <Typography variant="body1">{category}</Typography>
                       </li>
@@ -224,17 +225,14 @@ function VendorDetails({ open, onClose, vendorId }) {
           </Box>
 
           {/* 
-          
-          TODO: ** AMY IMPLEMENT DROPBOX API **
-          <DetailsProductSpreadsheet spreadsheets={spreadsheets} />
-          <DetailsContract contracts={contracts} /> */}
+           ** DROPBOX API **
 
           {/* If there are files in the dropbox folder, show them */}
           {dropboxFolderPath ? (
-            <DropboxFileContainer dropboxFolderPath={dropboxFolderPath} />
-          ) : (
-            <></>
-          )}
+            <DropboxFileContainer 
+            dropboxFolderPath={dropboxFolderPath} 
+            dropboxSharedLink={dropboxSharedLink}
+            /> ) : ( <></> )}
 
           <Box
             sx={{
