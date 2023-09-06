@@ -29,51 +29,88 @@ router.get("/", rejectUnauthenticated, (req, res) => {
     });
 });
 
+router.get("/templates", rejectUnauthenticated, (req, res) => {
+  const queryText = `SELECT * FROM template_links;`;
+  pool
+    .query(queryText)
+    .then((result) => {
+      res.send(result.rows);
+    })
+    .catch((error) => {
+      console.log("Error getting template_links", error);
+      res.sendStatus(500);
+    });
+});
+
+// ! can't be protected route, needs to grab for registration page
+// if we need to make it protected we'll need to make a new route for registration page
+router.get("/category", (req, res) => {
+  const queryText = `SELECT * FROM category_names;`;
+  pool
+    .query(queryText)
+    .then((result) => {
+      res.send(result.rows);
+    })
+    .catch((error) => {
+      console.log("Error getting category_names", error);
+      res.sendStatus(500);
+    });
+});
+
 // GET request to fetch data unique to a specific vendor
 router.get("/:id", rejectUnauthenticated, (req, res) => {
   const vendorId = req.params.id;
   console.log("Received vendorId: ", vendorId);
   const queryText = `
-    SELECT 
-    "vendor_app_info".id,
-    "vendor_app_info".brand_name as "vendorName",
-    "user".email,
-    "vendor_app_info".website_url as "website",
-    "vendor_app_info".business_type as "businessType",
-    "vendor_app_info".category_name_ids as "category",
-    "vendor_app_info".other_category_description as "otherDescription",
-    "vendor_app_info".country,
-    "vendor_app_info".number_of_products as "numberOfProducts",
-    "vendor_app_info".giveback_selection as "vendorGiveback",
-    "vendor_app_info".giveback_description as "givebackDescription",
-    "vendor_app_info".nonprofit_selection as "partnerNonProfit",
-    "vendor_app_info".nonprofit_description as "nonprofitDescription",
-    "vendor_app_info".heard_about_us as "hearAboutUs",
-    "vendor_app_info".date_created as "intakeDate",
-    "vendor_app_info".date_edited as "dateEdited",
-    "status".status as "onboardingStatus",
-    "status".id as "onboardingStatusId",
-    "vendor_app_info".is_active as "is_active",
-    "vendor_app_info".dropbox_folder_path as "dropboxFolderPath",
-    "vendor_app_info".dropbox_shared_link as "dropboxSharedLink" 
-    FROM vendor_app_info
-    JOIN "user" ON vendor_app_info.user_id = "user".id
-    JOIN "status" ON vendor_app_info.status_id = "status".id
-    WHERE "vendor_app_info".id = $1;
+  SELECT 
+  "vendor_app_info".id,
+  "vendor_app_info".brand_name as "vendorName",
+  "user".email,
+  "vendor_app_info".website_url as "website",
+  "vendor_app_info".business_type as "businessType",
+  "vendor_app_info".selected_categories as "primaryProductCategory",
+  "vendor_app_info".country,
+  "vendor_app_info".number_of_products as "numberOfProducts",
+  "vendor_app_info".giveback_selection as "vendorGiveback",
+  "vendor_app_info".giveback_description as "givebackDescription",
+  "vendor_app_info".nonprofit_selection as "partnerNonProfit",
+  "vendor_app_info".nonprofit_description as "nonprofitDescription",
+  "vendor_app_info".heard_about_us as "hearAboutUs",
+  "vendor_app_info".date_created as "intakeDate",
+  "vendor_app_info".date_edited as "dateEdited",
+  "status".status as "onboardingStatus",
+  "status".id as "onboardingStatusId",
+  "vendor_app_info".is_active as "is_active",
+  "vendor_app_info".dropbox_folder_path as "dropboxFolderPath",
+  "vendor_app_info".dropbox_shared_link as "dropboxSharedLink"
+  FROM vendor_app_info
+  JOIN "user" ON vendor_app_info.user_id = "user".id
+  JOIN "status" ON vendor_app_info.status_id = "status".id
+  WHERE "vendor_app_info".id = $1;
   `;
+
+
+
   pool
     .query(queryText, [vendorId])
     .then((result) => {
       console.log("Results from database: ", result);
+      const vendorData = result.rows[0];
+      res.send([vendorData]);
     })
     .catch((error) => {
       console.error("Error GETting vendor details: ", error);
+
       if (error.code === "ECONNREFUSED") {
         res.status(500).send("Database connection was refused.");
       } else {
         res.status(500).send("An unknown error occurred.");
       }
     });
+
+
+
+
 });
 
 router.put("/onboarding/:id", rejectUnauthenticated, (req, res) => {

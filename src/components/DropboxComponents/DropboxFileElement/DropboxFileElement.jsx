@@ -20,7 +20,7 @@ export default function DropboxFileElement({ file }) {
   const dispatch = useDispatch();
 
   // file info
-  const fileName = file.name.split('.').shift();
+  const fileName = file.name.split(".").shift();
   const fileType = file.name.split(".").pop().toUpperCase();
   const filePath = file.path_lower;
   // format date
@@ -41,14 +41,13 @@ export default function DropboxFileElement({ file }) {
 
   const downloadFileButton = () => {
     console.log("download file path:", filePath);
-
-        dispatch({
+    console.log("download disabled at the moment");
+    dispatch({
       type: "DOWNLOAD_DROPBOX_FILE",
       payload: filePath,
     });
-
   };
-
+  
   return (
     <>
       <ListItem className="list-item-container" sx={listItemContainerStyling}>

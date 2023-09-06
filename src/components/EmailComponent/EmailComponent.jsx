@@ -44,6 +44,9 @@ const LinkEmailSender = () => {
     from_name:"Cause Cart"
     };
 
+    // TODO: move emailjs to server side
+    // TODO: API key should be hieend in .env
+    // TODO: Request to email should be in a Saga
     emailjs
       .send(emailServiceId, emailTemplateId, templateParams, "MFr9TY2gaUo90C3nR")
       .then(
