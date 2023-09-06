@@ -146,7 +146,7 @@ router.post('/download', (req, res) => {
     // const blob = data.result.fileBlob;
 
     // send file with info and blob
-    res.send(200)
+    
 
     // .then((data) => {
 
@@ -157,10 +157,10 @@ router.post('/download', (req, res) => {
       //   if (err) { throw err; }
       //   console.log(`File: ${data.result.name} saved.`);
       // });
-    // })
-console.log('downloadedFile write file is:', downloadedFile);
+      // })
+      // console.log('downloadedFile write file is:', downloadedFile);
 
-
+      res.sendStatus(200)
 
   })
   .catch((err) => {

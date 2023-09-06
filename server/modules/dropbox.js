@@ -1,26 +1,27 @@
+const axios = require('axios');
 const { Dropbox } = require('dropbox');
 require('dotenv').config();
+const express = require('express');
+
+const tokenEndpoint = 'https://api.dropboxapi.com/oauth2/token';
+const redirectUri = 'http://localhost:3000/auth'
 
 
+// Dropbox configuration
+const config = {
+    clientId: process.env.DROPBOX_APP_KEY,
+    clientSecret: process.env.DROPBOX_SECRET,
+    refreshToken: process.env.DROPBOX_REFRESH_TOKEN,
+};
+
+
+// LAST UPDATED 11:27AM -- CHECK AGAIN AT 3:30
+// checked at 3:50, no access code needed with refersh token at the moment...
 // from sandbox
-const dbx = new Dropbox({
-    accessToken: "sl.BldSK3ntQ6mzsmAYS1n9L7jHfzWs8daMOsISL2wQM-iF0MDO3z-dr4a_X9eFM2lY62AX3vNZ8dEFK99jJ1ZFv-RTVEhblueTkU8RRsOVkDl8ewk1QVpDW8uVv0fX7FWRrP6Cp0vRNfkMsxw"
-}); // Replace with your access token
+const dbx = new Dropbox(config); // Replace with your access token
 
 
-
-
-
-// // create session ref:
-// const dropbox = Dropbox.authenticate({
-//     token: 'sl.Bk9fG-KcF1DguvGqKcoIcMRG4l7OcS3Yw2-DswBqLPIoTwsLB-S1Zcplr04mZ_EYeAfAF9_Fz8Ykd2wR1l1LgxOYe45KcT44vJrj46FgKK_cRbu8Wlhx6FXQbnU10431lwMXy1JeTGmL'
-// });
-
-// const APP_KEY = "yi1sy5me2a49729"; // Replace with your Dropbox app key
-// const DROPBOX_SECRET = "v33nvhfsgjwrs9q";
-// const CLIENT_ID = "dbid:AAA-iF2A0GBCEwestcaG5Q4vS5EfTSdUYVs";
-// const redirect_uri = 'http://localhost:3000/auth'
-
+dbx.auth.checkAndRefreshAccessToken();
 
 
 module.exports = dbx;
