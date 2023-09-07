@@ -1,3 +1,7 @@
 .bold-header {
-    font-weight: bold;
+  font-weight: bold;
+}
+
+.onboarding-complete {
+  background-color: rgb(220, 235, 235);
 }

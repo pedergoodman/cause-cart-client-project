@@ -9,9 +9,12 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 import { Icon } from "@iconify/react";
 
-function SendMeetingInvite({
+function SendContractLink({
   open,
   onClose,
   vendor,
@@ -19,24 +22,27 @@ function SendMeetingInvite({
   onChildCancel,
 }) {
   const dispatch = useDispatch();
+  const [consignmentChecked, setConsignmentChecked] = useState(false);
+  const [vendorChecked, setVendorChecked] = useState(false);
+  const [error, setError] = useState(false);
 
   const [closeChildOnly, setCloseChildOnly] = useState(false);
 
-  const sendMeetingLink = () => {
-    const approvedIntakeForm = "Approved Intake Form";
+  const sendContractEmailToVendor = () => {
+    const sentContract = "Sent Contract";
     dispatch({
       type: "UPDATE_ONBOARDING_STAGE",
-      payload: { id: vendor.id, newOnboardingStage: approvedIntakeForm },
+      payload: { id: vendor.id, newOnboardingStage: sentContract },
     });
 
-    const subject = "Vendor Approved: Calendly Link"; // replace with the subject
-    const body = "Hi here's a copy of the calendly link"; // replace with the email body
+    // const subject = "Vendor Approved: Calendly Link"; // replace with the subject
+    // const body = "Hi here's a copy of the calendly link"; // replace with the email body
 
     // Log the values before sending the email
-    console.log("Vendor:", vendor);
-    console.log("Vendor Email:", vendorEmail);
-    console.log("Subject:", subject);
-    console.log("Body:", body);
+    // console.log("Vendor:", vendor);
+    // console.log("Vendor Email:", vendorEmail);
+    // console.log("Subject:", subject);
+    // console.log("Body:", body);
 
     // Construct the mailto link
     // Encode the subject and body for the mailto URL to handle special characters
@@ -51,34 +57,14 @@ function SendMeetingInvite({
     handleClose();
   };
 
-  // Callback to send approval notification only
-  const sendApprovalNotification = () => {
-    const approvedIntakeForm = "Approved Intake Form";
-    dispatch({
-      type: "UPDATE_ONBOARDING_STAGE",
-      payload: { id: vendor.id, newOnboardingStage: approvedIntakeForm },
-    });
+  const handleFormSubmit = () => {
+    // Check if at least one checkbox is checked
+    if (!consignmentChecked && !vendorChecked) {
+      setError(true);
+      return;
+    }
 
-    const subject = "Vendor Approved"; // replace with the subject
-    const body = "Congratulations! You have been approved!"; // replace with the email body
-
-    // Log the values before sending the email
-    console.log("Vendor:", vendor);
-    console.log("Vendor Email:", vendorEmail);
-    console.log("Subject:", subject);
-    console.log("Body:", body);
-
-    // Construct the mailto link
-    // Encode the subject and body for the mailto URL to handle special characters
-    const emailToVendor = `mailto:${vendorEmail}?subject=${encodeURIComponent(
-      subject
-    )}&body=${encodeURIComponent(body)}`;
-
-    // Open the default email service of the admin user in a new tab
-    window.open(emailToVendor, "_blank");
-
-    // Close both modals using the passed callback
-    handleClose();
+    console.log("Form submitted");
   };
 
   const handleClose = () => {
@@ -123,7 +109,7 @@ function SendMeetingInvite({
               fontWeight="bold"
               marginLeft="8px"
             >
-              Send Email to Vendor?
+              Send Contract to Vendor?
             </Typography>
           </Box>
         </Box>
@@ -140,23 +126,68 @@ function SendMeetingInvite({
               <ListItem>
                 <ListItemText>
                   <span style={{ fontWeight: "bold" }}>
-                    Send Meeting Link:{" "}
+                    Send Consignment Agreement Link:
                   </span>
-                  Prefills the vendor's email, subject line, and message with
-                  your Calendly link.
+                  {/* TODO: Send Consignment Agreement Link Explanation // Prefills the vendor's email, subject line, and message with
+                  your Calendly link. */}
                 </ListItemText>
               </ListItem>
               <ListItem>
                 <ListItemText>
                   <span style={{ fontWeight: "bold" }}>
-                    Send Approval Email:{" "}
+                    Send Vendor Agreement Link:
                   </span>
-                  Prefills the vendor's email, subject line, and message in your
-                  default email service.
+                  {/* TODO: Send Vendor Agreement Link Explanation // Prefills the vendor's email, subject line, and message in your
+                  default email service. */}
                 </ListItemText>
               </ListItem>
             </List>
           </Box>
+        </Box>
+
+        <Box
+          sx={{
+            backgroundColor: "#fff",
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-around",
+            alignItems: "center",
+            padding: "25px",
+          }}
+        >
+          <FormGroup>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={consignmentChecked}
+                  onChange={(e) => {
+                    setConsignmentChecked(e.target.checked);
+                    setError(false);
+                  }}
+                />
+              }
+              label="Consignment Agreement"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={vendorChecked}
+                  onChange={(e) => {
+                    setVendorChecked(e.target.checked);
+                    setError(false);
+                  }}
+                />
+              }
+              label="Vendor Agreement"
+            />
+            {error && (
+              <FormHelperText error={true}>
+                At least one option should be selected.
+              </FormHelperText>
+            )}
+          </FormGroup>
+          {/* TODO: EVENT SEQUENCE THIS TO SEND CONTRACT ? */}
+          <button onClick={handleFormSubmit}>Submit</button>
         </Box>
         <Box
           sx={{
@@ -168,25 +199,6 @@ function SendMeetingInvite({
             padding: "25px",
           }}
         >
-          <Button
-            variant="contained"
-            sx={{
-              backgroundColor: "#84ceff",
-              "&:hover": {
-                backgroundColor: "#549cff",
-              },
-            }}
-            startIcon={
-              <img
-                src="images/calendlyIconColor.png"
-                alt="Logo"
-                style={{ height: "24px" }}
-              />
-            }
-            onClick={sendMeetingLink}
-          >
-            Send Meeting Link
-          </Button>
           <Button
             variant="contained"
             sx={{
@@ -204,9 +216,9 @@ function SendMeetingInvite({
                 sx={{ mr: 1 }}
               />
             }
-            onClick={sendApprovalNotification}
+            onClick={sendContractEmailToVendor}
           >
-            Send Approval Email
+            Send Contract
           </Button>
           <Button
             variant="contained"
@@ -235,4 +247,4 @@ function SendMeetingInvite({
   );
 }
 
-export default SendMeetingInvite;
+export default SendContractLink;

@@ -18,6 +18,15 @@ CREATE TABLE "category_names" (
     name VARCHAR(255)
 );
 
+-- Links to send to user
+CREATE TABLE template_links (
+id SERIAL PRIMARY KEY,
+"name" VARCHAR(255),
+"type" VARCHAR(255),
+link VARCHAR(350)
+);
+
+
 -- Create vendor_app_info
 CREATE TABLE "vendor_app_info" (
     id SERIAL PRIMARY KEY,
@@ -35,22 +44,15 @@ CREATE TABLE "vendor_app_info" (
     date_created DATE,
     date_edited DATE,
     status_id INTEGER REFERENCES "status"(id),
-    category_name_ids VARCHAR(255),
-    other_category_description VARCHAR(500),
+    selected_categories VARCHAR(255),
     is_active BOOLEAN DEFAULT true, 
     sent_contract_link INTEGER REFERENCES "template_links"(id),
     dropbox_folder_id VARCHAR(255),
     dropbox_folder_path VARCHAR(255),
-    dropbox_shared_link VARCHAR(350)
+    dropbox_shared_link VARCHAR(350),
+    sent_contract_link INTEGER REFERENCES "template_links"(id)
 );
 
--- Links to send to user
-CREATE TABLE template_links (
-id SERIAL PRIMARY KEY,
-"name" VARCHAR(255),
-"type" VARCHAR(255),
-"link" VARCHAR(350)
-);
 
 
 INSERT INTO template_links ("name", "type", link)
@@ -123,7 +125,7 @@ INSERT INTO "vendor_app_info" (
   'Friend referral', 'Yes', 1, '10% of profits go to local environmental NGOs.',
   'Yes', 'Supporting local environmental causes.', '1', '2023-08-30', '2023-08-30', 5, 1),
 
-  ('CharityThreads', 'www.charitythreads.org', 'Non-Profit 501c3', 'USA', '51-100',
+  ('CharityThreads', 'www.cause-cart.com', 'Non-Profit 501c3', 'USA', '51-100',
   'Online ad', 'Yes', 2, '100% proceeds go to children`s education programs.',
   'Yes', 'Supporting underprivileged youth education.', '3', '2023-08-30', '2023-08-30', 3, 1),
 
@@ -135,7 +137,7 @@ INSERT INTO "vendor_app_info" (
   'Trade show', 'Yes', 4, '5% of profits support reforestation projects.',
   'No', '', '1,7', '2023-08-30', '2023-08-30', 7, 1),
 
-  ('JewelVogue', 'www.jewelvogue.net', 'Cooperative', 'USA', '1-10',
+  ('JewelVogue', 'www.google.com', 'Cooperative', 'USA', '1-10',
   'Online search', 'No', 5, '',
   'No', '', '2,9', '2023-08-30', '2023-08-30', 1, 1),
 

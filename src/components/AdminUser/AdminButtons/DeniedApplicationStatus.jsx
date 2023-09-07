@@ -10,21 +10,17 @@ import {
   Typography,
 } from "@mui/material";
 import { Icon } from "@iconify/react";
+import { format } from "date-fns";
 
-import DenyApplication from "./DenyApplication";
+import DenyApplication from "../AdminButtons/DenyApplication";
 
-function SendProductTemplates({ vendor, vendorEmail, onClose }) {
+function DeniedApplicationStatus({ vendor, vendorEmail, dateEdited, onClose }) {
   const dispatch = useDispatch();
 
-  const sendProductTemplateToVendor = () => {
-    const sentProductTemplate = "Sent Product Spreadsheet";
-    dispatch({
-      type: "UPDATE_ONBOARDING_STAGE",
-      payload: { id: vendor.id, newOnboardingStage: sentProductTemplate },
-    });
-
-    const subject = "Product Template"; // replace with the subject
-    const body = "Hi here's your product templates to review and fill out"; // replace with the email body
+  const sendFollowUpToVendor = () => {
+    const subject = "Follow Up To Application Decision"; // replace with the subject
+    const body =
+      "Hi, following up if you have any questions or need anything regarding your application being denied"; // replace with the email body
 
     // Log the values before sending the email
     console.log("Vendor:", vendor);
@@ -47,19 +43,36 @@ function SendProductTemplates({ vendor, vendorEmail, onClose }) {
 
   return (
     <>
-      <Box>
-        {/* TODO: INSERT DROPBOX API and/or COMPONENT FOR PRODUCT TEMPLATES */}
-      </Box>
       <Box
         sx={{
-          backgroundColor: "#FFE6D9",
+          backgroundColor: "#EBD6D5",
           display: "flex",
           flexDirection: "row",
           flexWrap: "nowrap",
           alignContent: "center",
           justifyContent: "space-evenly",
           alignItems: "center",
-          padding: "25px",
+          paddingTop: "10px",
+          paddingBottom: "10px",
+        }}
+      >
+        <Typography variant="h7" sx={{ color: "#d3306a" }}>
+          <span style={{ fontWeight: "bold", color: "#d3306a" }}>
+            Application Denied:{" "}
+          </span>{" "}
+          {format(new Date(dateEdited), "MM/dd/yyyy")}
+        </Typography>
+      </Box>
+      <Box
+        sx={{
+          backgroundColor: "#EBD6D5",
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "nowrap",
+          alignContent: "center",
+          justifyContent: "space-evenly",
+          alignItems: "center",
+          padding: "8px 25px 25px 25px",
         }}
       >
         <Box>
@@ -73,24 +86,21 @@ function SendProductTemplates({ vendor, vendorEmail, onClose }) {
             }}
             startIcon={
               <Icon
-                icon="fluent:document-table-cube-20-regular"
+                icon="mdi:email-fast-outline"
                 color="white"
                 width="24"
                 height="24"
                 sx={{ mr: 1 }}
               />
             }
-            onClick={sendProductTemplateToVendor}
+            onClick={sendFollowUpToVendor}
           >
-            Send Product Spreadsheet
+            Send Follow Up Email
           </Button>
-        </Box>
-        <Box>
-          <DenyApplication vendor={vendor} onClose={onClose} />
         </Box>
       </Box>
     </>
   );
 }
 
-export default SendProductTemplates;
+export default DeniedApplicationStatus;

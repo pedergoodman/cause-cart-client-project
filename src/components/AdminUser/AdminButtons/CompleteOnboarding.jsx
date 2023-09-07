@@ -1,52 +1,193 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import {
-  HashRouter as Router,
-  Redirect,
-  Route,
-  Switch,
-} from "react-router-dom";
-
-import { useDispatch, useSelector } from "react-redux";
-
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Box, Button, Divider, Grid, Modal, Typography } from "@mui/material";
-
+  Box,
+  Button,
+  Modal,
+  List,
+  ListItem,
+  ListItemText,
+  Typography,
+} from "@mui/material";
 import { Icon } from "@iconify/react";
 
-function CompleteOnboarding({ vendor, onClose }) {
-  const dispatch = useDispatch();
+import DenyApplication from "../AdminButtons/DenyApplication";
 
-  const handleCompletedOnboarding= () => {
+function CompleteOnboarding({
+  open,
+  onClose,
+  vendor,
+  vendorEmail,
+  onChildCancel,
+}) {
+  const dispatch = useDispatch();
+  const [closeChildOnly, setCloseChildOnly] = useState(false);
+
+  const handleCompletedOnboarding = () => {
     const completedOnboarding = "Onboarding Complete";
     dispatch({
       type: "UPDATE_ONBOARDING_STAGE",
       payload: { id: vendor.id, newOnboardingStage: completedOnboarding },
     });
-    onClose();
+
+    const subject = "Onboarding Complete"; // replace with the subject
+    const body =
+      "Congratulations! Your application and product spreadsheets have been approved, please visit these links Stripe, etc."; // replace with the email body
+
+    // Log the values before sending the email
+    console.log("Vendor:", vendor);
+    console.log("Vendor Email:", vendorEmail);
+    console.log("Subject:", subject);
+    console.log("Body:", body);
+
+    // Construct the mailto link
+    // Encode the subject and body for the mailto URL to handle special characters
+    const emailToVendor = `mailto:${vendorEmail}?subject=${encodeURIComponent(
+      subject
+    )}&body=${encodeURIComponent(body)}`;
+
+    // Open the default email service of the admin user in a new tab
+    window.open(emailToVendor, "_blank");
+
+    // Close both modals using the passed callback
+    handleClose();
+  };
+
+  const handleClose = () => {
+    if (closeChildOnly) {
+      // Close only the child component
+      setCloseChildOnly(false);
+      onChildCancel(); // Notify the parent about child cancellation
+    } else {
+      // Close both modals using the passed callback
+      onClose();
+    }
   };
 
   return (
-    <Button
-      variant="contained"
-      sx={{
-        backgroundColor: "#D29E9D",
-        "&:hover": {
-          backgroundColor: "#944B49",
-        },
-      }}
-      startIcon={
-        <Icon
-          icon="mdi:clipboard-check-multiple-outline"
-          color="white"
-          width="24"
-          height="24"
-          sx={{ mr: 1 }}
-        />
-      }
-      onClick={handleCompletedOnboarding}
-    >
-      Onboarding Complete
-    </Button>
+    <Modal open={open} onClose={handleClose}>
+      <Box
+        sx={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          width: "700px",
+          maxHeight: "460px",
+          bgcolor: "background.paper",
+          boxShadow: 24,
+          borderRadius: "25px",
+          overflow: "auto",
+        }}
+      >
+        <Box
+          display="flex"
+          flexDirection="row"
+          alignItems="center"
+          justifyContent="flex-start"
+          padding="25px"
+          backgroundColor="#A7E4E7"
+        >
+          <Box>
+            <Typography
+              variant="h7"
+              align="left"
+              fontWeight="bold"
+              marginLeft="8px"
+            >
+              Vendor Completed Onboarding?
+            </Typography>
+          </Box>
+        </Box>
+        <Box
+          display="flex"
+          flexDirection="column"
+          alignItems="flex-start"
+          justifyContent="flex-start"
+          padding="0px 25px"
+          backgroundColor="#FFF"
+        >
+          <Box>
+            <ListItem>
+              <ListItemText>
+                <span style={{ fontWeight: "bold" }}>
+                  Confirm the vendor completed these tasks:
+                </span>
+              </ListItemText>
+            </ListItem>
+            <List
+              sx={{
+                listStyleType: "disc",
+                padding: "0px 25px",
+              }}
+            >
+              <ListItem sx={{ display: "list-item", padding: "0px 26px" }}>
+                <ListItemText>Submitted Intake Form</ListItemText>
+              </ListItem>
+              <ListItem sx={{ display: "list-item", padding: "0px 26px" }}>
+                <ListItemText>Submitted Contract</ListItemText>
+              </ListItem>
+              <ListItem sx={{ display: "list-item", padding: "0px 26px" }}>
+                <ListItemText>Submitted Product Spreadsheet(s)</ListItemText>
+              </ListItem>
+            </List>
+          </Box>
+        </Box>
+        <Box
+          sx={{
+            backgroundColor: "#fff",
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-around",
+            alignItems: "center",
+            padding: "25px",
+          }}
+        >
+          <Button
+            variant="contained"
+            sx={{
+              backgroundColor: "#3D9296",
+              "&:hover": {
+                backgroundColor: "#286264",
+              },
+            }}
+            startIcon={
+              <Icon
+                icon="material-symbols:heart-check-outline"
+                color="white"
+                width="24"
+                height="24"
+                sx={{ mr: 1 }}
+              />
+            }
+            onClick={handleCompletedOnboarding}
+          >
+            Onboarding Complete
+          </Button>
+          <Button
+            variant="contained"
+            sx={{
+              backgroundColor: "#FFDECD",
+              "&:hover": {
+                backgroundColor: "#F9BC9E",
+              },
+            }}
+            startIcon={
+              <Icon
+                icon="heroicons-solid:x"
+                color="#747474"
+                width="24"
+                height="24"
+                sx={{ mr: 1 }}
+              />
+            }
+            onClick={onChildCancel}
+          >
+            <Typography color="#747474">Cancel</Typography>
+          </Button>
+        </Box>
+      </Box>
+    </Modal>
   );
 }
 

@@ -21,7 +21,4 @@ const config = {
 const dbx = new Dropbox(config); // Replace with your access token
 
 
-dbx.auth.checkAndRefreshAccessToken();
-
-
 module.exports = dbx;
