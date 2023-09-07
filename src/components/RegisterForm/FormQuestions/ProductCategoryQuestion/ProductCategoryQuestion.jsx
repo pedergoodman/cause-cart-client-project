@@ -124,17 +124,17 @@ function ProductCategoryQuestion({
   // * Conditional Rendering of product category selections
     let selected = ''
 
-  if (productCategories.length == 0 && !otherIsChecked) { // if NOTHING is selected
+  if (productCategories?.length == 0 && !otherIsChecked) { // if NOTHING is selected
     // if nothing is selected
     selected = 'Select one or more'
-  } else if (productCategories.length == 1 && !otherIsChecked) { // if ONE thing is selected, but NOT other
+  } else if (productCategories?.length == 1 && !otherIsChecked) { // if ONE thing is selected, but NOT other
     selected = productCategories
-  } else if (productCategories.length == 0 && otherIsChecked) { // if ONLY other is selected
+  } else if (productCategories?.length == 0 && otherIsChecked) { // if ONLY other is selected
     selected = 'Other'
-  } else if (productCategories.length >= 1 && otherIsChecked) { // if a category && other is selected
-    selected = `${productCategories.length + 1} categories selected`
+  } else if (productCategories?.length >= 1 && otherIsChecked) { // if a category && other is selected
+    selected = `${productCategories?.length + 1} categories selected`
   } else {
-    selected = `${productCategories.length} categories selected` // if more than one category is selected, but not other
+    selected = `${productCategories?.length} categories selected` // if more than one category is selected, but not other
   }
 
 
@@ -162,7 +162,7 @@ function ProductCategoryQuestion({
               key={category.id}
               control={
                 <Checkbox
-                  checked={productCategories.includes(category.name)}
+                  checked={productCategories?.includes(category.name)}
                   onChange={handleCheckboxChange}
                   value={category.name}
                 />
