@@ -41,10 +41,10 @@ function* downloadDropboxFile(action) {
     // ! working on file blobs here!
     const fileName = downloadResult.data.result.name;
     const fileBinary = downloadResult.data.result.fileBinary
-    
+
     console.log('in dropboxSaga, fileBinary is:', fileBinary);
     // const newFileBlob = new Blob(fileBinary, fileName);
-    console.log('in dropbox saga, array buffer is:',arrayBufferToBinaryString(fileBinary))
+    // console.log('in dropbox saga, array buffer is:', arrayBufferToBinaryString(fileBinary))
 
     // var blob = new Blob(newFileBlob);
 
@@ -54,7 +54,7 @@ function* downloadDropboxFile(action) {
     // console.log('in dropboxSaga, newFileBlob is:', newFileBlob);
 
     // TODO: trigger download.. here? or do you store it?
-    
+
 
 
     // yield saveAs(newFileBlob, fileName)
