@@ -48,9 +48,9 @@ export const ONBOARDING_STAGE_ICONS = {
   "Product Spreadsheet Submitted": (
     <Icon icon="fluent:box-arrow-up-20-filled" style={{ fontSize: "24px" }} />
   ),
-  //   "Approved Product": (
-  //     <Icon icon="fluent:box-checkmark-20-regular" style={{ fontSize: "24px" }} />
-  //   ),
+  "Approved Product": (
+    <Icon icon="fluent:box-checkmark-20-regular" style={{ fontSize: "24px" }} />
+  ),
   "Denied Application": (
     <Icon icon="octicon:x-circle-fill-16" style={{ fontSize: "20px" }} />
   ),
@@ -102,7 +102,7 @@ function VendorsList() {
       "Contract Submitted",
       "Sent Product Spreadsheet",
       "Product Spreadsheet Submitted",
-      //   "Approved Product",
+      "Approved Product",
       "Denied Application",
       "Onboarding Complete",
       "Paused Onboarding",
@@ -120,37 +120,28 @@ function VendorsList() {
     handleCloseModal();
   };
 
-  const handleDelete = (row) => {
-    // TODO: Implement the functionality to delete the vendor and archive their documents
-  };
+  // TODO: UPDATE AND COMPLETE DELETE VENDOR
+  // const handleDelete = (row) => {
+  //   const confirmation = window.confirm("Are you sure you want to delete this vendor?");
+  //   if (confirmation) {
+  //     dispatch({ type: "DELETE_VENDOR", payload: { id: row.id } });
+  //   }
+  // };
 
   const columns = [
-    // {
-    //   field: "brand_name",
-    //   headerName: "Vendor",
-    //   flex: 1,
-    //   renderCell: (params) => (
-    //     <span
-    //       onClick={() => handleVendorClick(params.row)}
-    //       style={{ color: "#286264", cursor: "pointer", fontWeight: "bold" }}
-    //     >
-    //       {params.value}
-    //     </span>
-    //   ),
-    // },
     {
-        field: "brand_name",
-        headerName: "Vendor",
-        flex: 1,
-        renderCell: (params) => (
-          <span
-            onClick={() => handleVendorClick(params.row)}
-            style={{ color: "#286264", cursor: "pointer", fontWeight: "bold" }}
-          >
-            {params.value}
-          </span>
-        ),
-      },
+      field: "brand_name",
+      headerName: "Vendor",
+      flex: 1,
+      renderCell: (params) => (
+        <span
+          onClick={() => handleVendorClick(params.row)}
+          style={{ color: "#286264", cursor: "pointer", fontWeight: "bold" }}
+        >
+          {params.value}
+        </span>
+      ),
+    },
     // { field: "status", headerName: "Status", flex: 1 },
     {
       field: "status",
@@ -197,6 +188,7 @@ function VendorsList() {
     //   ),
     // },
     {
+      // TODO: UPDATE AND COMPLETE DELETE VENDOR
       field: "delete",
       // headerName: "Delete Vendor",
       headerName: "",
@@ -205,8 +197,9 @@ function VendorsList() {
       renderCell: (params) => (
         <Icon
           icon="mingcute:delete-fill"
-          style={{ fontSize: "30px", color: "#823646" }}
-          onClick={() => handleDelete(params.row)}
+          style={{ fontSize: "30px", color: "#823646", cursor: "pointer" }}
+          // TODO: UPDATE AND COMPLETE DELETE VENDOR
+          //   onClick={() => handleDelete(params.row)}
         ></Icon>
       ),
     },
@@ -215,6 +208,10 @@ function VendorsList() {
   if (!vendors) {
     return null;
   }
+
+  const getRowClassName = (params) => {
+    return params.row.onboardingStatusId === 8 ? "onboarding-complete" : "";
+  };
 
   return (
     <>
@@ -241,6 +238,7 @@ function VendorsList() {
           pageSize={20}
           rowsPerPageOptions={[20, 40, 60]}
           apiRef={apiRef}
+          getRowClassName={getRowClassName}
         />
         {selectedVendor && (
           <VendorDetails

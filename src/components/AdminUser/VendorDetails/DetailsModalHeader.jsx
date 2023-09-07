@@ -50,8 +50,9 @@ export const ONBOARDING_STAGE_ICONS = {
   ),
 };
 
-
 const DetailsModalHeader = ({ status }) => {
+  const isOnboardingComplete = status === "Onboarding Complete";
+
   return (
     <>
       <Box
@@ -60,7 +61,7 @@ const DetailsModalHeader = ({ status }) => {
         alignItems="center"
         justifyContent="space-between"
         padding="25px"
-        backgroundColor="#FFF9F5"
+        backgroundColor={isOnboardingComplete ? "#3D9296" : "#FFEEE6"}
       >
         <Box
           display="flex"
@@ -68,7 +69,12 @@ const DetailsModalHeader = ({ status }) => {
           alignItems="center"
           justifyContent="center"
         >
-          <Box backgroundColor="#F9BC9E" p={0.5}>
+          <Box
+            p={0.5}
+            backgroundColor={
+              isOnboardingComplete ? "rgb(220, 235, 235)" : "#F9BC9E"
+            }
+          >
             {ONBOARDING_STAGE_ICONS[status]}
           </Box>
           <Box>
@@ -90,14 +96,15 @@ const DetailsModalHeader = ({ status }) => {
           </Box>
         </Box>
 
-        <Button
-          variant="contained"
-          color="warning"
-          sx={{ backgroundColor: "#F9BC9E" }}
-        >
-            {" "}
-            Pending Tasks{""}
-        </Button>
+        {!isOnboardingComplete && (
+          <Button
+            variant="contained"
+            color="warning"
+            sx={{ backgroundColor: "#F9BC9E" }}
+          >
+            Pending Tasks
+          </Button>
+        )}
       </Box>
     </>
   );
