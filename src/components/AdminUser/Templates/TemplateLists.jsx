@@ -15,6 +15,7 @@ import IconButton from "@mui/material/IconButton";
 import Divider from "@mui/material/Divider";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import Swal from 'sweetalert2'
 
 function TemplateLists() {
   const [dense, setDense] = useState(false);
@@ -69,9 +70,22 @@ function TemplateLists() {
   }
 
   function deleteCategory(categoryId) {
-    dispatch({
-      type: "DELETE_ADMIN_CATEGORY",
-      payload: categoryId,
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch({
+          type: "DELETE_ADMIN_CATEGORY",
+          payload: categoryId,
+        });
+        Swal.fire("Deleted!", "Your category has been deleted.", "success");
+      }
     });
   }
 
