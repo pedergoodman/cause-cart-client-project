@@ -31,8 +31,7 @@ function RegisterButton({
     password: password,
     reEnterPassword: reEnterPassword,
     country: country,
-    productCategories: productCategories,
-    prodCategoriesOtherOptionDescInput: prodCategoriesOtherOptionDescInput,
+    productCategories: [...productCategories, prodCategoriesOtherOptionDescInput],
     numberOfProducts: numberOfProducts,
     giveBack: giveBack,
     giveBackDescriptionFieldInput: giveBackDescriptionFieldInput,
@@ -49,6 +48,8 @@ function RegisterButton({
 
   const handleRegisterUser = (event) => {
     event.preventDefault();
+
+    console.log(vendorFormData.productCategories);
 
     let passwordsMatch = true;
 
