@@ -65,7 +65,10 @@ router.put("/templates/:id", rejectUnauthenticated, (req, res) => {
     });
 });
 
-router.get("/category", rejectUnauthenticated, (req, res) => {
+
+// ! can't be protected route, needs to grab for registration page
+// if we need to make it protected we'll need to make a new route for registration page
+router.get("/category", (req, res) => {
   const queryText = `SELECT * FROM category_names;`;
   pool
     .query(queryText)
