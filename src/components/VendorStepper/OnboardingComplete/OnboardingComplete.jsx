@@ -19,7 +19,7 @@ function OnboardingComplete({ status, setActiveStep }) {
         // New message
         // TODO: Change to actual website name in message
         message =
-          "Congratulations!🥳 You've completed the onboarding process. We're thrilled to have you as part of Cause-Cart! Please click the links below to register your official vendor account and sign up for ...(*don't remember site name*)";
+          "Congratulations!🥳 You've completed the onboarding process. We're thrilled to have you as part of Cause-Cart! Please click the links below to register your official vendor account and sign up on Stripe for payment information.";
         // Render
         return (
           <>
@@ -53,9 +53,9 @@ function OnboardingComplete({ status, setActiveStep }) {
                     <a
                       className="links-and-link-buttons"
                       target="_blank"
-                      href=""
+                      href="https://stripe.com/"
                     >
-                      Spline?? (Change to actual name with link)
+                      Stripe
                     </a>
                   </Button>
                 </div>
