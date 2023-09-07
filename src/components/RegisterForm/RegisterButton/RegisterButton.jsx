@@ -34,7 +34,7 @@ function RegisterButton({
     reEnterPassword: reEnterPassword,
     country: country,
     // appending 
-    productCategories: productCategories,
+    productCategories: finalProductCategories.join(", "),
     numberOfProducts: numberOfProducts,
     giveBack: giveBack,
     giveBackDescriptionFieldInput: giveBackDescriptionFieldInput,
