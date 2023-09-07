@@ -18,12 +18,6 @@ CREATE TABLE "category_names" (
     name VARCHAR(255)
 );
 
-
--- Create all_vendor_steps
-CREATE TABLE all_vendor_steps (
-id SERIAL PRIMARY KEY,
-step_name VARCHAR(225));
-
 -- Create vendor_app_info
 CREATE TABLE "vendor_app_info" (
     id SERIAL PRIMARY KEY,
