@@ -59,10 +59,10 @@ function RegisterForm() {
   // ! HIDDEN BUTTON REMOVE AFTER PRESENTATION
   const hiddenButtonAutoFill = () => {
     
-    setBrandName('TinyPaws');
-    setWebsiteURL('www.tinypaws.store');
+    setBrandName('KittyKrafters');
+    setWebsiteURL('www.kittykrafters.com');
     setBusinessType('LLC');
-    setEmail('help@tinypaws.store');
+    setEmail('info@kittykrafters.com');
     setPassword('password');
     setReEnterPassword('password');
     setCountry('United States');
@@ -70,9 +70,9 @@ function RegisterForm() {
     setProdCategoriesOtherOptionDescInput('');
     setNumberOfProducts('11-25');
     setGiveBack('Yes');
-    setGiveBackDescriptionFieldInput('10% of each purchase goes to supporting local animal shelters');
+    setGiveBackDescriptionFieldInput('10% of profits support local cat shelters.');
     setNonProfitPartner('Yes');
-    setNonProfitPartnerDescriptionFieldInput('Animal Humane Society');
+    setNonProfitPartnerDescriptionFieldInput('Partnered with "Paws and Whiskers Foundation" to improve cat welfare.');
     setHowDidYouHear('Social Media');
   };
 
