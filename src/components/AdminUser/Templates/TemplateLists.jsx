@@ -18,8 +18,10 @@ import Button from "@mui/material/Button";
 
 function TemplateLists() {
   const [dense, setDense] = useState(false);
-  const [categoryName, setCategoryName] = useState("Name");
+  const [categoryName, setCategoryName] = useState("");
   const [editingCategory, setEditingCategory] = useState(null);
+  const [templateLink, setTemplateLink] = useState("");
+  const [editingTemplate, setEditingTemplate] = useState(null);
 
   const templates = useSelector((store) => store.templateLinkReducer);
   const categories = useSelector((store) => store.categoryNameReducer);
@@ -39,6 +41,11 @@ function TemplateLists() {
     setEditingCategory(category.id);
   }
 
+  function editTemplate(template) {
+    setTemplateLink(template.link);
+    setEditingTemplate(template.id);
+  }
+
   function saveCategory(category) {
     dispatch({
       type: "EDIT_ADMIN_CATEGORY",
@@ -48,6 +55,17 @@ function TemplateLists() {
       },
     });
     setEditingCategory(null);
+  }
+
+  function saveTemplate(template) {
+    dispatch({
+      type: "EDIT_ADMIN_TEMPLATE",
+      payload: {
+        id: template.id,
+        link: templateLink
+      },
+    });
+    setEditingTemplate(null);
   }
 
   function deleteCategory(categoryId) {
@@ -115,7 +133,7 @@ function TemplateLists() {
                           value={categoryName}
                           onChange={(e) => {
                             setCategoryName(e.target.value);
-                          }}                          
+                          }}
                           sx={{ mt: "20px", mb: "10px" }}
                         />
                         <Button
@@ -154,6 +172,8 @@ function TemplateLists() {
           </Paper>
         </Grid>
 
+        {/* Start of templates  */}
+
         <Grid item xs={12} md={6}>
           <Paper elevation={3} sx={{ padding: "16px", borderRadius: "10px" }}>
             <List dense={dense} sx={{ display: "flex-wrap" }}>
@@ -162,23 +182,55 @@ function TemplateLists() {
               </Typography>
               {templates.map((template) => {
                 return (
-                  <>
-                    <Container key={template.id}>
-                      <ListItem>
-                        <ListItemButton
-                          component="a"
-                          href={template.link}
-                          target="_blank"
+                  <div key={template.id}>
+                    {editingTemplate === template.id ? (
+                      <>
+                        <TextField
+                          id="outlined-basic"
+                          label={template.name}
+                          variant="outlined"
+                          value={templateLink}
+                          onChange={(e) => {
+                            setTemplateLink(e.target.value);
+                          }}
+                          sx={{ mt: "20px", mb: "10px", width:'400px'}}
+                        />
+                        <Button
+                          sx={{ margin: "30px", display: "inline" }}
+                          variant="contained"
+                          onClick={() => saveTemplate(template)}
                         >
-                          <ListItemText
-                            primary={template.name}
-                            secondary={"click to view link"}
-                          />
-                        </ListItemButton>
-                      </ListItem>
-                    </Container>
-                    <Divider />
-                  </>
+                          Save
+                        </Button>
+                        <Divider />
+                      </>
+                    ) : (
+                      <>
+                        <Container>
+                          <ListItem>
+                            <ListItemButton
+                              component="a"
+                              href={template.link}
+                              target="_blank"
+                            >
+                              <ListItemText
+                                primary={template.name}
+                                secondary={"click to view link"}
+                              />
+                            </ListItemButton>
+                            <IconButton
+                          variant="contained"
+                          onClick={() => editTemplate(template)}
+                        >
+                          <EditOutlinedIcon />
+                        </IconButton>
+                          </ListItem>
+                          
+                        </Container>
+                        <Divider />
+                      </>
+                    )}
+                  </div>
                 );
               })}
             </List>

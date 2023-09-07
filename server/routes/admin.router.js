@@ -42,6 +42,29 @@ router.get("/templates", rejectUnauthenticated, (req, res) => {
     });
 });
 
+router.put("/templates/:id", rejectUnauthenticated, (req, res) => {
+  const templateID = req.params.id;
+  const updatedTemplateLink = req.body.link;
+
+  const queryText = `
+    UPDATE template_links
+    SET link = $1
+    WHERE id = $2
+  `;
+
+  const values = [updatedTemplateLink, templateID];
+
+  pool
+    .query(queryText, values)
+    .then(() => {
+      res.sendStatus(204); // No Content (Successful Update)
+    })
+    .catch((error) => {
+      console.log("Error updating category", error);
+      res.sendStatus(500); // Internal Server Error
+    });
+});
+
 router.get("/category", rejectUnauthenticated, (req, res) => {
   const queryText = `SELECT * FROM category_names;`;
   pool
