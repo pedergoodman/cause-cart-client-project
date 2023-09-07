@@ -60,7 +60,7 @@ function TemplateLists() {
 
   function saveTemplate(template) {
     dispatch({
-      type: "EDIT_ADMIN_TEMPLATE",
+      type: "EDIT_ADMIN_TEMPLATES",
       payload: {
         id: template.id,
         link: templateLink

@@ -50,6 +50,18 @@ function* fetchAdminTemplates() {
     console.log('error fetching admin template', error)
   }
 }
+
+function* editAdminTemplates(action) {
+  try {
+    console.log("in edit template saga", action.payload)
+    yield axios.put(`/api/admin/templates/${action.payload.id}`, {
+      link: action.payload.link,
+    });
+    yield put({ type: "FETCH_ADMIN_TEMPLATES" });
+  } catch (error) {
+    console.log("Error editing category", error);
+  }
+}
 function* fetchAdminCategories() {
   try {
     const response = yield axios.get("/api/admin/category");
@@ -99,6 +111,7 @@ function* adminSaga() {
   yield takeLatest("FETCH_VENDOR_DETAILS_REQUEST", fetchVendorDetails);
   yield takeLatest("UPDATE_ONBOARDING_STAGE", updateOnboardingStage);
   yield takeLatest("FETCH_ADMIN_TEMPLATES", fetchAdminTemplates);
+  yield takeLatest("EDIT_ADMIN_TEMPLATES", editAdminTemplates)
   yield takeLatest("FETCH_ADMIN_CATEGORIES", fetchAdminCategories)
   yield takeLatest("EDIT_ADMIN_CATEGORY", editAdminCategory);
   yield takeLatest("DELETE_ADMIN_CATEGORY", deleteAdminCategory);
