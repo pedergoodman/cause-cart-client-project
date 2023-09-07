@@ -60,35 +60,32 @@ router.post("/register", rejectUnauthenticated, async (req, res, next) => {
       giveBackDescriptionFieldInput,
       nonProfitPartner,
       nonProfitPartnerDescriptionFieldInput,
-      howDidYouHear
-    } = req.body
+      howDidYouHear,
+    } = req.body;
 
-
-  // **** refrence query for posting backend
+    // **** reference query for posting backend
     // ! need to fix posting categories to database as names instead of as IDs
 
-//     // For adding all vendor application form data to 'vendor_app_info' table
-//     const vendorAppInfoQuery = `INSERT INTO "vendor_app_info" 
-//     (
-//       brand_name, 
-//       website_url, 
-//       business_type, 
-//       country, 
-//       number_of_products,
-//       heard_about_us, 
-//       giveback_selection, 
-//       user_id, 
-//       giveback_description,
-//       nonprofit_selection, 
-//       nonprofit_description, 
-//       selected_categories,
-//       date_created, 
-//       date_edited, 
-//       status_id 
-//     ) 
-//     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $13, $14)`;
-
-
+    //     // For adding all vendor application form data to 'vendor_app_info' table
+    //     const vendorAppInfoQuery = `INSERT INTO "vendor_app_info"
+    //     (
+    //       brand_name,
+    //       website_url,
+    //       business_type,
+    //       country,
+    //       number_of_products,
+    //       heard_about_us,
+    //       giveback_selection,
+    //       user_id,
+    //       giveback_description,
+    //       nonprofit_selection,
+    //       nonprofit_description,
+    //       selected_categories,
+    //       date_created,
+    //       date_edited,
+    //       status_id
+    //     )
+    //     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $13, $14)`;
 
     const prodCategoriesOtherOptionDescInput =
       req.body.prodCategoriesOtherOptionDescInput || "";
@@ -133,14 +130,15 @@ router.post("/register", rejectUnauthenticated, async (req, res, next) => {
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16);
     `;
 
-
-    
-    
     // * Begin SQL query
-    await client.query('BEGIN')
+    await client.query("BEGIN");
 
     // create user in database, return id
-    const createdUserId = await pool.query(registerNewUserQuery, [email, password, authorizationLevel])
+    const createdUserId = await pool.query(registerNewUserQuery, [
+      email,
+      password,
+      authorizationLevel,
+    ]);
 
     // ! Second Query Below: new vendor application
     await client.query(vendorAppInfoQuery, [
@@ -162,20 +160,18 @@ router.post("/register", rejectUnauthenticated, async (req, res, next) => {
       1,
     ]);
 
-
     // end and commit query to database, sey complete status
-    await client.query('COMMIT')
+    await client.query("COMMIT");
     res.sendStatus(201);
   } catch (error) {
     // rollback if any errors occur
-    await client.query('ROLLBACK')
+    await client.query("ROLLBACK");
     console.log("User registration failed: ", error);
     res.sendStatus(500);
   } finally {
     client.release();
   }
 }); // end register user and vendor app info post request
-
 
 // logged in vendor infor for frontend
 // * GET request to retrieve user data using user_id using parameterization
@@ -209,7 +205,6 @@ WHERE "user".id = $1;
     });
 }); // end '/login:userID' route
 
-
 // Handles login form authenticate/login POST
 // userStrategy.authenticate('local') is middleware that we run on this route
 // this middleware will run our POST if successful
@@ -225,7 +220,6 @@ router.post(
     res.sendStatus(200);
   }
 ); // end '/login' route
-
 
 // * clear all server session information about this user
 router.post("/logout", (req, res) => {

@@ -4,14 +4,14 @@ import { Box, Button } from "@mui/material";
 import { Icon } from "@iconify/react";
 
 import DenyApplication from "./DenyApplication";
-import SendMeetingInvite from "./SendMeetingInvite"; // Import the SendMeetingInvite component
+import CompleteOnboarding from "./CompleteOnboarding";
 
-function ApproveIntakeForm({ vendor, onClose }) {
+function ApproveProductSpreadsheet({ vendor, onClose }) {
   // State to manage modal visibility
   const [openModal, setOpenModal] = useState(false);
 
   // Callback to open the modal
-  const openSendMeetingInviteModal = () => {
+  const openCompleteOnboardingModal = () => {
     setOpenModal(true);
   };
 
@@ -19,12 +19,15 @@ function ApproveIntakeForm({ vendor, onClose }) {
     setOpenModal(false); // Close only the child modal (SendMeetingInvite)
   };
 
-  const handleApprovedIntakeForm = () => {
-    openSendMeetingInviteModal();
+  const handleApprovedProductSpreadsheet = () => {
+    openCompleteOnboardingModal();
   };
 
   return (
     <>
+      <Box>
+        {/* TODO: INSERT DROPBOX API and/or COMPONENT TO REVIEW VENDOR SUBMITTED PRODUCT SPREADSHEETS */}
+      </Box>
       <Box
         sx={{
           backgroundColor: "#FFE6D9",
@@ -48,16 +51,16 @@ function ApproveIntakeForm({ vendor, onClose }) {
             }}
             startIcon={
               <Icon
-                icon="mdi:clipboard-check-multiple-outline"
+                icon="fluent:box-checkmark-20-regular"
                 color="white"
                 width="24"
                 height="24"
                 sx={{ mr: 1 }}
               />
             }
-            onClick={handleApprovedIntakeForm}
+            onClick={handleApprovedProductSpreadsheet}
           >
-            Approve Intake Form
+            Approve Product Spreadsheet
           </Button>
         </Box>
         <Box>
@@ -65,8 +68,8 @@ function ApproveIntakeForm({ vendor, onClose }) {
         </Box>
       </Box>
 
-      {/* Render the SendMeetingInvite modal */}
-      <SendMeetingInvite
+      {/* Render the CompleteOnboarding modal */}
+      <CompleteOnboarding
         open={openModal}
         vendor={vendor}
         vendorEmail={vendor.email}
@@ -77,4 +80,4 @@ function ApproveIntakeForm({ vendor, onClose }) {
   );
 }
 
-export default ApproveIntakeForm;
+export default ApproveProductSpreadsheet;

@@ -1,26 +1,34 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Box, Button } from "@mui/material";
+import {
+  Box,
+  Button,
+  Modal,
+  List,
+  ListItem,
+  ListItemText,
+  Typography,
+} from "@mui/material";
 import { Icon } from "@iconify/react";
 
-import DenyApplication from "./DenyApplication";
-import SendMeetingInvite from "./SendMeetingInvite"; // Import the SendMeetingInvite component
+import DenyApplication from "../AdminButtons/DenyApplication";
+import SendContractLink from "./SendContractLink";
 
-function ApproveIntakeForm({ vendor, onClose }) {
+function SendContract({ vendor, onClose }) {
   // State to manage modal visibility
   const [openModal, setOpenModal] = useState(false);
 
   // Callback to open the modal
-  const openSendMeetingInviteModal = () => {
+  const openSendContractLinkModal = () => {
     setOpenModal(true);
   };
 
   const handleChildCancel = () => {
-    setOpenModal(false); // Close only the child modal (SendMeetingInvite)
+    setOpenModal(false); // Close only the child modal (SendContractLink)
   };
 
-  const handleApprovedIntakeForm = () => {
-    openSendMeetingInviteModal();
+  const handleSendContract = () => {
+    openSendContractLinkModal();
   };
 
   return (
@@ -48,16 +56,16 @@ function ApproveIntakeForm({ vendor, onClose }) {
             }}
             startIcon={
               <Icon
-                icon="mdi:clipboard-check-multiple-outline"
+                icon="fluent:document-arrow-right-24-regular"
                 color="white"
                 width="24"
                 height="24"
                 sx={{ mr: 1 }}
               />
             }
-            onClick={handleApprovedIntakeForm}
+            onClick={handleSendContract}
           >
-            Approve Intake Form
+            Send Contract
           </Button>
         </Box>
         <Box>
@@ -65,8 +73,8 @@ function ApproveIntakeForm({ vendor, onClose }) {
         </Box>
       </Box>
 
-      {/* Render the SendMeetingInvite modal */}
-      <SendMeetingInvite
+      {/* Render the SendContractLink modal */}
+      <SendContractLink
         open={openModal}
         vendor={vendor}
         vendorEmail={vendor.email}
@@ -77,4 +85,4 @@ function ApproveIntakeForm({ vendor, onClose }) {
   );
 }
 
-export default ApproveIntakeForm;
+export default SendContract;

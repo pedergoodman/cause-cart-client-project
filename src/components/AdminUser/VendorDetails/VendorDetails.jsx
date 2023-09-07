@@ -13,7 +13,18 @@ import { Box, Button, Divider, Grid, Modal, Typography } from "@mui/material";
 
 import DetailsModalHeader from "../VendorDetails/DetailsModalHeader";
 import DropboxFileContainer from "../../DropboxComponents/DropboxFileContainer/DropboxFileContainer";
-import DenyApplication from "../AdminButtons/DenyApplication";
+
+import ApproveIntakeForm from "../AdminButtons/ApproveIntakeForm";
+import SendContract from "../AdminButtons/SendContract";
+import SendProductTemplates from "../AdminButtons/SendProductTemplates";
+import ApproveProductSpreadsheet from "../AdminButtons/ApproveProductSpreadsheet";
+
+import DeniedApplicationStatus from "../AdminButtons/DeniedApplicationStatus";
+import CompletedOnboardingStatus from "../AdminButtons/CompletedOnboardingStatus";
+
+// The following components are used when the vendor has not yet responded
+import AwaitingVendorSentContract from "../AdminButtons/AwaitingVendorSentContract";
+import AwaitingVendorSentProductSheet from "../AdminButtons/AwaitingVendorSentProductSheet";
 
 import { Icon } from "@iconify/react";
 
@@ -47,7 +58,9 @@ const TypographyWithDivider = ({ children }) => (
 
 function VendorDetails({ open, onClose, vendorId }) {
   const dispatch = useDispatch();
-  const vendorDetails = useSelector(state => state.vendorDetails.vendorDetails);
+  const vendorDetails = useSelector(
+    (state) => state.vendorDetails.vendorDetails
+  );
 
   useEffect(() => {
     if (vendorId) {
@@ -61,18 +74,70 @@ function VendorDetails({ open, onClose, vendorId }) {
 
   const vendor = vendorDetails[0];
 
-  //   const handleApproveProducts = () => {
-  //     const approvedProductStage = "Approved Product";
-  //     dispatch({
-  //       type: "UPDATE_ONBOARDING_STAGE",
-  //       payload: { id: vendor.id, newOnboardingStage: approvedProductStage },
-  //     });
-  //     onClose();
-  //   };
-
   // grab folder path
   const dropboxFolderPath = vendor.dropboxFolderPath;
   const dropboxSharedLink = vendor.dropboxSharedLink;
+
+  // TODO: SWITCH DEPENDING ON VENDOR ONBOARDING STATUS
+  function getOnboardingComponent(onboardingStatusId, vendor, onClose) {
+    // console.log("Current status_id: ", onboardingStatusId);
+    switch (onboardingStatusId) {
+      case 1:
+        return <ApproveIntakeForm vendor={vendor} onClose={onClose} />;
+      case 2:
+        return <SendContract vendor={vendor} onClose={onClose} />;
+      case 3:
+        return (
+          <AwaitingVendorSentContract
+            vendor={vendor}
+            dateEdited={vendor.dateEdited}
+            vendorEmail={vendor.email}
+            onClose={onClose}
+          />
+        );
+      case 4:
+        return <SendProductTemplates vendor={vendor} onClose={onClose} />;
+      case 5:
+        return (
+          <AwaitingVendorSentProductSheet
+            vendor={vendor}
+            dateEdited={vendor.dateEdited}
+            vendorEmail={vendor.email}
+            onClose={onClose}
+          />
+        );
+      case 6:
+        return <ApproveProductSpreadsheet vendor={vendor} onClose={onClose} />;
+      case 7:
+        return (
+          <DeniedApplicationStatus
+            vendor={vendor}
+            dateEdited={vendor.dateEdited}
+            vendorEmail={vendor.email}
+            onClose={onClose}
+          />
+        );
+      case 8:
+        return (
+          <CompletedOnboardingStatus
+            vendor={vendor}
+            dateEdited={vendor.dateEdited}
+            onClose={onClose}
+          />
+        );
+      // TODO: STRETCH PAUSE ONBOARDING
+      //   case 9:
+      //     return <PausedOnboardingStatus vendor={vendor} onClose={onClose} />;
+      default:
+        return null;
+    }
+  }
+
+  const onboardingComponent = getOnboardingComponent(
+    vendor.onboardingStatusId,
+    vendor,
+    onClose
+  );
 
   return (
     <ThemeProvider theme={theme}>
@@ -92,7 +157,6 @@ function VendorDetails({ open, onClose, vendorId }) {
           }}
         >
           <DetailsModalHeader status={vendor.onboardingStatus} />
-
           <Box
             display="flex"
             flexDirection="column"
@@ -111,12 +175,16 @@ function VendorDetails({ open, onClose, vendorId }) {
                 <Box display="flex" flexDirection="column">
                   <Typography variant="subtitle1">Email:</Typography>
                   <Typography variant="body1">
-                    <a
-                      href={`mailto:${vendor.email}`}
+                    <Box
+                      onClick={() =>
+                        window.open(`mailto:${vendor.email}`, "_blank")
+                      }
                       style={{
                         color: "inherit",
                         display: "flex",
                         alignItems: "center",
+                        cursor: "pointer",
+                        textDecoration: "underline",
                       }}
                     >
                       <Icon
@@ -126,20 +194,27 @@ function VendorDetails({ open, onClose, vendorId }) {
                         style={{ marginRight: "8px" }}
                       />
                       {vendor.email}
-                    </a>
+                    </Box>
                   </Typography>
                 </Box>
+
                 <Box display="flex" flexDirection="column" mt={1}>
                   <Typography variant="subtitle1">Website:</Typography>
                   <Typography variant="body1">
                     <a
-                      href={vendor.website}
+                      href={
+                        vendor.website.startsWith("http://") ||
+                        vendor.website.startsWith("https://")
+                          ? vendor.website
+                          : `http://${vendor.website}`
+                      }
                       target="_blank"
                       rel="noopener noreferrer"
                       style={{
                         color: "inherit",
                         display: "flex",
                         alignItems: "center",
+                        textDecoration: "underline",
                       }}
                     >
                       <Icon
@@ -152,6 +227,7 @@ function VendorDetails({ open, onClose, vendorId }) {
                     </a>
                   </Typography>
                 </Box>
+
                 <Box display="flex" flexDirection="column" mt={1}>
                   <Typography variant="subtitle1">Country:</Typography>
                   <Typography variant="body1">{vendor.country}</Typography>
@@ -167,7 +243,7 @@ function VendorDetails({ open, onClose, vendorId }) {
                     Selected Categories:
                   </Typography>
                   <ul>
-                    {vendor.selectedCategories?.map(category => (
+                    {vendor.selectedCategories?.map((category) => (
                       <li key={category}>
                         <Typography variant="body1">{category}</Typography>
                       </li>
@@ -223,7 +299,7 @@ function VendorDetails({ open, onClose, vendorId }) {
             </Box>
           </Box>
 
-          {/* 
+          {/*
            ** DROPBOX API **
 
           {/* If there are files in the dropbox folder, show them */}
@@ -250,16 +326,8 @@ function VendorDetails({ open, onClose, vendorId }) {
             <></>
           )}
 
-          <Box
-            sx={{
-              backgroundColor: "#C2D2D2",
-              display: "flex",
-              justifyContent: "flex-end",
-              padding: "25px",
-            }}
-          >
-            <DenyApplication vendor={vendor} onClose={onClose} />
-          </Box>
+          {/* Onboarding Component: Switches and renders admin tasks based on onboardingStatusId (status_id) */}
+          {onboardingComponent}
         </Box>
       </Modal>
     </ThemeProvider>

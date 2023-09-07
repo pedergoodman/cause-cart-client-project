@@ -14,6 +14,7 @@ router.get("/", rejectUnauthenticated, (req, res) => {
       vendor_app_info.number_of_products as "number_of_products",
       vendor_app_info.date_edited as "date_edited",
       status.status as "status",
+      "status".id as "onboardingStatusId",
       vendor_app_info.is_active as "is_active"
     FROM vendor_app_info
     JOIN status ON vendor_app_info.status_id = status.id
@@ -181,21 +182,11 @@ router.get("/:id", rejectUnauthenticated, (req, res) => {
   WHERE "vendor_app_info".id = $1;
   `;
 
-
-
   pool
     .query(queryText, [vendorId])
     .then((result) => {
       console.log("Results from database: ", result);
       const vendorData = result.rows[0];
-
-      // const otherIndex = vendorData.selectedCategories.indexOf("Other");
-
-      // if (otherIndex !== -1) {
-      //   vendorData.selectedCategories[
-      //     otherIndex
-      //   ] = `Other: ${vendorData.otherDescription}`;
-      // }
       res.send([vendorData]);
     })
     .catch((error) => {
@@ -207,10 +198,6 @@ router.get("/:id", rejectUnauthenticated, (req, res) => {
         res.status(500).send("An unknown error occurred.");
       }
     });
-
-
-
-
 });
 
 router.put("/onboarding/:id", rejectUnauthenticated, (req, res) => {
@@ -237,5 +224,44 @@ router.put("/onboarding/:id", rejectUnauthenticated, (req, res) => {
       res.sendStatus(500);
     });
 });
+
+// TODO: UPDATE AND COMPLETE DELETE VENDOR
+// router.delete("/:id", rejectUnauthenticated, async (req, res) => {
+//   const client = await pool.connect();
+
+//   try {
+//     await client.query("BEGIN"); // Start transaction
+
+//     const vendorId = req.params.id;
+
+//     // First, get the user_id associated with the vendor
+//     const userQuery = 'SELECT user_id FROM "vendor_app_info" WHERE id=$1';
+//     const userResult = await client.query(userQuery, [vendorId]);
+
+//     if (userResult.rows.length === 0) {
+//       throw new Error("Vendor not found");
+//     }
+
+//     const userId = userResult.rows[0].user_id;
+
+//     // Now, delete the vendor
+//     const deleteVendorQuery = 'DELETE FROM "vendor_app_info" WHERE id=$1';
+//     await client.query(deleteVendorQuery, [vendorId]);
+
+//     // Finally, delete the associated user
+//     const deleteUserQuery = 'DELETE FROM "user" WHERE id=$1';
+//     await client.query(deleteUserQuery, [userId]);
+
+//     await client.query("COMMIT"); // Commit transaction
+
+//     res.sendStatus(200);
+//   } catch (error) {
+//     await client.query("ROLLBACK"); // Rollback transaction in case of error
+//     console.log("Error deleting specific vendor entry", error);
+//     res.sendStatus(500);
+//   } finally {
+//     client.release();
+//   }
+// });
 
 module.exports = router;

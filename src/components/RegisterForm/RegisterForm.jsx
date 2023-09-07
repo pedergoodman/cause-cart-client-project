@@ -52,16 +52,40 @@ function RegisterForm() {
   // const [howDidYouHearDescInput, setHowDidYouHearDescInput] = useState(""); //  How did you hear about us input text
 
   // * - DECLARATIONS -
-  const errors = useSelector((store) => store.errors); // Input Field Errors
+  const errors = useSelector(store => store.errors); // Input Field Errors
   const dispatch = useDispatch(); // useDispatch as Variable
   const history = useHistory(); // useHistory as variable
+
+  // ! HIDDEN BUTTON REMOVE AFTER PRESENTATION
+  const hiddenButtonAutoFill = () => {
+    
+    setBrandName('TinyPaws');
+    setWebsiteURL('www.tinypaws.store');
+    setBusinessType('LLC');
+    setEmail('help@tinypaws.store');
+    setPassword('password');
+    setReEnterPassword('password');
+    setCountry('United States');
+    setProductCategories(['Pets']);
+    setProdCategoriesOtherOptionDescInput('');
+    setNumberOfProducts('11-25');
+    setGiveBack('Yes');
+    setGiveBackDescriptionFieldInput('10% of each purchase goes to supporting local animal shelters');
+    setNonProfitPartner('Yes');
+    setNonProfitPartnerDescriptionFieldInput('Animal Humane Society');
+    setHowDidYouHear('Social Media');
+  };
 
   // * - RENDERING -
   return (
     //  Form Box Container
     <form className="formPanel register-and-login-form-box">
       <header>
-        <h2 className="register-and-login-form-h2">
+        <h2
+          className="register-and-login-form-h2"
+          // ! HIDDEN BUTTON REMOVE AFTER PRESENTATION
+          onClick={hiddenButtonAutoFill}
+        >
           Grow your business while being sustainable
         </h2>
         {/* Cause-Cart Link and Login Route */}
@@ -198,7 +222,7 @@ function RegisterForm() {
           howDidYouHear={howDidYouHear}
           prodCategoriesOtherOptionDescInput={
             prodCategoriesOtherOptionDescInput
-          } 
+          }
         />
       </Box>
     </form>

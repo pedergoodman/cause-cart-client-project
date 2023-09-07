@@ -10,21 +10,22 @@ import {
   Typography,
 } from "@mui/material";
 import { Icon } from "@iconify/react";
+import { format } from "date-fns";
 
-import DenyApplication from "./DenyApplication";
+import DenyApplication from "../AdminButtons/DenyApplication";
 
-function SendProductTemplates({ vendor, vendorEmail, onClose }) {
+function AwaitingVendorSentContract({
+  vendor,
+  vendorEmail,
+  dateEdited,
+  onClose,
+}) {
   const dispatch = useDispatch();
 
-  const sendProductTemplateToVendor = () => {
-    const sentProductTemplate = "Sent Product Spreadsheet";
-    dispatch({
-      type: "UPDATE_ONBOARDING_STAGE",
-      payload: { id: vendor.id, newOnboardingStage: sentProductTemplate },
-    });
-
-    const subject = "Product Template"; // replace with the subject
-    const body = "Hi here's your product templates to review and fill out"; // replace with the email body
+  const sendFollowUpToVendor = () => {
+    const subject = "Awaiting Vendor Contract Submission"; // replace with the subject
+    const body =
+      "Hi, following up if you have any questions or need anything regarding your contract"; // replace with the email body
 
     // Log the values before sending the email
     console.log("Vendor:", vendor);
@@ -47,12 +48,28 @@ function SendProductTemplates({ vendor, vendorEmail, onClose }) {
 
   return (
     <>
-      <Box>
-        {/* TODO: INSERT DROPBOX API and/or COMPONENT FOR PRODUCT TEMPLATES */}
+      <Box
+        sx={{
+          backgroundColor: "rgba(0, 0, 0, 0.16)",
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "nowrap",
+          alignContent: "center",
+          justifyContent: "space-evenly",
+          alignItems: "center",
+          paddingTop: "10px",
+        }}
+      >
+        <Typography variant="h7" sx={{ color: "rgba(0, 0, 0, 0.6)" }}>
+          <span style={{ fontWeight: "bold", color: "rgba(0, 0, 0, 0.6)" }}>
+            Account last active on:{" "}
+          </span>{" "}
+          {format(new Date(dateEdited), "MM/dd/yyyy")}
+        </Typography>
       </Box>
       <Box
         sx={{
-          backgroundColor: "#FFE6D9",
+          backgroundColor: "rgba(0, 0, 0, 0.16)",
           display: "flex",
           flexDirection: "row",
           flexWrap: "nowrap",
@@ -73,16 +90,16 @@ function SendProductTemplates({ vendor, vendorEmail, onClose }) {
             }}
             startIcon={
               <Icon
-                icon="fluent:document-table-cube-20-regular"
+                icon="mdi:email-fast-outline"
                 color="white"
                 width="24"
                 height="24"
                 sx={{ mr: 1 }}
               />
             }
-            onClick={sendProductTemplateToVendor}
+            onClick={sendFollowUpToVendor}
           >
-            Send Product Spreadsheet
+            Send Follow Up Email
           </Button>
         </Box>
         <Box>
@@ -93,4 +110,4 @@ function SendProductTemplates({ vendor, vendorEmail, onClose }) {
   );
 }
 
-export default SendProductTemplates;
+export default AwaitingVendorSentContract;
