@@ -23,6 +23,8 @@ function RegisterButton({
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const finalProductCategories = prodCategoriesOtherOptionDescInput == '' ? productCategories : [...productCategories, prodCategoriesOtherOptionDescInput] 
+
   const vendorFormData = {
     brandName: brandName,
     websiteURL: websiteURL,
@@ -31,8 +33,8 @@ function RegisterButton({
     password: password,
     reEnterPassword: reEnterPassword,
     country: country,
-    productCategories: productCategories,
-    prodCategoriesOtherOptionDescInput: prodCategoriesOtherOptionDescInput,
+    // appending 
+    productCategories: finalProductCategories.join(", "),
     numberOfProducts: numberOfProducts,
     giveBack: giveBack,
     giveBackDescriptionFieldInput: giveBackDescriptionFieldInput,
@@ -49,6 +51,11 @@ function RegisterButton({
 
   const handleRegisterUser = (event) => {
     event.preventDefault();
+
+    // console.log('array to submit', vendorFormData);
+    // console.log("prodCategoriesOtherOptionDescInput is:", prodCategoriesOtherOptionDescInput);
+    // console.log("finalProductCategories is:", finalProductCategories);
+
 
     let passwordsMatch = true;
 
@@ -85,7 +92,7 @@ function RegisterButton({
   return (
     <div
       style={{
-        width: "80%",
+        width: "80%", 
         margin: "0 auto",
         display: "flex",
         flexDirection: "column",
