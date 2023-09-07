@@ -40,7 +40,7 @@ function ProductCategoryQuestion({
 
   // Errors
   // toggle show error
-  const [showErrorPrompt, setShowErrorPrompt] = useState(false);
+  const [showCharLimitErrorPrompt, setShowErrorPrompt] = useState(false);
   //
   const [prodCategoriesOtherOptionError, setProdCategoriesOtherOptionError] =
     useState(false);
@@ -59,8 +59,8 @@ function ProductCategoryQuestion({
     const newInputValue = event.target.value;
     // set input value
     setOtherOptionTextInput(newInputValue); // set local state value
-    setProdCategoriesOtherOptionDescInput(newInputValue); // propagate changes to parent
-    setProdCategoriesOtherOptionError(false) // assumes typing and clears error 
+    setProdCategoriesOtherOptionDescInput(`Other: ${newInputValue}`); // propagate changes to parent
+    setProdCategoriesOtherOptionError(false); // assumes typing and clears error
 
     // check and enforce character limit on other category text input
     if (newInputValue.length <= characterLimit) {
@@ -72,80 +72,59 @@ function ProductCategoryQuestion({
 
     // shows error if empty
     if (!newInputValue) {
-    console.log('newInputValue is', newInputValue);
-      setProdCategoriesOtherOptionError(true)
-    } 
+      console.log("newInputValue is", newInputValue);
+      setProdCategoriesOtherOptionError(true);
+      setProdCategoriesOtherOptionDescInput("Other");
+    }
   };
 
+  const handleCheckOtherChange = event => {
+    const category = event.target.value;
+    const isChecked = event.target.checked;
 
+    setOtherIsChecked(!otherIsChecked); // isChecked to trigger checkbox and other Input field
 
-    // merge other selection with other input text
-    // if(productCategories.indexOf("Other") == 0){
-    //   console.log('in reg button, other is true');
-    //   const adjustedForOther = productCategories.splice(productCategories.indexOf("Other"), 1, `Other ${prodCategoriesOtherOptionDescInput}`);
-    // } else {
-    //   const adjustedForOther = productCategories;
-    //   console.log('cant find other in product');
-    // }
+    if (isChecked) {
+      setProdCategoriesOtherOptionDescInput(category); // set other options parent state value
+    } else {
+      setProdCategoriesOtherOptionDescInput(""); // clear other options parent state value
+      setOtherOptionTextInput(""); // clear set local state value
+    }
 
-  // inactive??
-  // const handleAddingOtherCategoryOptions = () => {
-  //   const updatedCategories = productCategories.map(category => {
-  //     if (category === "Other") {
-  //       setShowOtherOptionInputField(false);
-  //       return `Other: ${otherOptionTextInput}`;
-  //     }
-  //     return category;
-  //   });
+    console.log("productCategories is:", productCategories);
+    console.log(
+      "prodCategoriesOtherOptionDescInput is:",
+      prodCategoriesOtherOptionDescInput
+    );
+  };
 
-  //   setOtherOptionTextInput("");
-  //   setProductCategories(updatedCategories);
-  // };
-
-  // * Handle checkbox change for all categories ??? or for mapped categories
-
+  // * Handle checkbox change for all categories except other
   const handleCheckboxChange = event => {
     const category = event.target.value;
-
+    const isChecked = event.target.checked;
 
     console.log("category is:", category);
+    console.log("isChecked is:", isChecked);
 
-    // console.log("isChecked is:", isChecked);
+    if (isChecked) {
+      setProductCategories(prevCategories => [...prevCategories, category]);
+    } else {
+      setProductCategories(prevCategories =>
+        prevCategories.filter(cat => cat !== category)
+      );
+    }
 
-    // adds or removes from array
-    setProductCategories(
-      // On autofill we get a stringified value.
-      typeof category === "string" ? category.split(",") : category
+    console.log("productCategories is:", productCategories);
+    console.log(
+      "prodCategoriesOtherOptionDescInput is:",
+      prodCategoriesOtherOptionDescInput
     );
-
-
-
-    if (category.includes("Other")) {
-      console.log("other was selected");
-      setProdCategoriesOtherOptionError(false); // Clear the error when Other is unchecked
-    }
-
-    if (!category.includes("Other")) {
-      setOtherOptionTextInput("")
-      setProdCategoriesOtherOptionDescInput(""); // clear the description in local & parent state when Other is unchecked
-    }
-
   };
 
   // TODO render value logic if time
   // if one selected, display that
   // if multiple selected, dispaly number
 
-// TODO
-// seperate out Other field into it's own local state
-  // isChecked value handled locally
-  // value is in element
-// on click handled separately
-  // if checking
-  // --> set local otherState to other + : Newthing
-  // --> set parent state to local state
-  // if unchecking
-  // --> clear both states
 
   return (
     <div style={{ width: "50%", boxSizing: "border-box" }}>
@@ -160,35 +139,46 @@ function ProductCategoryQuestion({
         multiple
         label="product category input"
         value={productCategories}
-        onChange={handleCheckboxChange}
+        // onChange={handleCheckboxChange}
         input={<OutlinedInput label="Tag" />}
         renderValue={selected => `${selected.length} selected`}
       >
-        {/* Mapped Product Categories */}
-        {categoryNames.map(category => (
-          <MenuItem
-            key={category.id}
-            value={category.name}
-            // onChange={handleCheckboxChange}
-          >
-            <Checkbox checked={productCategories.includes(category.name)} />
-            <ListItemText primary={category.name} />
-          </MenuItem>
-        ))}
+        <FormGroup>
+          {categoryNames.map(category => (
+            <FormControlLabel
+              key={category.id}
+              control={
+                <Checkbox
+                  checked={productCategories.includes(category.name)}
+                  onChange={handleCheckboxChange}
+                  value={category.name}
+                />
+              }
+              label={category.name}
+            />
+          ))}
 
-
-
-
-
+          {/* OTHER option */}
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={otherIsChecked}
+                onChange={handleCheckOtherChange}
+                value="Other"
+              />
+            }
+            label="Other"
+          />
+        </FormGroup>
       </Select>
 
-      {showErrorPrompt && (
+      {showCharLimitErrorPrompt && (
         <p style={{ color: "#E23D28", margin: "17px 0px 3px" }}>
           You exceeded the character limit!
         </p>
       )}
 
-      {productCategories.includes("Other") && (
+      {otherIsChecked && (
         <div>
           <TextField
             style={{ marginTop: "25px" }}
@@ -199,7 +189,7 @@ function ProductCategoryQuestion({
             helperText="You selected other. Please enter the product category name(s)."
             multiline
             required
-            error={showErrorPrompt || prodCategoriesOtherOptionError}
+            error={showCharLimitErrorPrompt || prodCategoriesOtherOptionError}
             maxRows={4}
             value={otherOptionTextInput}
             onChange={handleOtherDescriptionInput}
@@ -217,128 +207,3 @@ function ProductCategoryQuestion({
 }
 
 export default ProductCategoryQuestion;
-
-{
-  /*         
-        <FormGroup>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={productCategories.includes("Home Décor")}
-                onChange={handleCheckboxChange}
-                value="Home Décor"
-              />
-            }
-            label="Home Décor"
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={productCategories.includes("Jewelry")}
-                onChange={handleCheckboxChange}
-                value="Jewelry"
-              />
-            }
-            label="Jewelry"
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={productCategories.includes("Kids Apparel")}
-                onChange={handleCheckboxChange}
-                value="Kids Apparel"
-              />
-            }
-            label="Kids Apparel"
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={productCategories.includes(
-                  "Kids & Baby (non-Apparel)"
-                )}
-                onChange={handleCheckboxChange}
-                value="Kids & Baby (non-Apparel)"
-              />
-            }
-            label="Kids & Baby (non-Apparel)"
-          />
-
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={productCategories.includes("Men’s accessories")}
-                onChange={handleCheckboxChange}
-                value="Men’s accessories"
-              />
-            }
-            label="Men’s accessories"
-          />
-
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={productCategories.includes("Men’s apparel")}
-                onChange={handleCheckboxChange}
-                value="Men’s apparel"
-              />
-            }
-            label="Men’s apparel"
-          />
-
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={productCategories.includes("Beauty & Wellness")}
-                onChange={handleCheckboxChange}
-                value="Beauty & Wellness"
-              />
-            }
-            label="Beauty & Wellness"
-          />
-
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={productCategories.includes("Pets")}
-                onChange={handleCheckboxChange}
-                value="Pets"
-              />
-            }
-            label="Pets"
-          />
-
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={productCategories.includes("Women’s accessories")}
-                onChange={handleCheckboxChange}
-                value="Women’s accessories"
-              />
-            }
-            label="Women’s accessories"
-          />
-
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={productCategories.includes("Women’s apparel")}
-                onChange={handleCheckboxChange}
-                value="Women’s apparel"
-              />
-            }
-            label="Women’s apparel"
-          />
-
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={productCategories.includes("Other")}
-                onChange={handleCheckboxChange}
-                value="Other"
-              />
-            }
-            label="Other"
-          />
-        </FormGroup> */
-}
