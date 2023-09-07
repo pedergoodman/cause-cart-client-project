@@ -6,14 +6,15 @@ import axios from "axios";
 
 // Worker Saga: will be fired on "REGISTER" actions
 function* registerUser(action) {
-  console.log("\nregisterUser worker saga running due to action:", action.type);
-  console.log("action.payload is:", action.payload)
+  console.log("registerUser worker saga running due to action:", action.type);
+  console.log("registerUser payload:", action.payload);
+
   try {
     // Email and password from payload
     const { email, password } = action.payload;
 
     // clear any existing error on the registration page
-    yield put({ type: "CLEAR_REGISTRATION_ERROR" }); // ? might remove later (prime's error messages)
+    yield put({ type: "CLEAR_REGISTRATION_ERROR" }); 
 
     // passes the email and password from the payload to the server
     yield axios.post("/api/user/register", action.payload);
@@ -21,10 +22,10 @@ function* registerUser(action) {
     // automatically log a user in after registration
     yield put({ type: "LOGIN", payload: { email, password } });
 
-
     // set to 'login' mode so they see the login screen
     // after registration or after they log out
     yield put({ type: "SET_TO_LOGIN_MODE" });
+
   } catch (error) {
     console.log("Error with user registration:", error);
     yield put({ type: "REGISTRATION_FAILED" });

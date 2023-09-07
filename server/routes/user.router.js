@@ -17,7 +17,7 @@ router.get("/", rejectUnauthenticated, (req, res) => {
 // * Handles POST request with new user data
 // The only thing different from this and every other post we've seen
 // is that the password gets encrypted before being inserted
-router.post("/register", rejectUnauthenticated, async (req, res, next) => {
+router.post("/register", async (req, res, next) => {
   const password = encryptLib.encryptPassword(req.body.password);
   const client = await pool.connect();
 
@@ -66,45 +66,47 @@ router.post("/register", rejectUnauthenticated, async (req, res, next) => {
     // **** reference query for posting backend
     // ! need to fix posting categories to database as names instead of as IDs
 
-    //     // For adding all vendor application form data to 'vendor_app_info' table
-    //     const vendorAppInfoQuery = `INSERT INTO "vendor_app_info"
-    //     (
-    //       brand_name,
-    //       website_url,
-    //       business_type,
-    //       country,
-    //       number_of_products,
-    //       heard_about_us,
-    //       giveback_selection,
-    //       user_id,
-    //       giveback_description,
-    //       nonprofit_selection,
-    //       nonprofit_description,
-    //       selected_categories,
-    //       date_created,
-    //       date_edited,
-    //       status_id
-    //     )
-    //     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $13, $14)`;
+    // For adding all vendor application form data to 'vendor_app_info' table
+    // const vendorAppInfoQuery = `INSERT INTO "vendor_app_info" 
+    // (
+    //   brand_name, 
+    //   website_url, 
+    //   business_type, 
+    //   country, 
+    //   number_of_products,
+    //   heard_about_us, 
+    //   giveback_selection, 
+    //   user_id, 
+    //   giveback_description,
+    //   nonprofit_selection, 
+    //   nonprofit_description, 
+    //   selected_categories,
+    //   date_created, 
+    //   date_edited, 
+    //   status_id 
+    // ) 
+    // VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $13, $14)`;
 
-    const prodCategoriesOtherOptionDescInput =
-      req.body.prodCategoriesOtherOptionDescInput || "";
 
-    if (prodCategoriesOtherOptionDescInput.length > 255) {
-      throw new Error("Description too long!");
-    }
+
+    // const prodCategoriesOtherOptionDescInput =
+    //   req.body.prodCategoriesOtherOptionDescInput || "";
+
+    // if (prodCategoriesOtherOptionDescInput.length > 255) {
+    //   throw new Error("Description too long!");
+    // }
 
     const initialDate = new Date(); // setting initial date
     const lastActiveDate = new Date(); // Create a new timestamp for date_edited
 
     // Query to fetch category IDs
-    const categoryIdsQuery = `
-        SELECT id FROM category_names WHERE name = ANY($1::VARCHAR[]);
-      `;
-    const categoryResponse = await client.query(categoryIdsQuery, [
-      productCategories,
-    ]);
-    const categoryIdsArray = categoryResponse.rows.map((row) => row.id);
+    // const categoryIdsQuery = `
+    //     SELECT id FROM category_names WHERE name = ANY($1::VARCHAR[]);
+    //   `;
+    // const categoryResponse = await client.query(categoryIdsQuery, [
+    //   productCategories,
+    // ]);
+    // const categoryIdsArray = categoryResponse.rows.map((row) => row.id);
 
     // For adding all vendor application form data to 'vendor_app_info' table
     const vendorAppInfoQuery = `
@@ -141,24 +143,24 @@ router.post("/register", rejectUnauthenticated, async (req, res, next) => {
     ]);
 
     // ! Second Query Below: new vendor application
-    await client.query(vendorAppInfoQuery, [
-      brandName,
-      websiteURL,
-      businessType,
-      country,
-      numberOfProducts,
-      howDidYouHear,
-      giveBack,
-      createdUserId.rows[0].id,
-      giveBackDescriptionFieldInput,
-      nonProfitPartner,
-      nonProfitPartnerDescriptionFieldInput,
-      categoryIdsArray.join(","),
-      prodCategoriesOtherOptionDescInput,
-      initialDate,
-      lastActiveDate,
-      1,
-    ]);
+    // await client.query(vendorAppInfoQuery, [
+    //   brandName,
+    //   websiteURL,
+    //   businessType,
+    //   country,
+    //   numberOfProducts,
+    //   howDidYouHear,
+    //   giveBack,
+    //   createdUserId.rows[0].id,
+    //   giveBackDescriptionFieldInput,
+    //   nonProfitPartner,
+    //   nonProfitPartnerDescriptionFieldInput,
+    //   categoryIdsArray.join(","),
+    //   productCategories,
+    //   initialDate,
+    //   lastActiveDate,
+    //   1,
+    // ]);
 
     // end and commit query to database, sey complete status
     await client.query("COMMIT");
