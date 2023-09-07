@@ -1,9 +1,6 @@
 // * - IMPORTING -
 // React
 import React, { useState } from "react";
-// MUI
-import { Button } from "@mui/material";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 
 // * - AccountVerification COMPONENT -
 function AccountVerification({ status, setActiveStep }) {
@@ -21,36 +18,17 @@ function AccountVerification({ status, setActiveStep }) {
     switch (status) {
       case "Intake Form Submitted":
         // New message
-        message = "Your application is currently being reviewed.";
+        message =
+          "Thank you for submitting your application! It's currently under review, and we're working diligently to process it. ";
         return (
           <div className="vendor-step-messaging-container">
             <p>{message}</p>
-          </div>
-        );
-      case "Approved Intake Form":
-        // New message
-        message = "Your account has been verified!";
-        return (
-          <div className="vendor-step-messaging-container">
-            <p>{message}</p>
-            <Button onClick={handleNextStep}>
-              Next Step
-              <NavigateNextIcon />
-            </Button>
           </div>
         );
       default:
         return message;
     }
   }; // end accountVerificationMessage
-
-  // Handles progression to the next step in the multi-step process
-  const handleNextStep = () => {
-    // Increment the active step by 1
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-
-    // Set new vendor status via dispatch
-  }; // end handleNextStep
 
   // * - RENDERING -
   return (
