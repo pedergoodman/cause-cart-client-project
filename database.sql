@@ -43,8 +43,8 @@ CREATE TABLE "vendor_app_info" (
     status_id INTEGER REFERENCES "status"(id),
     category_name_ids VARCHAR(255),
     other_category_description VARCHAR(500),
-    current_step_id INTEGER REFERENCES "all_vendor_steps"(id),
     is_active BOOLEAN DEFAULT true, 
+    sent_contract_link INTEGER REFERENCES "template_links"(id),
     dropbox_folder_id VARCHAR(255),
     dropbox_folder_path VARCHAR(255),
     dropbox_shared_link VARCHAR(350)
@@ -55,7 +55,7 @@ CREATE TABLE template_links (
 id SERIAL PRIMARY KEY,
 "name" VARCHAR(255),
 "type" VARCHAR(255),
-link VARCHAR(350)
+"link" VARCHAR(350)
 );
 
 
@@ -85,7 +85,7 @@ VALUES
 ('Pets'),
 ('Women’s accessories'),
 ('Women’s apparel'),
-('Other');
+
 
 
 -- Insert initial values into Onboarding status REQUIRED DATA
