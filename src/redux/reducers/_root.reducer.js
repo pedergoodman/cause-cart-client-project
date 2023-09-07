@@ -15,7 +15,7 @@ import dropboxVendorFiles from './dropbox.reducer';
 const rootReducer = combineReducers({
   errors, // contains registrationMessage and loginMessage
   user, // will have an id and username if someone is logged in
-  admin: adminReducer,templateLinkReducer, categoryNameReducer, // manages state related to the admin user handling vendors 
+  admin: adminReducer, templateLinkReducer, categoryNameReducer, // manages state related to the admin user handling vendors 
   vendorDetails: vendorDetailsReducer,
   dropboxVendorFiles,
   vendorReducer,

@@ -1,5 +1,4 @@
 const userReducer = (state = {}, action) => {
-    console.log('action.payload:', action.payload);
     switch (action.type) {
       case 'SET_USER':
         return action.payload;

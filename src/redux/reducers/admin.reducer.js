@@ -43,48 +43,48 @@ const adminReducer = (state = initialState, action) => {
 };
 
 const initialDetailsState = {
-    vendorDetails: [],
-    error: null,
-  };
-  
-  const vendorDetailsReducer = (state = initialDetailsState, action) => {
-    switch (action.type) {
-      case "FETCH_VENDOR_DETAILS_REQUEST":
-        return {
-          ...state,
-          error: null,
-        };
-      case "FETCH_VENDOR_DETAILS_SUCCESS":
-        return {
-          ...state,
-          vendorDetails: action.payload,
-        };
-      case "FETCH_VENDOR_DETAILS_FAILURE":
-        return {
-          ...state,
-          error: action.error,
-        };
-      default:
-        return state;
-    }
-  };
-  
+  vendorDetails: [],
+  error: null,
+};
+
+const vendorDetailsReducer = (state = initialDetailsState, action) => {
+  switch (action.type) {
+    case "FETCH_VENDOR_DETAILS_REQUEST":
+      return {
+        ...state,
+        error: null,
+      };
+    case "FETCH_VENDOR_DETAILS_SUCCESS":
+      return {
+        ...state,
+        vendorDetails: action.payload,
+      };
+    case "FETCH_VENDOR_DETAILS_FAILURE":
+      return {
+        ...state,
+        error: action.error,
+      };
+    default:
+      return state;
+  }
+};
 
 const templateLinkReducer = (state = [], action) => {
   if (action.type == "UPDATE_ADMIN_TEMPLATES") {
-    return action.payload
+    return action.payload;
   }
 
-  return state 
-
-}
+  return state;
+};
 
 const categoryNameReducer = (state = [], action) => {
   if (action.type == "UPDATE_ADMIN_CATEGORY") {
-    return action.payload
+    return action.payload;
   }
 
   return state 
 
 }
-export { adminReducer, vendorDetailsReducer, templateLinkReducer, categoryNameReducer };
+
+
+export { adminReducer, vendorDetailsReducer, templateLinkReducer, categoryNameReducer};
