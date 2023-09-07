@@ -20,37 +20,30 @@ function ProductCategoryQuestion({
   prodCategoriesOtherOptionDescInput,
   setProdCategoriesOtherOptionDescInput,
 }) {
-
   // * TOOLS
   const dispatch = useDispatch();
 
   // set character limit for other input field
   const characterLimit = 45;
 
-
   // * FROM STORE
-      // grabs category names from database
+  // grabs category names from database
   // object with id & name
   const categoryNames = useSelector(state => state.categoryNameReducer);
 
-
   // * LOCAL STATE
-    // Other checked status
-    const [otherIsChecked, setOtherIsChecked] = useState(false);
-  // Other settings
-  // show other input if other is selected
-  const [showOtherOptionInputField, setShowOtherOptionInputField] =
-    useState(false);
+  // Other checked status
+  const [otherIsChecked, setOtherIsChecked] = useState(false);
+
   // capture other input text
   const [otherOptionTextInput, setOtherOptionTextInput] = useState("");
 
   // Errors
   // toggle show error
   const [showErrorPrompt, setShowErrorPrompt] = useState(false);
-  // 
+  //
   const [prodCategoriesOtherOptionError, setProdCategoriesOtherOptionError] =
     useState(false);
-
 
   // fetch category list
   useEffect(() => {
@@ -59,88 +52,100 @@ function ProductCategoryQuestion({
     });
   }, []);
 
-
-
-
   // * HANDLE CHANGES
 
   // * Other Text Input
-  const handleDescriptionInput = event => {
+  const handleOtherDescriptionInput = event => {
     const newInputValue = event.target.value;
+    // set input value
+    setOtherOptionTextInput(newInputValue); // set local state value
+    setProdCategoriesOtherOptionDescInput(newInputValue); // propagate changes to parent
+    setProdCategoriesOtherOptionError(false) // assumes typing and clears error 
 
+    // check and enforce character limit on other category text input
     if (newInputValue.length <= characterLimit) {
-      setOtherOptionTextInput(newInputValue);
-      setProdCategoriesOtherOptionDescInput(newInputValue); // propagate changes to parent
       setShowErrorPrompt(false);
     } else {
       setOtherOptionTextInput(newInputValue.slice(0, characterLimit));
       setShowErrorPrompt(true);
     }
+
+    // shows error if empty
+    if (!newInputValue) {
+    console.log('newInputValue is', newInputValue);
+      setProdCategoriesOtherOptionError(true)
+    } 
   };
 
 
 
-// inactive??
-  const handleAddingOtherCategoryOptions = () => {
-    const updatedCategories = productCategories.map(category => {
-      if (category === "Other") {
-        setShowOtherOptionInputField(false);
-        return `Other: ${otherOptionTextInput}`;
-      }
-      return category;
-    });
+    // merge other selection with other input text
+    // if(productCategories.indexOf("Other") == 0){
+    //   console.log('in reg button, other is true');
+    //   const adjustedForOther = productCategories.splice(productCategories.indexOf("Other"), 1, `Other ${prodCategoriesOtherOptionDescInput}`);
+    // } else {
+    //   const adjustedForOther = productCategories;
+    //   console.log('cant find other in product');
+    // }
 
-    setOtherOptionTextInput("");
-    setProductCategories(updatedCategories);
-  };
+  // inactive??
+  // const handleAddingOtherCategoryOptions = () => {
+  //   const updatedCategories = productCategories.map(category => {
+  //     if (category === "Other") {
+  //       setShowOtherOptionInputField(false);
+  //       return `Other: ${otherOptionTextInput}`;
+  //     }
+  //     return category;
+  //   });
 
-
+  //   setOtherOptionTextInput("");
+  //   setProductCategories(updatedCategories);
+  // };
 
   // * Handle checkbox change for all categories ??? or for mapped categories
 
   const handleCheckboxChange = event => {
     const category = event.target.value;
-    const isChecked = event.target.checked;
 
-    console.log('category is:', category);
-    // console.log(isChecked);
+
+    console.log("category is:", category);
+
+    // console.log("isChecked is:", isChecked);
+
+    // adds or removes from array
     setProductCategories(
       // On autofill we get a stringified value.
-      typeof category === 'string' ? category.split(',') : category,
+      typeof category === "string" ? category.split(",") : category
     );
-    
 
-    
-    if (category === "Other") {
-      
-      setOtherIsChecked(!otherIsChecked)
 
-      // setShowOtherOptionInputField(isChecked);
-      // setProdCategoriesOtherOptionError(false); // Clear the error when Other is unchecked
-      // if (!isChecked) {
-      //   setProdCategoriesOtherOptionDescInput(""); // clear the description in parent state when Other is unchecked
-      // }
+
+    if (category.includes("Other")) {
+      console.log("other was selected");
+      setProdCategoriesOtherOptionError(false); // Clear the error when Other is unchecked
     }
 
-    // console.log("productCategories BEFORE IF", productCategories);
-    // if (isChecked) {
-    //   setProductCategories(prevCategories => [...prevCategories, category]);
-    //   console.log("productCategories IF TRUE", productCategories);
-    // } else {
+    if (!category.includes("Other")) {
+      setOtherOptionTextInput("")
+      setProdCategoriesOtherOptionDescInput(""); // clear the description in local & parent state when Other is unchecked
+    }
 
-    //   setProductCategories([...productCategories, category])
-    //   setProductCategories(prevCategories =>
-    //     prevCategories.filter(cat => cat !== category)
-    //   );
-    //   console.log("productCategories IF FALSE", productCategories);
-    // }
   };
 
   // TODO render value logic if time
-    // if one selected, display that
-    // if multiple selected, dispaly number
+  // if one selected, display that
+  // if multiple selected, dispaly number
 
-
+// TODO
+// seperate out Other field into it's own local state
+  // isChecked value handled locally
+  // value is in element
+// on click handled separately
+  // if checking
+  // --> set local otherState to other + : Newthing
+  // --> set parent state to local state
+  // if unchecking
+  // --> clear both states
 
   return (
     <div style={{ width: "50%", boxSizing: "border-box" }}>
@@ -154,48 +159,28 @@ function ProductCategoryQuestion({
         id="product-categories-multiple-checkbox"
         multiple
         label="product category input"
-        // could change value to "Product categories"
         value={productCategories}
         onChange={handleCheckboxChange}
         input={<OutlinedInput label="Tag" />}
         renderValue={selected => `${selected.length} selected`}
-        // MenuProps={MenuProps}
       >
-
         {/* Mapped Product Categories */}
         {categoryNames.map(category => (
-          // <pre>{category.name}</pre>
-          <MenuItem key={category.id} value={category.name}
-          onChange={handleCheckboxChange}
+          <MenuItem
+            key={category.id}
+            value={category.name}
+            // onChange={handleCheckboxChange}
           >
-            <Checkbox
-              checked={productCategories.includes(category.name)}
-            />
+            <Checkbox checked={productCategories.includes(category.name)} />
             <ListItemText primary={category.name} />
           </MenuItem>
         ))}
 
-        {/* Other selection
-        <MenuItem key={categoryNames.length} value={"Other"}>
-          <Checkbox
-            checked={otherIsChecked}
-            // onChange={handleCheckboxChange}
-            value="Other"
-          />
-          <ListItemText primary={"Other.."} />
-        </MenuItem> */}
+
+
+
+
       </Select>
-
-     
-
-
-
-
-
-
-
-
-
 
       {showErrorPrompt && (
         <p style={{ color: "#E23D28", margin: "17px 0px 3px" }}>
@@ -203,7 +188,7 @@ function ProductCategoryQuestion({
         </p>
       )}
 
-      {showOtherOptionInputField && (
+      {productCategories.includes("Other") && (
         <div>
           <TextField
             style={{ marginTop: "25px" }}
@@ -217,7 +202,7 @@ function ProductCategoryQuestion({
             error={showErrorPrompt || prodCategoriesOtherOptionError}
             maxRows={4}
             value={otherOptionTextInput}
-            onChange={handleDescriptionInput}
+            onChange={handleOtherDescriptionInput}
           />
 
           {prodCategoriesOtherOptionError && (
@@ -233,13 +218,8 @@ function ProductCategoryQuestion({
 
 export default ProductCategoryQuestion;
 
-
-
-
-
-
-
- {/*         
+{
+  /*         
         <FormGroup>
           <FormControlLabel
             control={
@@ -360,4 +340,5 @@ export default ProductCategoryQuestion;
             }
             label="Other"
           />
-        </FormGroup> */}
+        </FormGroup> */
+}
