@@ -1,5 +1,7 @@
 import { combineReducers } from 'redux';
 
+// TODO: Add error prompts to relevant areas in both redux and on DOM
+
 // loginMessage holds the string that will display
 // on the login screen if there's an error
 const loginMessage = (state = '', action) => {

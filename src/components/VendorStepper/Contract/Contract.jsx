@@ -30,6 +30,8 @@ function Contract({ status, setActiveStep }) {
             </div>
 
             {/* Contracts */}
+            {/* // ? Not sure if both contracts will be an option or just one */}
+            {/* // ? Also for all links, will we need the actual ones from her, like these dropbox ones */}
             <div>
               <ol
                 style={{
@@ -61,7 +63,7 @@ function Contract({ status, setActiveStep }) {
                 </li>
               </ol>
 
-              {/* Upload */}
+              {/* Upload: On click will allow vendor to select files to upload */}
               <div
                 style={{
                   display: "flex",
@@ -73,6 +75,16 @@ function Contract({ status, setActiveStep }) {
               </div>
             </div>
           </>
+        );
+      case "Contract Submitted":
+        // New message
+        message =
+          "Thank you for filling out the agreements. Please wait patiently while we review them.";
+        return (
+          /* Message */
+          <div className="vendor-step-messaging-container">
+            <p>{message}</p>
+          </div>
         );
       default:
         return message;

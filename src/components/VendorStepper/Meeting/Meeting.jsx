@@ -24,7 +24,10 @@ function Meeting({ status, setActiveStep }) {
         return (
           <div className="vendor-step-messaging-container">
             <p>{message}</p>
+            {/* // ? Mess around with MUI button theme */}
             {/* <BaseButton>Schedule a Meeting</BaseButton> */}
+
+            {/* // TODO: Change link to actual calendly link  */}
             <Button>
               <a
                 className="links-and-link-buttons"
