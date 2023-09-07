@@ -26,6 +26,22 @@ router.post("/register", async (req, res, next) => {
   // If 'userGroup' is "Admin", set 'authorizationLevel' to 1, otherwise set it to 0
   const authorizationLevel = userGroup === "Admin" ? 1 : 0;
 
+  // pull out all values from req.body
+  const {
+    brandName,
+    websiteURL,
+    businessType,
+    email,
+    country,
+    productCategories,
+    numberOfProducts,
+    giveBack,
+    giveBackDescriptionFieldInput,
+    nonProfitPartner,
+    nonProfitPartnerDescriptionFieldInput,
+    howDidYouHear,
+  } = req.body;
+
   // * Queries
   // For adding to email, password, and authorization level to 'user' table
   const registerNewUserQuery = `
@@ -33,10 +49,37 @@ router.post("/register", async (req, res, next) => {
         VALUES ($1, $2, $3) RETURNING id
       `;
 
+  // For adding all vendor application form data to 'vendor_app_info' table
+  const vendorAppInfoQuery = `
+      INSERT INTO "vendor_app_info" 
+      (
+        user_id, 
+        brand_name, 
+        website_url, 
+        business_type, 
+        country,
+        number_of_products,
+
+        heard_about_us, 
+        giveback_selection, 
+        giveback_description,
+        nonprofit_selection,
+        nonprofit_description, 
+        selected_categories,
+
+        date_created, 
+        date_edited, 
+        status_id 
+      ) 
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $13, $14);
+    `;
+
+
   //  * Declarations of all vendor app info
   try {
     await client.query("BEGIN");
 
+    // registration for admin, 
     if (userGroup === "Admin") {
       await client.query(registerNewUserQuery, [
         req.body.email,
@@ -48,89 +91,9 @@ router.post("/register", async (req, res, next) => {
       return;
     }
 
-    const {
-      brandName,
-      websiteURL,
-      businessType,
-      email,
-      country,
-      productCategories,
-      numberOfProducts,
-      giveBack,
-      giveBackDescriptionFieldInput,
-      nonProfitPartner,
-      nonProfitPartnerDescriptionFieldInput,
-      howDidYouHear,
-    } = req.body;
-
-    // **** reference query for posting backend
-    // ! need to fix posting categories to database as names instead of as IDs
-
-    // For adding all vendor application form data to 'vendor_app_info' table
-    // const vendorAppInfoQuery = `INSERT INTO "vendor_app_info" 
-    // (
-    //   brand_name, 
-    //   website_url, 
-    //   business_type, 
-    //   country, 
-    //   number_of_products,
-    //   heard_about_us, 
-    //   giveback_selection, 
-    //   user_id, 
-    //   giveback_description,
-    //   nonprofit_selection, 
-    //   nonprofit_description, 
-    //   selected_categories,
-    //   date_created, 
-    //   date_edited, 
-    //   status_id 
-    // ) 
-    // VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $13, $14)`;
-
-
-
-    // const prodCategoriesOtherOptionDescInput =
-    //   req.body.prodCategoriesOtherOptionDescInput || "";
-
-    // if (prodCategoriesOtherOptionDescInput.length > 255) {
-    //   throw new Error("Description too long!");
-    // }
+    console.log('in registration, req.body is:', req.body);
 
     const initialDate = new Date(); // setting initial date
-    const lastActiveDate = new Date(); // Create a new timestamp for date_edited
-
-    // Query to fetch category IDs
-    // const categoryIdsQuery = `
-    //     SELECT id FROM category_names WHERE name = ANY($1::VARCHAR[]);
-    //   `;
-    // const categoryResponse = await client.query(categoryIdsQuery, [
-    //   productCategories,
-    // ]);
-    // const categoryIdsArray = categoryResponse.rows.map((row) => row.id);
-
-    // For adding all vendor application form data to 'vendor_app_info' table
-    const vendorAppInfoQuery = `
-      INSERT INTO "vendor_app_info" 
-      (
-        brand_name, 
-        website_url, 
-        business_type, 
-        country, 
-        number_of_products,
-        heard_about_us, 
-        giveback_selection, 
-        user_id, 
-        giveback_description,
-        nonprofit_selection, 
-        nonprofit_description, 
-        category_name_ids,
-        other_category_description,
-        date_created, 
-        date_edited, 
-        status_id 
-      ) 
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16);
-    `;
 
     // * Begin SQL query
     await client.query("BEGIN");
@@ -143,28 +106,30 @@ router.post("/register", async (req, res, next) => {
     ]);
 
     // ! Second Query Below: new vendor application
-    // await client.query(vendorAppInfoQuery, [
-    //   brandName,
-    //   websiteURL,
-    //   businessType,
-    //   country,
-    //   numberOfProducts,
-    //   howDidYouHear,
-    //   giveBack,
-    //   createdUserId.rows[0].id,
-    //   giveBackDescriptionFieldInput,
-    //   nonProfitPartner,
-    //   nonProfitPartnerDescriptionFieldInput,
-    //   categoryIdsArray.join(","),
-    //   productCategories,
-    //   initialDate,
-    //   lastActiveDate,
-    //   1,
-    // ]);
+    await client.query(vendorAppInfoQuery, [
+      createdUserId.rows[0].id,
+      brandName,
+      websiteURL,
+      businessType,
+      country,
+      numberOfProducts,
+
+      howDidYouHear,
+      giveBack,
+      giveBackDescriptionFieldInput,
+      nonProfitPartner,
+      nonProfitPartnerDescriptionFieldInput,
+      productCategories,
+
+      initialDate,
+      1,
+    ]);
 
     // end and commit query to database, sey complete status
     await client.query("COMMIT");
     res.sendStatus(201);
+
+
   } catch (error) {
     // rollback if any errors occur
     await client.query("ROLLBACK");
