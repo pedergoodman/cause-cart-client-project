@@ -6,7 +6,8 @@ import axios from "axios";
 
 // Worker Saga: will be fired on "REGISTER" actions
 function* registerUser(action) {
-  console.log("registerUser worker saga running due to action:", action.type);
+  console.log("\nregisterUser worker saga running due to action:", action.type);
+  console.log("action.payload is:", action.payload)
   try {
     // Email and password from payload
     const { email, password } = action.payload;

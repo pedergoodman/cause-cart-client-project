@@ -53,6 +53,17 @@ function* fetchAdminTemplates() {
   }
 }
 
+function* editAdminTemplates(action) {
+  try {
+    console.log("in edit template saga", action.payload)
+    yield axios.put(`/api/admin/templates/${action.payload.id}`, {
+      link: action.payload.link,
+    });
+    yield put({ type: "FETCH_ADMIN_TEMPLATES" });
+  } catch (error) {
+    console.log("Error editing category", error);
+  }
+}
 function* fetchAdminCategories() {
   try {
     const response = yield axios.get("/api/admin/category");
@@ -63,31 +74,49 @@ function* fetchAdminCategories() {
   }
 }
 
-// TODO: UPDATE AND COMPLETE DELETE VENDOR
-// function* deleteVendor(action) {
-//     try {
-//       const response = yield axios.delete(`/api/admin/${action.payload.id}`);
-//       if (response.status === 200) {
-//         yield put({ type: "DELETE_VENDOR_SUCCESS", payload: action.payload.id });
-//         yield put({ type: "FETCH_VENDORS_REQUEST" });
-//       } else {
-//         throw new Error('Failed to delete vendor.');
-//       }
-//     } catch (error) {
-//       console.log("Error deleting vendor", error);
-//       yield put({ type: DELETE_VENDOR_FAILURE, payload: error.message });
-//     }
-//   }
+function* editAdminCategory(action) {
+  try {
+    yield axios.put(`/api/admin/category/${action.payload.id}`, {
+      name: action.payload.name,
+    });
+    yield put({ type: "FETCH_ADMIN_CATEGORIES" });
+  } catch (error) {
+    console.log("Error editing category", error);
+  }
+}
+
+
+function* deleteAdminCategory(action) {
+  try {
+    yield axios.delete(`/api/admin/category/${action.payload}`);
+    yield put({ type: "FETCH_ADMIN_CATEGORIES" });
+  } catch (error) {
+    console.log("Error deleting category", error);
+  }
+}
+
+function* addAdminCategory(action) {
+  try {
+    yield axios.post(`/api/admin/category`, {
+      name: action.payload.name,
+    });
+    yield put({ type: "FETCH_ADMIN_CATEGORIES" });
+  } catch (error) {
+    console.log("Error adding category", error);
+  }
+}
+
 
 function* adminSaga() {
   yield takeLatest("FETCH_VENDORS_REQUEST", fetchVendors);
   yield takeLatest("FETCH_VENDOR_DETAILS_REQUEST", fetchVendorDetails);
   yield takeLatest("UPDATE_ONBOARDING_STAGE", updateOnboardingStage);
   yield takeLatest("FETCH_ADMIN_TEMPLATES", fetchAdminTemplates);
-  yield takeLatest("FETCH_ADMIN_CATEGORIES", fetchAdminCategories);
-  yield takeLatest("FETCH_ADMIN_CATEGORIES", fetchAdminCategories);
-  // TODO: UPDATE AND COMPLETE DELETE VENDOR
-  //   yield takeLatest("DELETE_VENDOR", deleteVendor);
+  yield takeLatest("EDIT_ADMIN_TEMPLATES", editAdminTemplates)
+  yield takeLatest("FETCH_ADMIN_CATEGORIES", fetchAdminCategories)
+  yield takeLatest("EDIT_ADMIN_CATEGORY", editAdminCategory);
+  yield takeLatest("DELETE_ADMIN_CATEGORY", deleteAdminCategory);
+  yield takeLatest("ADD_ADMIN_CATEGORY", addAdminCategory);
 }
 
 export default adminSaga;

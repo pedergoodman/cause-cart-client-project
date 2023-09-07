@@ -82,11 +82,9 @@ const categoryNameReducer = (state = [], action) => {
     return action.payload;
   }
 
-  return state;
-};
-export {
-  adminReducer,
-  vendorDetailsReducer,
-  templateLinkReducer,
-  categoryNameReducer,
-};
+  return state 
+
+}
+
+
+export { adminReducer, vendorDetailsReducer, templateLinkReducer, categoryNameReducer};
