@@ -42,6 +42,30 @@ router.get("/templates", rejectUnauthenticated, (req, res) => {
     });
 });
 
+router.put("/templates/:id", rejectUnauthenticated, (req, res) => {
+  const templateID = req.params.id;
+  const updatedTemplateLink = req.body.link;
+
+  const queryText = `
+    UPDATE template_links
+    SET link = $1
+    WHERE id = $2
+  `;
+
+  const values = [updatedTemplateLink, templateID];
+
+  pool
+    .query(queryText, values)
+    .then(() => {
+      res.sendStatus(204); // No Content (Successful Update)
+    })
+    .catch((error) => {
+      console.log("Error updating category", error);
+      res.sendStatus(500); // Internal Server Error
+    });
+});
+
+
 // ! can't be protected route, needs to grab for registration page
 // if we need to make it protected we'll need to make a new route for registration page
 router.get("/category", (req, res) => {
@@ -56,6 +80,74 @@ router.get("/category", (req, res) => {
       res.sendStatus(500);
     });
 });
+// PUT (Update) a category by ID
+router.put("/category/:id", rejectUnauthenticated, (req, res) => {
+  const categoryId = req.params.id;
+  const updatedCategoryName = req.body.name;
+
+  const queryText = `
+    UPDATE category_names
+    SET name = $1
+    WHERE id = $2
+  `;
+
+  const values = [updatedCategoryName, categoryId];
+
+  pool
+    .query(queryText, values)
+    .then(() => {
+      res.sendStatus(204); // No Content (Successful Update)
+    })
+    .catch((error) => {
+      console.log("Error updating category", error);
+      res.sendStatus(500); // Internal Server Error
+    });
+});
+
+// POST (Create) a new category
+router.post("/category", rejectUnauthenticated, (req, res) => {
+  const newCategoryName = req.body.name;
+
+  const queryText = `
+    INSERT INTO category_names (name)
+    VALUES ($1)
+  `;
+
+  const values = [newCategoryName];
+
+  pool
+    .query(queryText, values)
+    .then(() => {
+      res.sendStatus(201); // Created (Successful Creation)
+    })
+    .catch((error) => {
+      console.log("Error creating category", error);
+      res.sendStatus(500); // Internal Server Error
+    });
+});
+
+// DELETE a category by ID
+router.delete("/category/:id", rejectUnauthenticated, (req, res) => {
+  const categoryId = req.params.id;
+
+  const queryText = `
+    DELETE FROM category_names
+    WHERE id = $1
+  `;
+
+  const values = [categoryId];
+
+  pool
+    .query(queryText, values)
+    .then(() => {
+      res.sendStatus(204); // No Content (Successful Deletion)
+    })
+    .catch((error) => {
+      console.log("Error deleting category", error);
+      res.sendStatus(500); // Internal Server Error
+    });
+});
+
 
 // GET request to fetch data unique to a specific vendor
 router.get("/:id", rejectUnauthenticated, (req, res) => {

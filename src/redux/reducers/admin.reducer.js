@@ -87,4 +87,6 @@ const categoryNameReducer = (state = [], action) => {
   return state 
 
 }
-export { adminReducer, vendorDetailsReducer, templateLinkReducer, categoryNameReducer };
+
+
+export { adminReducer, vendorDetailsReducer, templateLinkReducer, categoryNameReducer};
