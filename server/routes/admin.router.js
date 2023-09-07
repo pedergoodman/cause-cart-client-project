@@ -200,6 +200,26 @@ router.get("/:id", rejectUnauthenticated, (req, res) => {
     });
 });
 
+router.delete("/:id", rejectUnauthenticated, (req, res) => {
+  const vendorId = req.params.id;
+  const queryText = `
+    DELETE FROM vendor_app_info
+    WHERE id = $1
+  `;
+
+  const values = [vendorId];
+
+  pool
+    .query(queryText, values)
+    .then(() => {
+      res.sendStatus(204); // No Content (Successful Deletion)
+    })
+    .catch((error) => {
+      console.log("Error deleting category", error);
+      res.sendStatus(500); // Internal Server Error
+    });
+});
+
 router.put("/onboarding/:id", rejectUnauthenticated, (req, res) => {
   const vendorId = req.params.id;
   const newStatus = req.body.status;

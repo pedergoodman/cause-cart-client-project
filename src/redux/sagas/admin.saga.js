@@ -11,7 +11,14 @@ function* fetchVendors() {
     yield put({ type: "FETCH_VENDORS_FAILURE", payload: error });
   }
 }
-
+function* deleteVendor(action) {
+  try {
+    yield axios.delete(`/api/admin/${action.payload}`);
+    yield put({ type: "FETCH_VENDORS_REQUEST" });
+  } catch (error) {
+    console.log("Error deleting category", error);
+  }
+}
 function* fetchVendorDetails(action) {
   try {
     // console.log("Fetching vendor details for id: ", action.payload);
@@ -117,6 +124,7 @@ function* adminSaga() {
   yield takeLatest("EDIT_ADMIN_CATEGORY", editAdminCategory);
   yield takeLatest("DELETE_ADMIN_CATEGORY", deleteAdminCategory);
   yield takeLatest("ADD_ADMIN_CATEGORY", addAdminCategory);
+  yield takeLatest("DELETE_VENDOR", deleteVendor)
 }
 
 export default adminSaga;
