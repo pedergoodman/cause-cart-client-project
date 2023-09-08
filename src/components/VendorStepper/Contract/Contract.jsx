@@ -1,18 +1,39 @@
 // * - IMPORTING -
 // React
 import React, { useState } from "react";
-  import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 // MUI
 import { Button } from "@mui/material";
 
-
-
 // * - Contract COMPONENT -
 function Contract({ status, setActiveStep }) {
+  const dispatch = useDispatch();
+
   // Testing of dynamic status and messaging
   // status = "Approved Intake Form";
 
-  const sentContractLink = useSelector((store) => store.vendorReducer.sentContractLink); 
+  // from redux store
+  const sentContractLink = useSelector(
+    store => store.vendorReducer.sentContractLink
+  );
+  const sentLinkName = useSelector(store => store.vendorReducer.sentLinkName);
+  const vendorId = useSelector(store => store.vendorReducer.vendorId);
+  const userId = useSelector(store => store.user);
+
+  // store upload files
+  const [files, setFiles] = useState();
+
+  const handleSubmitContract = () => {
+    const newOnboardingStage = "Contract Submitted";
+
+    console.log("newOnboardingStage is:", newOnboardingStage);
+    console.log("vendorId is:", vendorId);
+
+    dispatch({
+      type: "UPDATE_ONBOARDING_STAGE",
+      payload: { id: vendorId, newOnboardingStage, userId: userId.id },
+    });
+  };
 
   // * - DECLARATIONS -
   // State variable to hold the final status of this step
@@ -35,40 +56,7 @@ function Contract({ status, setActiveStep }) {
             </div>
 
             {/* Contracts */}
-            {/* // ? Not sure if both contracts will be an option or just one */}
-            {/* // ? Also for all links, will we need the actual ones from her, like these dropbox ones */}
             <div>
-              <ol
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-              >
-                <p>
-                  <strong>Contract(s):</strong>
-                </p>
-                <li>
-                  <a
-                    className="links-and-link-buttons"
-                    target="_blank"
-                    href="https://www.dropbox.com/scl/fi/a2ql6gtl5mu4uuaxn0uod/Cause-Cart-Consignment-Agreement.pdf?rlkey=azcb8d6qu2991smm260ue5b89&dl=0"
-                  >
-                    Consignment Agreement
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="links-and-link-buttons"
-                    target="_blank"
-                    href="https://www.dropbox.com/scl/fi/lqypzmz6cdqavs7hrgrxj/Vendor-Agreement.pdf?rlkey=skccrco7cwclgxmsuhenu6rx1&dl=0"
-                  >
-                    Vendor Agreement
-                  </a>
-                </li>
-              </ol>
-
-              {/* Upload: On click will allow vendor to select files to upload */}
               <div
                 style={{
                   display: "flex",
@@ -76,7 +64,40 @@ function Contract({ status, setActiveStep }) {
                   alignItems: "center",
                 }}
               >
-                <Button className="buttons">Upload Signed Contracts</Button>
+                <p style={{ marginBottom: "8px" }}>
+                  <strong>Download Contract:</strong>
+                </p>
+                <a
+                  className="links-and-link-buttons"
+                  target="_blank"
+                  href={sentContractLink}
+                >
+                  {sentLinkName}
+                </a>
+              </div>
+
+              {/* Upload: On click will allow vendor to select files to upload */}
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  marginTop: "30px",
+                }}
+              >
+                <input
+                  type="file"
+                  name="dropbox-upload"
+                  id="dropbox-upload"
+                  multiple
+                  onChange={e => {
+                    setFiles(e.target.files);
+                  }}
+                />
+
+                <Button className="buttons" onClick={handleSubmitContract}>
+                  Upload Signed Contract
+                </Button>
               </div>
             </div>
           </>
