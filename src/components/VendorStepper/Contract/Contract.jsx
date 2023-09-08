@@ -1,13 +1,18 @@
 // * - IMPORTING -
 // React
 import React, { useState } from "react";
+  import { useSelector } from "react-redux";
 // MUI
 import { Button } from "@mui/material";
+
+
 
 // * - Contract COMPONENT -
 function Contract({ status, setActiveStep }) {
   // Testing of dynamic status and messaging
   // status = "Approved Intake Form";
+
+  const sentContractLink = useSelector((store) => store.vendorReducer.sentContractLink); 
 
   // * - DECLARATIONS -
   // State variable to hold the final status of this step
