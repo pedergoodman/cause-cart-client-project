@@ -173,7 +173,7 @@ router.post('/download', (req, res) => {
 
 
 // **** grab all the files in a vendors folder
-router.post('/files/', async (req, res) => {
+router.post('/files/', (req, res) => {
   // variables needed
   const { dropboxFolderPath, } = req.body
 

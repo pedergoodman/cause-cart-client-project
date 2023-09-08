@@ -1,13 +1,48 @@
 // * - IMPORTING -
 // React
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 // MUI
 import { Button } from "@mui/material";
 
 // * - AddProducts COMPONENT -
 function AddProducts({ status, setActiveStep }) {
+  const dispatch = useDispatch();
+
   // Testing of dynamic status and messaging
   // status = "Approved Intake Form";
+
+  useEffect(() => {
+    dispatch({ type: "FETCH_ADMIN_TEMPLATES" });
+  }, []);
+
+  // from redux store
+  const productSheetLinks = useSelector(store => store.templateLinkReducer);
+  const vendorId = useSelector(store => store.vendorReducer.vendorId);
+  const userId = useSelector(store => store.user);
+
+  console.log("productSheetLinks is:", productSheetLinks);
+
+  // set product template folder link
+  const filteredProductLink = productSheetLinks.filter(linkObject => {
+    return linkObject.type == "product templates";
+  });
+  const productSheetLink = filteredProductLink[0]?.link;
+
+  // store upload files
+  const [files, setFiles] = useState();
+
+  const handleSubmitProductSheet = () => {
+    const newOnboardingStage = "Product Spreadsheet Submitted";
+
+    console.log("newOnboardingStage is:", newOnboardingStage);
+    console.log("vendorId is:", vendorId);
+
+    dispatch({
+      type: "UPDATE_ONBOARDING_STAGE",
+      payload: { id: vendorId, newOnboardingStage, userId: userId.id },
+    });
+  };
 
   // * - DECLARATIONS -
   // State variable to hold the final status of this step
@@ -31,28 +66,6 @@ function AddProducts({ status, setActiveStep }) {
 
             {/* Add Products */}
             <div>
-              <ul
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-              >
-                <p>
-                  <strong>Add Products(s):</strong>
-                </p>
-                <li>
-                  <a
-                    className="links-and-link-buttons"
-                    target="_blank"
-                    href="https://www.dropbox.com/scl/fo/yw434q1cn2nuz7gwdcfi0/h?rlkey=u5g1pfgpzdimtwus80u74k1h1&dl=0"
-                  >
-                    Product Categories
-                  </a>
-                </li>
-              </ul>
-
-              {/* Upload: On click will allow vendor to select files to upload */}
               <div
                 style={{
                   display: "flex",
@@ -60,7 +73,37 @@ function AddProducts({ status, setActiveStep }) {
                   alignItems: "center",
                 }}
               >
-                <Button className="buttons">Upload Product Forms</Button>
+                <h2>Upload Products(s)</h2>
+                <a
+                  className="links-and-link-buttons"
+                  target="_blank"
+                  href={productSheetLink}
+                >
+                  Download Product Templates
+                </a>
+              </div>
+
+              {/* Upload: On click will allow vendor to select files to upload */}
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  marginTop: "30px",
+                }}
+              >
+                <input
+                  type="file"
+                  name="dropbox-upload"
+                  id="dropbox-upload"
+                  multiple
+                  onChange={e => {
+                    setFiles(e.target.files);
+                  }}
+                />
+                <Button className="buttons" onClick={handleSubmitProductSheet}>
+                  Upload Product Form(s)
+                </Button>
               </div>
             </div>
           </>

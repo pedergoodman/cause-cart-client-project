@@ -37,6 +37,11 @@ function SendContractLink({
 
     // const subject = "Vendor Approved: Calendly Link"; // replace with the subject
     // const body = "Hi here's a copy of the calendly link"; // replace with the email body
+    
+    // ! this is here to prevent an undefined error
+    const subject = '';
+    const body = '';
+
 
     // Log the values before sending the email
     // console.log("Vendor:", vendor);

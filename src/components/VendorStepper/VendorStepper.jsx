@@ -22,11 +22,9 @@ import CustomStepIcon from "../CustomStepIcon";
 // * - VendorStepper COMPONENT -
 export default function VendorStepper() {
   // * - DECLARATIONS -
-  const user = useSelector((store) => store.user); // declaring user from redux store
-  const vendorReducer = useSelector((store) => store.vendorReducer); // declaring vendorReducer from redux store
+  const user = useSelector(store => store.user); // declaring user from redux store
+  const vendorInfo = useSelector(store => store.vendorReducer); // declaring vendorReducer from redux store
   const dispatch = useDispatch(); // declaring useDispatch as variable
-  // Declaring vendor information as variable
-  const vendorInfo = vendorReducer[0];
 
   // * - STATE -
   // For keeping track of the active / current step vendor is on
@@ -37,7 +35,7 @@ export default function VendorStepper() {
   // * Sending dispatch on page load to retrieve all information of logged in vendor
   // * Conditional for setting stepper steps
   useEffect(() => {
-    dispatch({ type: "FETCH_VENDOR_INFO", payload: { userID: user.id } }); // going to login saga
+    dispatch({ type: "FETCH_VENDOR_INFO", payload: { userID: user.id } }, []); // going to login saga
 
     // Set current/active step to...
     // Meeting when status is "Approved Intake Form"
@@ -101,11 +99,11 @@ export default function VendorStepper() {
   // * Use this via toggle on/off comments to view the various steps
   if (vendorInfo) {
     // vendorInfo.status = "Approved Intake Form";
-    vendorInfo.status = "Sent Contract";
-    vendorInfo.status = "Contract Submitted";
-    vendorInfo.status = "Sent Product Spreadsheet";
-    vendorInfo.status = "Product Spreadsheet Submitted";
-    vendorInfo.status = "Onboarding Complete";
+    // vendorInfo.status = "Sent Contract";
+    // vendorInfo.status = "Contract Submitted";
+    // vendorInfo.status = "Sent Product Spreadsheet";
+    // vendorInfo.status = "Product Spreadsheet Submitted";
+    // vendorInfo.status = "Onboarding Complete";
     // vendorInfo.status = "Denied Application";
   }
 
