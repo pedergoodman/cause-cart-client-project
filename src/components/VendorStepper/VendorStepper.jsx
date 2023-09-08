@@ -22,8 +22,8 @@ import CustomStepIcon from "../CustomStepIcon";
 // * - VendorStepper COMPONENT -
 export default function VendorStepper() {
   // * - DECLARATIONS -
-  const user = useSelector((store) => store.user); // declaring user from redux store
-  const vendorInfo = useSelector((store) => store.vendorReducer); // declaring vendorReducer from redux store 
+  const user = useSelector(store => store.user); // declaring user from redux store
+  const vendorInfo = useSelector(store => store.vendorReducer); // declaring vendorReducer from redux store
   const dispatch = useDispatch(); // declaring useDispatch as variable
 
   // * - STATE -
@@ -35,7 +35,7 @@ export default function VendorStepper() {
   // * Sending dispatch on page load to retrieve all information of logged in vendor
   // * Conditional for setting stepper steps
   useEffect(() => {
-    dispatch({ type: "FETCH_VENDOR_INFO", payload: { userID: user.id } }); // going to login saga
+    dispatch({ type: "FETCH_VENDOR_INFO", payload: { userID: user.id } }, []); // going to login saga
 
     // Set current/active step to...
     // Meeting when status is "Approved Intake Form"
