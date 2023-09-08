@@ -140,28 +140,50 @@ router.post("/register", async (req, res, next) => {
   }
 }); // end register user and vendor app info post request
 
-// logged in vendor infor for frontend
+// logged in vendor info for frontend
 // * GET request to retrieve user data using user_id using parameterization
 // Handles retrieving all data  from vendor_app_info table of currently logged in vendor
 router.get("/login/:userID", (req, res) => {
   // Extract the userID from the request parameters
   const userID = req.params.userID;
 
+  console.log(userID);
+
   // * Query
   const getVendorInfoQuery = `
-    SELECT vendor_info.*, "user".id, status.status
-FROM vendor_app_info AS vendor_info
-INNER JOIN "user" AS "user" ON vendor_info.user_id = "user".id
-INNER JOIN status ON vendor_info.status_id = status.id
-WHERE "user".id = $1;
+    SELECT 
+      "user".id AS "userId",
+      "user".email, 
+      vendor_info.id AS "vendorId",
+      vendor_info.status_id as "statusId",
+      vendor_info.brand_name AS "brandName",
+      vendor_info.dropbox_folder_path AS "dropboxFolderPath",
+      vendor_info.dropbox_shared_link AS "dropboxSharedLink",
+      vendor_info.is_active  AS "isActive",
+      vendor_info.date_created AS "dateCreated",
+      vendor_info.date_edited AS "dateEdited",
+      template_links.id AS "sentLinkId",
+      template_links.name AS "sentLinkName",
+      template_links.type AS "sentLink",
+      template_links.link AS "sentContractLink",
+      status.status
+    FROM vendor_app_info AS vendor_info
+    JOIN "user"
+      ON vendor_info.user_id = "user".id
+    JOIN status 
+      ON vendor_info.status_id = status.id
+    LEFT JOIN template_links 
+      ON sent_contract_link = template_links.id
+    WHERE "user".id = $1;
   `;
 
   pool
     .query(getVendorInfoQuery, [userID])
     .then((result) => {
-      console.log("Vendor data received!");
+
+      console.log(result.rows);
       // Send the retrieved vendor info
-      res.send(result.rows);
+      res.send(result.rows[0]);
     })
     .catch((error) => {
       console.error(
