@@ -113,6 +113,19 @@ function* addAdminCategory(action) {
   }
 }
 
+function* setVendorContract(action) {
+  try {
+    yield axios.put(`/api/admin/contract`, {
+      id: action.payload.id,
+      contract: action.payload.contract
+    });
+  } catch (error) {
+    console.log("Error adding category", error);
+  }
+}
+
+
+
 
 function* adminSaga() {
   yield takeLatest("FETCH_VENDORS_REQUEST", fetchVendors);
@@ -125,6 +138,7 @@ function* adminSaga() {
   yield takeLatest("DELETE_ADMIN_CATEGORY", deleteAdminCategory);
   yield takeLatest("ADD_ADMIN_CATEGORY", addAdminCategory);
   yield takeLatest("DELETE_VENDOR", deleteVendor)
+  yield takeLatest ("SET_VENDOR_CONTRACT", setVendorContract);
 }
 
 export default adminSaga;
