@@ -3,8 +3,13 @@ import axios from "axios";
 import { saveAs } from "file-saver";
 
 function* createVendorFolder(action) {
-  try {
+  const vendorId = action.payload.vendorId
+  const vendorName = action.payload.vendorName
+  
+  try { 
+    console.log('in dropbox saga, action.payload is:', action.payload);
     // TODO: send name data to create vendor folder
+    yield axios.post(`/api/dropbox/folder/${vendorId}`, action.payload);
     // todo need NAME & ID
   } catch (error) {
     console.log("in dropbox saga, error making vendor folder request", error);
@@ -59,12 +64,9 @@ function* downloadDropboxFile(action) {
 
 function* fetchVendorDropboxFiles(action) {
   try {
-    // ! TEST FOLDER PATH
-    const dropboxFolderPath =
-      "/vendor-submitted-onboarding-docs/test-client-file";
 
     // selected vendor folder path
-    // const dropboxFolderPath = action.payload
+    const dropboxFolderPath = action.payload
 
     // axios request to fetch vendor files
     const result = yield axios.post("/api/dropbox/files", {

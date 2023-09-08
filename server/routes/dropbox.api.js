@@ -12,11 +12,12 @@ const { Query } = require('pg');
 
 // *** create Vendor folder 
 // save folder_id, folder_path, and shared link to database
-router.post('/folder/:userId', async (req, res) => {
+router.post('/folder/:vendorId', async (req, res) => {
 
   // TODO bring in unique vendor folder name
-  const { vendorFolderName } = req.body
-  const { userId } = req.params
+  const { vendorName } = req.body
+  const { vendorId } = req.params
+
   let sharedFolderLink;
 
   // ** START requests
@@ -24,7 +25,7 @@ router.post('/folder/:userId', async (req, res) => {
     // ** create new vendor folder in Dropbox
     const newVendorFolder = await dbx
       .filesCreateFolderV2({
-        path: `/vendor-submitted-onboarding-docs/${vendorFolderName}`, // TODO: folder name is based on vendor details
+        path: `/vendor-submitted-onboarding-docs/${vendorName} Documents`, 
         autorename: true,
       })
 
@@ -63,10 +64,10 @@ router.post('/folder/:userId', async (req, res) => {
         "dropbox_folder_id" = $1,
         "dropbox_folder_path" = $2,
         "dropbox_shared_link" = $3 
-      WHERE "user_id" = $4
+      WHERE "id" = $4
     `;
 
-    queryItems = [folderId, folderPath, sharedFolderLink, userId]
+    queryItems = [folderId, folderPath, sharedFolderLink, vendorId]
 
     // * sends to database
     await pool.query(queryText, queryItems)

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Box,
   Button,
@@ -25,15 +25,22 @@ function SendContractLink({
   const [consignmentChecked, setConsignmentChecked] = useState(false);
   const [vendorChecked, setVendorChecked] = useState(false);
   const [error, setError] = useState(false);
-
   const [closeChildOnly, setCloseChildOnly] = useState(false);
+
 
   const sendContractEmailToVendor = () => {
     const sentContract = "Sent Contract";
     dispatch({
       type: "UPDATE_ONBOARDING_STAGE",
-      payload: { id: vendor.id, newOnboardingStage: sentContract },
+      payload: { id: vendor.id, newOnboardingStage: sentContract, userId: vendor.userId},
     });
+
+    // Create vendor folder on dropbox
+    dispatch({
+      type: "CREATE_VENDOR_FOLDER",
+      payload: { vendorId: vendor.id, vendorName: vendor.vendorName  },
+    });
+
 
     // const subject = "Vendor Approved: Calendly Link"; // replace with the subject
     // const body = "Hi here's a copy of the calendly link"; // replace with the email body
