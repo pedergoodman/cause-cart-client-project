@@ -36,6 +36,8 @@ function* updateOnboardingStage(action) {
         payload: response.data,
       });
       yield put({ type: "FETCH_VENDORS_REQUEST" });
+      yield put({ type: "FETCH_VENDOR_INFO", payload: {userID: action.payload.userId} });
+
     }
   } catch (error) {
     console.error("Error updating onboarding stage: ", error);
