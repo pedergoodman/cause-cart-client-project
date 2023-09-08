@@ -147,6 +147,8 @@ router.get("/login/:userID", (req, res) => {
   // Extract the userID from the request parameters
   const userID = req.params.userID;
 
+  console.log(userID);
+
   // * Query
   const getVendorInfoQuery = `
     SELECT 
@@ -170,7 +172,7 @@ router.get("/login/:userID", (req, res) => {
       ON vendor_info.user_id = "user".id
     JOIN status 
       ON vendor_info.status_id = status.id
-    JOIN template_links 
+    LEFT JOIN template_links 
       ON sent_contract_link = template_links.id
     WHERE "user".id = $1;
   `;
@@ -178,6 +180,8 @@ router.get("/login/:userID", (req, res) => {
   pool
     .query(getVendorInfoQuery, [userID])
     .then((result) => {
+
+      console.log(result.rows);
       // Send the retrieved vendor info
       res.send(result.rows[0]);
     })
