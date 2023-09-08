@@ -73,15 +73,13 @@ function AddProducts({ status, setActiveStep }) {
                   alignItems: "center",
                 }}
               >
-                <p style={{ marginBottom: "8px" }}>
-                  <strong>Add Products(s):</strong>
-                </p>
+                <h2>Upload Products(s)</h2>
                 <a
                   className="links-and-link-buttons"
                   target="_blank"
                   href={productSheetLink}
                 >
-                  Product Categories
+                  Download Product Templates
                 </a>
               </div>
 
@@ -104,7 +102,7 @@ function AddProducts({ status, setActiveStep }) {
                   }}
                 />
                 <Button className="buttons" onClick={handleSubmitProductSheet}>
-                  Upload Product Forms
+                  Upload Product Form(s)
                 </Button>
               </div>
             </div>

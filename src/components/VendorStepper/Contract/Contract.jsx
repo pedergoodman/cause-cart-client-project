@@ -64,18 +64,15 @@ function Contract({ status, setActiveStep }) {
                   alignItems: "center",
                 }}
               >
-                <p style={{ marginBottom: "8px" }}>
-                  <strong>Download Contract:</strong>
-                </p>
+                <h2>Sign Contract</h2>
                 <a
                   className="links-and-link-buttons"
                   target="_blank"
                   href={sentContractLink}
                 >
-                  {sentLinkName}
+                  Download {sentLinkName}
                 </a>
               </div>
-
               {/* Upload: On click will allow vendor to select files to upload */}
               <div
                 style={{
@@ -94,8 +91,8 @@ function Contract({ status, setActiveStep }) {
                     setFiles(e.target.files);
                   }}
                 />
-
-                <Button className="buttons" onClick={handleSubmitContract}>
+                <Button className="buttons" 
+                onClick={handleSubmitContract}>
                   Upload Signed Contract
                 </Button>
               </div>
