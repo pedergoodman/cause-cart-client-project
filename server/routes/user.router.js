@@ -150,9 +150,16 @@ router.get("/login/:userID", (req, res) => {
   // * Query
   const getVendorInfoQuery = `
     SELECT 
-      "user".id,
+      "user".id AS "userId",
       "user".email, 
-      vendor_info.*, 
+      vendor_info.id AS "vendorId",
+      vendor_info.status_id as "statusId",
+      vendor_info.brand_name AS "brandName",
+      vendor_info.dropbox_folder_path AS "dropboxFolderPath",
+      vendor_info.dropbox_shared_link AS "dropboxSharedLink",
+      vendor_info.is_active  AS "isActive",
+      vendor_info.date_created AS "dateCreated",
+      vendor_info.date_edited AS "dateEdited",
       template_links.id AS "sentLinkId",
       template_links.name AS "sentLinkName",
       template_links.type AS "sentLink",
@@ -171,8 +178,6 @@ router.get("/login/:userID", (req, res) => {
   pool
     .query(getVendorInfoQuery, [userID])
     .then((result) => {
-      console.log("Vendor data received!");
-      console.log("Result.rows is:", result.rows[0]);
       // Send the retrieved vendor info
       res.send(result.rows[0]);
     })
