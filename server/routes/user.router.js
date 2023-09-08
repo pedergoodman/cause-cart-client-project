@@ -153,7 +153,9 @@ router.get("/login/:userID", (req, res) => {
       "user".id,
       "user".email, 
       vendor_info.*, 
-      template_links.*,
+      template_links.id AS "sentLinkId",
+      template_links.name AS "sentLinkName",
+      template_links.type AS "sentLink",
       template_links.link AS "sentContractLink",
       status.status
     FROM vendor_app_info AS vendor_info
