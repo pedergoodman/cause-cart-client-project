@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  HashRouter as Router,
-  Redirect,
-  Route,
-  Switch,
-} from "react-router-dom";
+
 import { useDispatch, useSelector } from "react-redux";
 
 import CardHeader from "@mui/material/CardHeader";
@@ -14,6 +9,7 @@ import { format } from "date-fns";
 import { Box, CardContent, IconButton, Typography } from "@mui/material";
 import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
 import VendorDetails from "../VendorDetails/VendorDetails";
+import Swal from 'sweetalert2'
 
 import "./VendorsList.css";
 
@@ -120,10 +116,26 @@ function VendorsList() {
     handleCloseModal();
   };
 
-  const handleDelete = (row) => {
-    // TODO: Implement the functionality to delete the vendor and archive their documents
-    console.log(row.id)
-  };
+
+  function handleDelete(row) {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch({
+          type: "DELETE_VENDOR",
+          payload: row.id,
+        });
+        Swal.fire("Deleted!", "Your category has been deleted.", "success");
+      }
+    });
+  }
 
   const columns = [
     {

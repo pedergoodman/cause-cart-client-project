@@ -44,7 +44,7 @@ export default function VendorStepper() {
     vendorInfo?.status === "Sent Contract" && setActiveStep(2);
     // Contract when status is "Contract Submitted"
     vendorInfo?.status === "Contract Submitted" && setActiveStep(2);
-    // Add Products when status is "Sent Product Spreadsheet"
+  // Add Products when status is "Sent Product Spreadsheet"
     vendorInfo?.status === "Sent Product Spreadsheet" && setActiveStep(3);
     // Add Products when status is "Product Spreadsheet Submitted"
     vendorInfo?.status === "Product Spreadsheet Submitted" && setActiveStep(3);

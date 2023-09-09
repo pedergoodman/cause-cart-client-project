@@ -19,6 +19,8 @@ function Contract({ status, setActiveStep }) {
   const sentLinkName = useSelector(store => store.vendorReducer.sentLinkName);
   const vendorId = useSelector(store => store.vendorReducer.vendorId);
   const userId = useSelector(store => store.user);
+  const dropboxFolderPath = useSelector(store => store.vendorReducer.dropboxFolderPath)
+
 
   // store upload files
   const [files, setFiles] = useState();
@@ -26,13 +28,21 @@ function Contract({ status, setActiveStep }) {
   const handleSubmitContract = () => {
     const newOnboardingStage = "Contract Submitted";
 
-    console.log("newOnboardingStage is:", newOnboardingStage);
-    console.log("vendorId is:", vendorId);
+    console.log("dropboxFolderPath is", dropboxFolderPath);
+    // console.log("newOnboardingStage is:", newOnboardingStage);
+    // console.log("vendorId is:", vendorId);
+
+    console.log('files = ', files);
 
     dispatch({
-      type: "UPDATE_ONBOARDING_STAGE",
-      payload: { id: vendorId, newOnboardingStage, userId: userId.id },
+      type: "UPLOAD_FILE_TO_DROPBOX",
+      payload: { files, dropboxFolderPath },
     });
+
+    // dispatch({
+    //   type: "UPDATE_ONBOARDING_STAGE",
+    //   payload: { id: vendorId, newOnboardingStage, userId: userId.id },
+    // });
   };
 
   // * - DECLARATIONS -

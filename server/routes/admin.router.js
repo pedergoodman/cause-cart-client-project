@@ -153,7 +153,7 @@ router.delete("/category/:id", rejectUnauthenticated, (req, res) => {
 // GET request to fetch data unique to a specific vendor
 router.get("/:id", rejectUnauthenticated, (req, res) => {
   const vendorId = req.params.id;
-  console.log("Received vendorId: ", vendorId);
+  // console.log("Received vendorId: ", vendorId);
   const queryText = `
   SELECT 
     "vendor_app_info".id,
@@ -187,7 +187,7 @@ router.get("/:id", rejectUnauthenticated, (req, res) => {
   pool
     .query(queryText, [vendorId])
     .then((result) => {
-      console.log("Results from database: ", result);
+      // console.log("Results from database: ", result);
       const vendorData = result.rows[0];
       res.send([vendorData]);
     })
@@ -199,6 +199,26 @@ router.get("/:id", rejectUnauthenticated, (req, res) => {
       } else {
         res.status(500).send("An unknown error occurred.");
       }
+    });
+});
+
+router.delete("/:id", rejectUnauthenticated, (req, res) => {
+  const vendorId = req.params.id;
+  const queryText = `
+    DELETE FROM vendor_app_info
+    WHERE id = $1
+  `;
+
+  const values = [vendorId];
+
+  pool
+    .query(queryText, values)
+    .then(() => {
+      res.sendStatus(204); // No Content (Successful Deletion)
+    })
+    .catch((error) => {
+      console.log("Error deleting category", error);
+      res.sendStatus(500); // Internal Server Error
     });
 });
 
@@ -226,6 +246,31 @@ router.put("/onboarding/:id", rejectUnauthenticated, (req, res) => {
       res.sendStatus(500);
     });
 });
+
+router.put("/contract", rejectUnauthenticated, (req, res) => {
+  const vendorID = req.body.id;
+  const contractID = req.body.contract
+
+  const queryText = `
+  UPDATE vendor_app_info
+  SET sent_contract_link = $2
+  WHERE id = $1
+  `;
+
+  const values = [vendorID, contractID];
+
+  pool
+    .query(queryText, values)
+    .then(() => {
+      res.sendStatus(201); // Created (Successful Creation)
+    })
+    .catch((error) => {
+      console.log("Error creating category", error);
+      res.sendStatus(500); // Internal Server Error
+    });
+});
+
+
 
 // TODO: UPDATE AND COMPLETE DELETE VENDOR
 // router.delete("/:id", rejectUnauthenticated, async (req, res) => {

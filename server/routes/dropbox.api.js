@@ -12,11 +12,12 @@ const { Query } = require('pg');
 
 // *** create Vendor folder 
 // save folder_id, folder_path, and shared link to database
-router.post('/folder/:userId', async (req, res) => {
+router.post('/folder/:vendorId', async (req, res) => {
 
   // TODO bring in unique vendor folder name
-  const { vendorFolderName } = req.body
-  const { userId } = req.params
+  const { vendorName } = req.body
+  const { vendorId } = req.params
+
   let sharedFolderLink;
 
   // ** START requests
@@ -24,7 +25,7 @@ router.post('/folder/:userId', async (req, res) => {
     // ** create new vendor folder in Dropbox
     const newVendorFolder = await dbx
       .filesCreateFolderV2({
-        path: `/vendor-submitted-onboarding-docs/${vendorFolderName}`, // TODO: folder name is based on vendor details
+        path: `/vendor-submitted-onboarding-docs/${vendorName} Documents`, 
         autorename: true,
       })
 
@@ -63,10 +64,10 @@ router.post('/folder/:userId', async (req, res) => {
         "dropbox_folder_id" = $1,
         "dropbox_folder_path" = $2,
         "dropbox_shared_link" = $3 
-      WHERE "user_id" = $4
+      WHERE "id" = $4
     `;
 
-    queryItems = [folderId, folderPath, sharedFolderLink, userId]
+    queryItems = [folderId, folderPath, sharedFolderLink, vendorId]
 
     // * sends to database
     await pool.query(queryText, queryItems)
@@ -86,33 +87,31 @@ router.post('/folder/:userId', async (req, res) => {
 
 // TODO - test this route
 // **** upload one or more files to vendor's dropbox
-router.post('/upload/:userId', rejectUnauthenticated, async (req, res) => {
-  // ? TODO - this should only be called from a users account
-  // ! remove userId from route IF using req.user
-  // const userId = req?.user?.id;
-
+router.post('/upload', rejectUnauthenticated, async (req, res) => {
   // array of file objects
-  const { files, dropbox_folder_path } = req.body
+  const { files, dropboxFolderPath } = req.body
 
-  console.log("createdFolderPath is:", createdFolderPath);
-  console.log("files added is:", files);
-  // console.log("files added is:", files[0].name);
-  // console.log("files added is:", files[1].name);
+  console.log("dropboxFolderPath is:", dropboxFolderPath);
+  console.log("files is:", files);
+  console.log("1st file is:", files[0]?.name);
+  console.log("2nd file is:", files[1]?.name);
+
+
   try {
 
-    // handling multiple file uploads with a simple for loop
-    await Promise.all(files.map(file => {
-      // handle single file upload to vendor folder
-      return dbx
-        .filesUpload({
-          contents: file,
-          path: `${dropbox_folder_path}${file.name}`, // TODO: make this accept a vendors folder path
-          mode: "add",
-          autorename: true,
-          mute: false,
-          strict_conflict: false,
-        })
-    }))
+    // // handling multiple file uploads with a simple for loop
+    // await Promise.all(files.map(file => {
+    //   // handle single file upload to vendor folder
+    //   return dbx
+    //     .filesUpload({
+    //       contents: file,
+    //       path: `${dropboxFolderPath}${file.name}`, // TODO: make this accept a vendors folder path
+    //       mode: "add",
+    //       autorename: true,
+    //       mute: false,
+    //       strict_conflict: false,
+    //     })
+    // }))
 
     // send status created
     res.sendStatus(201)
