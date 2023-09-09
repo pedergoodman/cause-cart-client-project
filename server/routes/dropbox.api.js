@@ -93,7 +93,7 @@ router.post('/upload/:userId', rejectUnauthenticated, async (req, res) => {
   // const userId = req?.user?.id;
 
   // array of file objects
-  const { files, dropbox_folder_path } = req.body
+  const { files, dropboxFolderPath } = req.body
 
   console.log("createdFolderPath is:", createdFolderPath);
   console.log("files added is:", files);
@@ -107,7 +107,7 @@ router.post('/upload/:userId', rejectUnauthenticated, async (req, res) => {
       return dbx
         .filesUpload({
           contents: file,
-          path: `${dropbox_folder_path}${file.name}`, // TODO: make this accept a vendors folder path
+          path: `${dropboxFolderPath}${file.name}`, // TODO: make this accept a vendors folder path
           mode: "add",
           autorename: true,
           mute: false,
