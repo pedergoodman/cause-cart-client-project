@@ -8,18 +8,29 @@ function* createVendorFolder(action) {
   
   try { 
     console.log('in dropbox saga, action.payload is:', action.payload);
-    // TODO: send name data to create vendor folder
+    // send name data to create vendor folder
     yield axios.post(`/api/dropbox/folder/${vendorId}`, action.payload);
-    // todo need NAME & ID
+
   } catch (error) {
     console.log("in dropbox saga, error making vendor folder request", error);
   }
 }
 
 function* uploadDropboxFile(action) {
+
+  const {dropboxFolderPath, files } = action.payload
+  // console.log('in upload saga', action.payload);
+
+
+
   try {
     // TODO: send files data to upload
-    // todo need PATH & ID
+
+
+    yield axios.post("/api/dropbox/upload", { dropboxFolderPath, files });
+
+
+    
   } catch (error) {
     console.log("in dropbox saga, error making upload request", error);
   }
@@ -29,21 +40,21 @@ function* downloadDropboxFile(action) {
   try {
     const filePathToDownload = action.payload;
 
-    console.log("filePathToDownload is:", filePathToDownload);
+    // console.log("filePathToDownload is:", filePathToDownload);
 
     // TODO: send request to grab download data
     const downloadResult = yield axios.post("/api/dropbox/download", {
       filePathToDownload,
     });
 
-    console.log("in dropboxSaga, downloadResult is:", downloadResult);
+    // console.log("in dropboxSaga, downloadResult is:", downloadResult);
 
     // ! working on file blobs here!
     const fileName = downloadResult.data.result.name;
 
     const fileBinary = downloadResult.data.result.fileBinary
 
-    console.log('in dropboxSaga, fileBinary is:', fileBinary);
+    // console.log('in dropboxSaga, fileBinary is:', fileBinary);
     // const newFileBlob = new Blob(fileBinary, fileName);
     // console.log('in dropbox saga, array buffer is:', arrayBufferToBinaryString(fileBinary))
 
