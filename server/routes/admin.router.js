@@ -202,6 +202,26 @@ router.get("/:id", rejectUnauthenticated, (req, res) => {
     });
 });
 
+router.delete("/:id", rejectUnauthenticated, (req, res) => {
+  const vendorId = req.params.id;
+  const queryText = `
+    DELETE FROM vendor_app_info
+    WHERE id = $1
+  `;
+
+  const values = [vendorId];
+
+  pool
+    .query(queryText, values)
+    .then(() => {
+      res.sendStatus(204); // No Content (Successful Deletion)
+    })
+    .catch((error) => {
+      console.log("Error deleting category", error);
+      res.sendStatus(500); // Internal Server Error
+    });
+});
+
 router.put("/onboarding/:id", rejectUnauthenticated, (req, res) => {
   const vendorId = req.params.id;
   const newStatus = req.body.status;
@@ -226,6 +246,31 @@ router.put("/onboarding/:id", rejectUnauthenticated, (req, res) => {
       res.sendStatus(500);
     });
 });
+
+router.put("/contract", rejectUnauthenticated, (req, res) => {
+  const vendorID = req.body.id;
+  const contractID = req.body.contract
+
+  const queryText = `
+  UPDATE vendor_app_info
+  SET sent_contract_link = $2
+  WHERE id = $1
+  `;
+
+  const values = [vendorID, contractID];
+
+  pool
+    .query(queryText, values)
+    .then(() => {
+      res.sendStatus(201); // Created (Successful Creation)
+    })
+    .catch((error) => {
+      console.log("Error creating category", error);
+      res.sendStatus(500); // Internal Server Error
+    });
+});
+
+
 
 // TODO: UPDATE AND COMPLETE DELETE VENDOR
 // router.delete("/:id", rejectUnauthenticated, async (req, res) => {

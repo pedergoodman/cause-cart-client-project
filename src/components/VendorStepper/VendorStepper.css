@@ -31,26 +31,33 @@
   flex-direction: column;
   align-items: center;
 }
+/* Links and Buttons Container */
+.links-and-link-buttons-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-left: 0;
+}
 /* Links and Button Links */
 .links-and-link-buttons {
   color: teal;
   text-decoration: underline;
   transition: color 0.3s;
 }
-
 /* Add a hover effect */
 .links-and-link-buttons:hover {
   color: rgb(0, 177, 177);
 }
 
 /* Buttons */
-
 .buttons {
-  color: teal;
+  background-color: #f3aaa5 !important;
+  color: white !important;
+  padding: 10px !important;
   transition: color 0.3s;
 }
-
 /* Add a hover effect */
 .buttons:hover {
-  color: rgb(0, 177, 177);
+  background-color: #ef796d !important;
+  color: white !important;
 }

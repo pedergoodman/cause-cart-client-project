@@ -17,7 +17,7 @@ import Meeting from "./Meeting/Meeting";
 import Contract from "./Contract/Contract";
 import AddProducts from "./AddProducts/AddProducts";
 import OnboardingComplete from "./OnboardingComplete/OnboardingComplete";
-import CustomStepIcon from "../CustomStepIcon";
+import CustomStepIcon from "./CustomStepIcon";
 
 // * - VendorStepper COMPONENT -
 export default function VendorStepper() {
@@ -44,7 +44,7 @@ export default function VendorStepper() {
     vendorInfo?.status === "Sent Contract" && setActiveStep(2);
     // Contract when status is "Contract Submitted"
     vendorInfo?.status === "Contract Submitted" && setActiveStep(2);
-    // Add Products when status is "Sent Product Spreadsheet"
+  // Add Products when status is "Sent Product Spreadsheet"
     vendorInfo?.status === "Sent Product Spreadsheet" && setActiveStep(3);
     // Add Products when status is "Product Spreadsheet Submitted"
     vendorInfo?.status === "Product Spreadsheet Submitted" && setActiveStep(3);
@@ -119,7 +119,8 @@ export default function VendorStepper() {
               <Step key={label}>
                 <StepLabel
                   StepIconComponent={CustomStepIcon}
-                  denied={vendorInfo?.status === "Denied Application"}
+                  error={vendorInfo?.status === "Denied Application"}
+                  active={activeStep === index}
                 >
                   {label}
                 </StepLabel>

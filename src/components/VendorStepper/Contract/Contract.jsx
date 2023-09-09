@@ -39,10 +39,10 @@ function Contract({ status, setActiveStep }) {
       payload: { files, dropboxFolderPath },
     });
 
-    // dispatch({
-    //   type: "UPDATE_ONBOARDING_STAGE",
-    //   payload: { id: vendorId, newOnboardingStage, userId: userId.id },
-    // });
+    dispatch({
+      type: "UPDATE_ONBOARDING_STAGE",
+      payload: { id: vendorId, newOnboardingStage, userId: userId.id },
+    });
   };
 
   // * - DECLARATIONS -
@@ -66,7 +66,7 @@ function Contract({ status, setActiveStep }) {
             </div>
 
             {/* Contracts */}
-            <div>
+            <div className="links-and-link-buttons-container">
               <div
                 style={{
                   display: "flex",
@@ -83,6 +83,7 @@ function Contract({ status, setActiveStep }) {
                   Download {sentLinkName}
                 </a>
               </div>
+
               {/* Upload: On click will allow vendor to select files to upload */}
               <form
                 style={{
