@@ -8,6 +8,11 @@ const {
 } = require("../modules/authentication-middleware");
 const { Query } = require('pg');
 
+const multer = require('multer')
+const storage = multer.memoryStorage()
+const upload = multer({storage: storage})
+
+
 
 
 // *** create Vendor folder 
@@ -87,30 +92,39 @@ router.post('/folder/:vendorId', async (req, res) => {
 
 // TODO - test this route
 // **** upload one or more files to vendor's dropbox
-router.post('/upload', rejectUnauthenticated, async (req, res) => {
-  // array of file objects
-  const { files, dropboxFolderPath } = req.body
+router.post('/upload', rejectUnauthenticated, upload.single('image'), async (req, res) => {
+  
+  const files = req.file
+  const dropboxFolderPath = req.body.dropboxFolderPath
 
   console.log("dropboxFolderPath is:", dropboxFolderPath);
   console.log("files is:", files);
-  console.log("1st file is:", files[0]?.name);
-  console.log("2nd file is:", files[1]?.name);
+  // console.log("1st file is:", files[0]?.name);
+  // console.log("2nd file is:", files[1]?.name);
 
-
+  
   try {
 
-    // // handling multiple file uploads with a simple for loop
+    // handling multiple file uploads with a simple for loop
     // await Promise.all(files.map(file => {
-    //   // handle single file upload to vendor folder
-    //   return dbx
-    //     .filesUpload({
-    //       contents: file,
-    //       path: `${dropboxFolderPath}${file.name}`, // TODO: make this accept a vendors folder path
-    //       mode: "add",
-    //       autorename: true,
-    //       mute: false,
-    //       strict_conflict: false,
-    //     })
+      // handle single file upload to vendor folder
+      // return
+       dbx
+        .filesUpload({
+          contents: files.buffer,
+          // path: "/vendor-submitted-onboarding-docs/test-client-file/",
+          path: `/vendor-submitted-onboarding-docs/test-client-file/${files.originalname}`, // TODO: make this accept a vendors folder path
+          // path: `${dropboxFolderPath}${file.name}`, // TODO: make this accept a vendors folder path
+          mode: "add",
+          autorename: true,
+          mute: false,
+          strict_conflict: false,
+        }).then((result) => {
+          console.log('file uploaded');
+        }).catch((err) => {
+
+          console.log('error uploading file:', err);
+        });
     // }))
 
     // send status created
