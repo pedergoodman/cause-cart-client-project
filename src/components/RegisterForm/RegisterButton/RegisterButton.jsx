@@ -110,7 +110,7 @@ function RegisterButton({
       </div>
       <Button
         style={{ fontSize: "1rem", backgroundColor: "teal" }}
-        className="register-or-login-button btn"
+        className="buttons"
         variant="contained"
         type="submit"
         onClick={handleRegisterUser}
