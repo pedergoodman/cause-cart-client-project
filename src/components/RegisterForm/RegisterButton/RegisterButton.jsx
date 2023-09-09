@@ -92,7 +92,7 @@ function RegisterButton({
   return (
     <div
       style={{
-        width: "80%", 
+        width: "80%",
         margin: "0 auto",
         display: "flex",
         flexDirection: "column",

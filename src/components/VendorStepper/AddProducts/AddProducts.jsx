@@ -65,7 +65,8 @@ function AddProducts({ status, setActiveStep }) {
             </div>
 
             {/* Add Products */}
-            <div>
+
+            <div className="links-and-link-buttons-container">  
               <div
                 style={{
                   display: "flex",

@@ -66,7 +66,7 @@ function Contract({ status, setActiveStep }) {
             </div>
 
             {/* Contracts */}
-            <div>
+            <div className="links-and-link-buttons-container">
               <div
                 style={{
                   display: "flex",
@@ -83,6 +83,7 @@ function Contract({ status, setActiveStep }) {
                   Download {sentLinkName}
                 </a>
               </div>
+
               {/* Upload: On click will allow vendor to select files to upload */}
               <div
                 style={{
