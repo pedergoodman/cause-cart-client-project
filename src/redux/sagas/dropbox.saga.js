@@ -21,13 +21,23 @@ function* uploadDropboxFile(action) {
   const {dropboxFolderPath, files } = action.payload
   // console.log('in upload saga', action.payload);
 
+  console.log("in saga dropboxFolderPath is", dropboxFolderPath);
+  console.log("in saga files is", files);
 
 
   try {
     // TODO: send files data to upload
 
+    const formData = new FormData()
+    formData.append("image", files[0])
+    formData.append("dropboxFolderPath", dropboxFolderPath)
+  
 
-    yield axios.post("/api/dropbox/upload", { dropboxFolderPath, files });
+
+    const result = yield axios.post('/api/dropbox/upload', formData, { headers: {'Content-Type': 'multipart/form-data'}, })
+  
+
+
 
 
     
