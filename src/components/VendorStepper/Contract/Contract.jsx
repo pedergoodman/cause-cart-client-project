@@ -84,13 +84,14 @@ function Contract({ status, setActiveStep }) {
                 </a>
               </div>
               {/* Upload: On click will allow vendor to select files to upload */}
-              <div
+              <form
                 style={{
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
                   marginTop: "30px",
                 }}
+                enctype="multipart/form-data"
               >
                 <input
                   type="file"
@@ -105,7 +106,7 @@ function Contract({ status, setActiveStep }) {
                 onClick={handleSubmitContract}>
                   Upload Signed Contract
                 </Button>
-              </div>
+              </form>
             </div>
           </>
         );
