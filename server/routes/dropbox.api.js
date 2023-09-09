@@ -92,9 +92,9 @@ router.post('/folder/:vendorId', async (req, res) => {
 
 // TODO - test this route
 // **** upload one or more files to vendor's dropbox
-router.post('/upload', rejectUnauthenticated, upload.single('image'), async (req, res) => {
+router.post('/upload', rejectUnauthenticated, upload.array('image'), async (req, res) => {
   
-  const files = req.file
+  const files = req.files
   const dropboxFolderPath = req.body.dropboxFolderPath
 
   console.log("dropboxFolderPath is:", dropboxFolderPath);
@@ -106,28 +106,24 @@ router.post('/upload', rejectUnauthenticated, upload.single('image'), async (req
   try {
 
     // handling multiple file uploads with a simple for loop
-    // await Promise.all(files.map(file => {
+    await Promise.all(files.map(file => {
       // handle single file upload to vendor folder
-      // return
-       dbx
+      return dbx
         .filesUpload({
-          contents: files.buffer,
-          // path: "/vendor-submitted-onboarding-docs/test-client-file/",
-          path: `/vendor-submitted-onboarding-docs/test-client-file/${files.originalname}`, // TODO: make this accept a vendors folder path
-          // path: `${dropboxFolderPath}${file.name}`, // TODO: make this accept a vendors folder path
+          contents: file.buffer,
+          path: `${dropboxFolderPath}/${file.originalname}`, // path + file name
           mode: "add",
           autorename: true,
           mute: false,
           strict_conflict: false,
         }).then((result) => {
-          console.log('file uploaded');
+          console.log('file uploaded:', file);
         }).catch((err) => {
 
           console.log('error uploading file:', err);
         });
-    // }))
+    }))
 
-    // send status created
     res.sendStatus(201)
   } catch (error) {
     console.error('error uploading file(s) to Dropbox', error);
