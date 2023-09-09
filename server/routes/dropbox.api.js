@@ -93,8 +93,8 @@ router.post('/upload', rejectUnauthenticated, async (req, res) => {
 
   console.log("dropboxFolderPath is:", dropboxFolderPath);
   console.log("files is:", files);
-  console.log("1st file is:", files[0]?.name);
-  console.log("2nd file is:", files[1]?.name);
+  // console.log("1st file is:", files[0]?.name);
+  // console.log("2nd file is:", files[1]?.name);
 
 
   try {

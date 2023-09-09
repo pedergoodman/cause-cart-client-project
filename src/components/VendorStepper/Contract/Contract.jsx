@@ -39,10 +39,10 @@ function Contract({ status, setActiveStep }) {
       payload: { files, dropboxFolderPath },
     });
 
-    // dispatch({
-    //   type: "UPDATE_ONBOARDING_STAGE",
-    //   payload: { id: vendorId, newOnboardingStage, userId: userId.id },
-    // });
+    dispatch({
+      type: "UPDATE_ONBOARDING_STAGE",
+      payload: { id: vendorId, newOnboardingStage, userId: userId.id },
+    });
   };
 
   // * - DECLARATIONS -
