@@ -80,6 +80,12 @@ function ValidationComponent() {
       >
         View Errors
       </p>
+      <p
+        hidden={files}
+        style={{ color: 'green', textDecoration: 'underline', margin:'10px'}}
+      >
+        No Errors
+      </p>
       {showErrors && (
         <div style={{margin:'10px'}}>
           <h2>Error Messages:</h2>

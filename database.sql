@@ -48,7 +48,6 @@ CREATE TABLE "vendor_app_info" (
     dropbox_folder_id VARCHAR(255),
     dropbox_folder_path VARCHAR(255),
     dropbox_shared_link VARCHAR(350),
-    sent_contract_link INTEGER REFERENCES "template_links"(id)
 );
 
 

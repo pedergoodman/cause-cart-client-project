@@ -60,15 +60,28 @@ function SendContractLink({
 
     // Close both modals using the passed callback
     handleClose();
+    handleFormSubmit()
   };
 
   const handleFormSubmit = () => {
-    // Check if at least one checkbox is checked
     if (!consignmentChecked && !vendorChecked) {
       setError(true);
       return;
     }
+    if (consignmentChecked === true) {
+      dispatch({
+        type: "SET_VENDOR_CONTRACT",
+        payload: { id: vendor.id, contract: 1 },
+      });
+    }
 
+    if (vendorChecked === true){
+      dispatch({
+        type: "SET_VENDOR_CONTRACT",
+        payload: { id: vendor.id, contract: 2 },
+      });
+      console.log("Vendor Checked")
+    }
     console.log("Form submitted");
   };
 
@@ -128,24 +141,13 @@ function SendContractLink({
         >
           <Box>
             <List>
-              <ListItem>
                 <ListItemText>
                   <span style={{ fontWeight: "bold" }}>
-                    Send Consignment Agreement Link:
+                    Choose a link to send
                   </span>
                   {/* TODO: Send Consignment Agreement Link Explanation // Prefills the vendor's email, subject line, and message with
                   your Calendly link. */}
                 </ListItemText>
-              </ListItem>
-              <ListItem>
-                <ListItemText>
-                  <span style={{ fontWeight: "bold" }}>
-                    Send Vendor Agreement Link:
-                  </span>
-                  {/* TODO: Send Vendor Agreement Link Explanation // Prefills the vendor's email, subject line, and message in your
-                  default email service. */}
-                </ListItemText>
-              </ListItem>
             </List>
           </Box>
         </Box>
@@ -167,6 +169,7 @@ function SendContractLink({
                   checked={consignmentChecked}
                   onChange={(e) => {
                     setConsignmentChecked(e.target.checked);
+                    setVendorChecked(false)
                     setError(false);
                   }}
                 />
@@ -179,6 +182,7 @@ function SendContractLink({
                   checked={vendorChecked}
                   onChange={(e) => {
                     setVendorChecked(e.target.checked);
+                    setConsignmentChecked(false)
                     setError(false);
                   }}
                 />
@@ -191,8 +195,7 @@ function SendContractLink({
               </FormHelperText>
             )}
           </FormGroup>
-          {/* TODO: EVENT SEQUENCE THIS TO SEND CONTRACT ? */}
-          <button onClick={handleFormSubmit}>Submit</button>
+
         </Box>
         <Box
           sx={{
@@ -221,7 +224,8 @@ function SendContractLink({
                 sx={{ mr: 1 }}
               />
             }
-            onClick={sendContractEmailToVendor}
+            onClick={sendContractEmailToVendor,handleFormSubmit}
+            
           >
             Send Contract
           </Button>
