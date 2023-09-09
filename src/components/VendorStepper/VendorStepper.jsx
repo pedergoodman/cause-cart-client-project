@@ -99,7 +99,7 @@ export default function VendorStepper() {
   // * Use this via toggle on/off comments to view the various steps
   if (vendorInfo) {
     // vendorInfo.status = "Approved Intake Form";
-    // vendorInfo.status = "Sent Contract";
+    vendorInfo.status = "Sent Contract";
     // vendorInfo.status = "Contract Submitted";
     // vendorInfo.status = "Sent Product Spreadsheet";
     // vendorInfo.status = "Product Spreadsheet Submitted";
