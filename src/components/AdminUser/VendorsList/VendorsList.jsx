@@ -11,8 +11,8 @@ import CardHeader from "@mui/material/CardHeader";
 import { DataGrid, useGridApiRef } from "@mui/x-data-grid";
 import { Icon } from "@iconify/react";
 import { format } from "date-fns";
-import { Box, CardContent, Typography } from "@mui/material";
-
+import { Box, CardContent, IconButton, Typography } from "@mui/material";
+import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
 import VendorDetails from "../VendorDetails/VendorDetails";
 
 import "./VendorsList.css";
@@ -120,13 +120,10 @@ function VendorsList() {
     handleCloseModal();
   };
 
-  // TODO: UPDATE AND COMPLETE DELETE VENDOR
-  // const handleDelete = (row) => {
-  //   const confirmation = window.confirm("Are you sure you want to delete this vendor?");
-  //   if (confirmation) {
-  //     dispatch({ type: "DELETE_VENDOR", payload: { id: row.id } });
-  //   }
-  // };
+  const handleDelete = (row) => {
+    // TODO: Implement the functionality to delete the vendor and archive their documents
+    console.log(row.id)
+  };
 
   const columns = [
     {
@@ -195,12 +192,10 @@ function VendorsList() {
       align: "center",
       flex: 0.5,
       renderCell: (params) => (
-        <Icon
-          icon="mingcute:delete-fill"
-          style={{ fontSize: "30px", color: "#823646", cursor: "pointer" }}
-          // TODO: UPDATE AND COMPLETE DELETE VENDOR
-          //   onClick={() => handleDelete(params.row)}
-        ></Icon>
+        <IconButton
+          style={{ fontSize: "30px", color: "#823646" }}
+          onClick={() => handleDelete(params.row)}
+        ><DeleteForeverOutlinedIcon /></IconButton>
       ),
     },
   ];
