@@ -52,7 +52,7 @@ function RegisterButton({
   const handleRegisterUser = (event) => {
     event.preventDefault();
 
-    // console.log('array to submit', vendorFormData);
+    console.log('array to submit', vendorFormData);
     // console.log("prodCategoriesOtherOptionDescInput is:", prodCategoriesOtherOptionDescInput);
     // console.log("finalProductCategories is:", finalProductCategories);
 

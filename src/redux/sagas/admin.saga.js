@@ -11,7 +11,14 @@ function* fetchVendors() {
     yield put({ type: "FETCH_VENDORS_FAILURE", payload: error });
   }
 }
-
+function* deleteVendor(action) {
+  try {
+    yield axios.delete(`/api/admin/${action.payload}`);
+    yield put({ type: "FETCH_VENDORS_REQUEST" });
+  } catch (error) {
+    console.log("Error deleting category", error);
+  }
+}
 function* fetchVendorDetails(action) {
   try {
     // console.log("Fetching vendor details for id: ", action.payload);
@@ -36,6 +43,8 @@ function* updateOnboardingStage(action) {
         payload: response.data,
       });
       yield put({ type: "FETCH_VENDORS_REQUEST" });
+      yield put({ type: "FETCH_VENDOR_INFO", payload: {userID: action.payload.userId} });
+
     }
   } catch (error) {
     console.error("Error updating onboarding stage: ", error);
@@ -106,6 +115,19 @@ function* addAdminCategory(action) {
   }
 }
 
+function* setVendorContract(action) {
+  try {
+    yield axios.put(`/api/admin/contract`, {
+      id: action.payload.id,
+      contract: action.payload.contract
+    });
+  } catch (error) {
+    console.log("Error adding category", error);
+  }
+}
+
+
+
 
 function* adminSaga() {
   yield takeLatest("FETCH_VENDORS_REQUEST", fetchVendors);
@@ -117,6 +139,8 @@ function* adminSaga() {
   yield takeLatest("EDIT_ADMIN_CATEGORY", editAdminCategory);
   yield takeLatest("DELETE_ADMIN_CATEGORY", deleteAdminCategory);
   yield takeLatest("ADD_ADMIN_CATEGORY", addAdminCategory);
+  yield takeLatest("DELETE_VENDOR", deleteVendor)
+  yield takeLatest ("SET_VENDOR_CONTRACT", setVendorContract);
 }
 
 export default adminSaga;

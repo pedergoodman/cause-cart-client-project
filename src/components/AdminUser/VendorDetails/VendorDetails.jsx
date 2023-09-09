@@ -58,9 +58,7 @@ const TypographyWithDivider = ({ children }) => (
 
 function VendorDetails({ open, onClose, vendorId }) {
   const dispatch = useDispatch();
-  const vendorDetails = useSelector(
-    (state) => state.vendorDetails.vendorDetails
-  );
+  const vendorDetails = useSelector(state => state.vendorDetails.vendorDetails);
 
   useEffect(() => {
     if (vendorId) {
@@ -243,7 +241,7 @@ function VendorDetails({ open, onClose, vendorId }) {
                     Selected Categories:
                   </Typography>
                   <ul>
-                    {vendor.selectedCategories?.map((category) => (
+                    {vendor.selectedCategories?.map(category => (
                       <li key={category}>
                         <Typography variant="body1">{category}</Typography>
                       </li>
@@ -303,25 +301,29 @@ function VendorDetails({ open, onClose, vendorId }) {
            ** DROPBOX API **
 
           {/* If there are files in the dropbox folder, show them */}
-          <Button
-            variant="contained"
-            href={dropboxSharedLink}
-            target="_blank"
-            sx={{
-              display: "flex",
-              m: "15px auto",
-              width: "fit-content",
-              padding: "8px 20px",
-              alignItems: "center",
-            }}
-          >
-            Download from on Dropbox
-          </Button>
+
           {dropboxFolderPath ? (
-            <DropboxFileContainer
-              dropboxFolderPath={dropboxFolderPath}
-              dropboxSharedLink={dropboxSharedLink}
-            />
+            <>
+              <Button
+                variant="contained"
+                href={dropboxSharedLink}
+                target="_blank"
+                sx={{
+                  display: "flex",
+                  m: "15px auto",
+                  width: "fit-content",
+                  padding: "8px 20px",
+                  alignItems: "center",
+                }}
+              >
+                Download from on Dropbox
+              </Button>
+
+              <DropboxFileContainer
+                dropboxFolderPath={dropboxFolderPath}
+                dropboxSharedLink={dropboxSharedLink}
+              />
+            </>
           ) : (
             <></>
           )}

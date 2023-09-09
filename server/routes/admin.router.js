@@ -10,12 +10,12 @@ router.get("/", rejectUnauthenticated, (req, res) => {
   const queryText = `
       SELECT 
       vendor_app_info.id,
-      vendor_app_info.brand_name as "brand_name",
-      vendor_app_info.number_of_products as "number_of_products",
-      vendor_app_info.date_edited as "date_edited",
-      status.status as "status",
-      "status".id as "onboardingStatusId",
-      vendor_app_info.is_active as "is_active"
+      vendor_app_info.brand_name AS "brand_name",
+      vendor_app_info.number_of_products AS "number_of_products",
+      vendor_app_info.date_edited AS "date_edited",
+      status.status AS "status",
+      "status".id AS "onboardingStatusId",
+      vendor_app_info.is_active AS "is_active"
     FROM vendor_app_info
     JOIN status ON vendor_app_info.status_id = status.id
     `;
@@ -153,39 +153,41 @@ router.delete("/category/:id", rejectUnauthenticated, (req, res) => {
 // GET request to fetch data unique to a specific vendor
 router.get("/:id", rejectUnauthenticated, (req, res) => {
   const vendorId = req.params.id;
-  console.log("Received vendorId: ", vendorId);
+  // console.log("Received vendorId: ", vendorId);
   const queryText = `
   SELECT 
-  "vendor_app_info".id,
-  "vendor_app_info".brand_name as "vendorName",
-  "user".email,
-  "vendor_app_info".website_url as "website",
-  "vendor_app_info".business_type as "businessType",
-  "vendor_app_info".selected_categories as "primaryProductCategory",
-  "vendor_app_info".country,
-  "vendor_app_info".number_of_products as "numberOfProducts",
-  "vendor_app_info".giveback_selection as "vendorGiveback",
-  "vendor_app_info".giveback_description as "givebackDescription",
-  "vendor_app_info".nonprofit_selection as "partnerNonProfit",
-  "vendor_app_info".nonprofit_description as "nonprofitDescription",
-  "vendor_app_info".heard_about_us as "hearAboutUs",
-  "vendor_app_info".date_created as "intakeDate",
-  "vendor_app_info".date_edited as "dateEdited",
-  "status".status as "onboardingStatus",
-  "status".id as "onboardingStatusId",
-  "vendor_app_info".is_active as "is_active",
-  "vendor_app_info".dropbox_folder_path as "dropboxFolderPath",
-  "vendor_app_info".dropbox_shared_link as "dropboxSharedLink"
+    "vendor_app_info".id,
+    "vendor_app_info".brand_name AS "vendorName",
+    "user".email,
+    "vendor_app_info".website_url AS "website",
+    "vendor_app_info".business_type AS "businessType",
+    "vendor_app_info".selected_categories AS "primaryProductCategory",
+    "vendor_app_info".country,
+    "vendor_app_info".number_of_products AS "numberOfProducts",
+    "vendor_app_info".giveback_selection AS "vendorGiveback",
+    "vendor_app_info".giveback_description AS "givebackDescription",
+    "vendor_app_info".nonprofit_selection AS "partnerNonProfit",
+    "vendor_app_info".nonprofit_description AS "nonprofitDescription",
+    "vendor_app_info".heard_about_us AS "hearAboutUs",
+    "vendor_app_info".date_created AS "intakeDate",
+    "vendor_app_info".date_edited AS "dateEdited",
+    "status".status AS "onboardingStatus",
+    "status".id AS "onboardingStatusId",
+    "vendor_app_info".is_active AS "is_active",
+    "vendor_app_info".dropbox_folder_path AS "dropboxFolderPath",
+    "vendor_app_info".dropbox_shared_link AS "dropboxSharedLink"
   FROM vendor_app_info
-  JOIN "user" ON vendor_app_info.user_id = "user".id
-  JOIN "status" ON vendor_app_info.status_id = "status".id
+  JOIN "user" 
+    ON vendor_app_info.user_id = "user".id
+  JOIN "status" 
+    ON vendor_app_info.status_id = "status".id
   WHERE "vendor_app_info".id = $1;
   `;
 
   pool
     .query(queryText, [vendorId])
     .then((result) => {
-      console.log("Results from database: ", result);
+      // console.log("Results from database: ", result);
       const vendorData = result.rows[0];
       res.send([vendorData]);
     })
@@ -197,6 +199,26 @@ router.get("/:id", rejectUnauthenticated, (req, res) => {
       } else {
         res.status(500).send("An unknown error occurred.");
       }
+    });
+});
+
+router.delete("/:id", rejectUnauthenticated, (req, res) => {
+  const vendorId = req.params.id;
+  const queryText = `
+    DELETE FROM vendor_app_info
+    WHERE id = $1
+  `;
+
+  const values = [vendorId];
+
+  pool
+    .query(queryText, values)
+    .then(() => {
+      res.sendStatus(204); // No Content (Successful Deletion)
+    })
+    .catch((error) => {
+      console.log("Error deleting category", error);
+      res.sendStatus(500); // Internal Server Error
     });
 });
 
@@ -224,6 +246,31 @@ router.put("/onboarding/:id", rejectUnauthenticated, (req, res) => {
       res.sendStatus(500);
     });
 });
+
+router.put("/contract", rejectUnauthenticated, (req, res) => {
+  const vendorID = req.body.id;
+  const contractID = req.body.contract
+
+  const queryText = `
+  UPDATE vendor_app_info
+  SET sent_contract_link = $2
+  WHERE id = $1
+  `;
+
+  const values = [vendorID, contractID];
+
+  pool
+    .query(queryText, values)
+    .then(() => {
+      res.sendStatus(201); // Created (Successful Creation)
+    })
+    .catch((error) => {
+      console.log("Error creating category", error);
+      res.sendStatus(500); // Internal Server Error
+    });
+});
+
+
 
 // TODO: UPDATE AND COMPLETE DELETE VENDOR
 // router.delete("/:id", rejectUnauthenticated, async (req, res) => {

@@ -3,18 +3,34 @@ import axios from "axios";
 import { saveAs } from "file-saver";
 
 function* createVendorFolder(action) {
-  try {
-    // TODO: send name data to create vendor folder
-    // todo need NAME & ID
+  const vendorId = action.payload.vendorId
+  const vendorName = action.payload.vendorName
+  
+  try { 
+    console.log('in dropbox saga, action.payload is:', action.payload);
+    // send name data to create vendor folder
+    yield axios.post(`/api/dropbox/folder/${vendorId}`, action.payload);
+
   } catch (error) {
     console.log("in dropbox saga, error making vendor folder request", error);
   }
 }
 
 function* uploadDropboxFile(action) {
+
+  const {dropboxFolderPath, files } = action.payload
+  // console.log('in upload saga', action.payload);
+
+
+
   try {
     // TODO: send files data to upload
-    // todo need PATH & ID
+
+
+    yield axios.post("/api/dropbox/upload", { dropboxFolderPath, files });
+
+
+    
   } catch (error) {
     console.log("in dropbox saga, error making upload request", error);
   }
@@ -24,21 +40,21 @@ function* downloadDropboxFile(action) {
   try {
     const filePathToDownload = action.payload;
 
-    console.log("filePathToDownload is:", filePathToDownload);
+    // console.log("filePathToDownload is:", filePathToDownload);
 
     // TODO: send request to grab download data
     const downloadResult = yield axios.post("/api/dropbox/download", {
       filePathToDownload,
     });
 
-    console.log("in dropboxSaga, downloadResult is:", downloadResult);
+    // console.log("in dropboxSaga, downloadResult is:", downloadResult);
 
     // ! working on file blobs here!
     const fileName = downloadResult.data.result.name;
 
     const fileBinary = downloadResult.data.result.fileBinary
 
-    console.log('in dropboxSaga, fileBinary is:', fileBinary);
+    // console.log('in dropboxSaga, fileBinary is:', fileBinary);
     // const newFileBlob = new Blob(fileBinary, fileName);
     // console.log('in dropbox saga, array buffer is:', arrayBufferToBinaryString(fileBinary))
 
@@ -59,12 +75,9 @@ function* downloadDropboxFile(action) {
 
 function* fetchVendorDropboxFiles(action) {
   try {
-    // ! TEST FOLDER PATH
-    const dropboxFolderPath =
-      "/vendor-submitted-onboarding-docs/test-client-file";
 
     // selected vendor folder path
-    // const dropboxFolderPath = action.payload
+    const dropboxFolderPath = action.payload
 
     // axios request to fetch vendor files
     const result = yield axios.post("/api/dropbox/files", {
