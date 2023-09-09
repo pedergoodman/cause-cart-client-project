@@ -30,18 +30,12 @@ function AddProducts({ status, setActiveStep }) {
             </div>
 
             {/* Add Products */}
-            <div>
-              <ul
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-              >
+            <div className="links-and-link-buttons-container">
+              <ul className="links-and-link-buttons-container">
                 <p>
                   <strong>Add Products(s):</strong>
                 </p>
-                <li>
+                <li style={{ listStyle: "none" }}>
                   <a
                     className="links-and-link-buttons"
                     target="_blank"
@@ -53,15 +47,7 @@ function AddProducts({ status, setActiveStep }) {
               </ul>
 
               {/* Upload: On click will allow vendor to select files to upload */}
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-              >
-                <Button className="buttons">Upload Product Forms</Button>
-              </div>
+              <Button className="buttons">Upload Product Forms</Button>
             </div>
           </>
         );

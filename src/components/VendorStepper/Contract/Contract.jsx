@@ -33,13 +33,7 @@ function Contract({ status, setActiveStep }) {
             {/* // ? Not sure if both contracts will be an option or just one */}
             {/* // ? Also for all links, will we need the actual ones from her, like these dropbox ones */}
             <div>
-              <ol
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-              >
+              <ol className="links-and-link-buttons-container">
                 <p>
                   <strong>Contract(s):</strong>
                 </p>
