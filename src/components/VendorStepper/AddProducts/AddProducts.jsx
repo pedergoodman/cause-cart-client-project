@@ -20,8 +20,7 @@ function AddProducts({ status, setActiveStep }) {
   const productSheetLinks = useSelector(store => store.templateLinkReducer);
   const vendorId = useSelector(store => store.vendorReducer.vendorId);
   const userId = useSelector(store => store.user);
-
-  console.log("productSheetLinks is:", productSheetLinks);
+  const dropboxFolderPath = useSelector(store => store.vendorReducer.dropboxFolderPath)
 
   // set product template folder link
   const filteredProductLink = productSheetLinks.filter(linkObject => {
@@ -35,8 +34,17 @@ function AddProducts({ status, setActiveStep }) {
   const handleSubmitProductSheet = () => {
     const newOnboardingStage = "Product Spreadsheet Submitted";
 
+    console.log("dropboxFolderPath is", dropboxFolderPath);
     console.log("newOnboardingStage is:", newOnboardingStage);
     console.log("vendorId is:", vendorId);
+
+    console.log('files = ', files);
+
+    dispatch({
+      type: "UPLOAD_FILE_TO_DROPBOX",
+      payload: { files, dropboxFolderPath },
+    });
+
 
     dispatch({
       type: "UPDATE_ONBOARDING_STAGE",

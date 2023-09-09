@@ -231,7 +231,7 @@ function SendContractLink({
                 sx={{ mr: 1 }}
               />
             }
-            onClick={sendContractEmailToVendor,handleFormSubmit}
+            onClick={sendContractEmailToVendor}
             
           >
             Send Contract
