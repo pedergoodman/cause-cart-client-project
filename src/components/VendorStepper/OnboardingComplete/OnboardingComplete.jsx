@@ -38,8 +38,8 @@ function OnboardingComplete({ status, setActiveStep }) {
                 {/* Message */}
                 <p>{message}</p>
 
-                <div>
-                  <Button>
+                <ul className="links-and-link-buttons-container">
+                  <li style={{ listStyle: "none" }}>
                     <a
                       className="links-and-link-buttons"
                       target="_blank"
@@ -47,9 +47,9 @@ function OnboardingComplete({ status, setActiveStep }) {
                     >
                       Cause-Cart Vendors
                     </a>
-                  </Button>
+                  </li>
                   {/* // TODO: Change to actual website name and href link */}
-                  <Button>
+                  <li style={{ listStyle: "none" }}>
                     <a
                       className="links-and-link-buttons"
                       target="_blank"
@@ -57,8 +57,8 @@ function OnboardingComplete({ status, setActiveStep }) {
                     >
                       Stripe
                     </a>
-                  </Button>
-                </div>
+                  </li>
+                </ul>
               </div>
             </main>
           </>

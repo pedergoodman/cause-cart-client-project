@@ -28,9 +28,10 @@ function Meeting({ status, setActiveStep }) {
             {/* <BaseButton>Schedule a Meeting</BaseButton> */}
 
             {/* // TODO: Change link to actual calendly link  */}
-            <Button>
+            <Button className="buttons">
               <a
                 className="links-and-link-buttons"
+                style={{ color: "white", textDecoration: "none" }}
                 href="https://calendly.com/"
                 target="_blank"
               >

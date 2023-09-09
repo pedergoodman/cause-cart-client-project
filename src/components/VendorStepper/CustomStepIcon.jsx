@@ -10,21 +10,24 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 function CustomStepIcon(props) {
   // * - STATE -
   // States of completed active and denied stepper steps
-  const { active, completed, denied } = props;
+  const { active, completed } = props;
+
+  const activeStepStyle = {
+    color: "#477192", 
+  };
 
   // Conditional for rendering icons
-  // Denied
-  if (denied) {
-    return <CancelIcon style={{ color: "grey" }} />;
-  }
   // Completed
   if (completed) {
-    return <CheckCircleIcon style={{ color: "green" }} />;
+    return <CheckCircleIcon style={{ color: "teal" }} />;
   }
 
-  // ? Make one for active
-
-  return <StepIcon {...props} />;
+  return (
+    <StepIcon
+      icon={props.icon}
+      sx={active ? activeStepStyle : {}} // Apply the activeStepStyle when active
+    />
+  );
 } // * end CustomStepIcon
 
 export default CustomStepIcon;
