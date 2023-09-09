@@ -87,33 +87,31 @@ router.post('/folder/:vendorId', async (req, res) => {
 
 // TODO - test this route
 // **** upload one or more files to vendor's dropbox
-router.post('/upload/:userId', rejectUnauthenticated, async (req, res) => {
-  // ? TODO - this should only be called from a users account
-  // ! remove userId from route IF using req.user
-  // const userId = req?.user?.id;
-
+router.post('/upload', rejectUnauthenticated, async (req, res) => {
   // array of file objects
   const { files, dropboxFolderPath } = req.body
 
-  console.log("createdFolderPath is:", createdFolderPath);
-  console.log("files added is:", files);
-  // console.log("files added is:", files[0].name);
-  // console.log("files added is:", files[1].name);
+  console.log("dropboxFolderPath is:", dropboxFolderPath);
+  console.log("files is:", files);
+  console.log("1st file is:", files[0]?.name);
+  console.log("2nd file is:", files[1]?.name);
+
+
   try {
 
-    // handling multiple file uploads with a simple for loop
-    await Promise.all(files.map(file => {
-      // handle single file upload to vendor folder
-      return dbx
-        .filesUpload({
-          contents: file,
-          path: `${dropboxFolderPath}${file.name}`, // TODO: make this accept a vendors folder path
-          mode: "add",
-          autorename: true,
-          mute: false,
-          strict_conflict: false,
-        })
-    }))
+    // // handling multiple file uploads with a simple for loop
+    // await Promise.all(files.map(file => {
+    //   // handle single file upload to vendor folder
+    //   return dbx
+    //     .filesUpload({
+    //       contents: file,
+    //       path: `${dropboxFolderPath}${file.name}`, // TODO: make this accept a vendors folder path
+    //       mode: "add",
+    //       autorename: true,
+    //       mute: false,
+    //       strict_conflict: false,
+    //     })
+    // }))
 
     // send status created
     res.sendStatus(201)
