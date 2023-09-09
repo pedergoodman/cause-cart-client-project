@@ -44,7 +44,7 @@ router.post('/folder/:vendorId', async (req, res) => {
       path: folderPath
     });
 
-    // * check if a shared link exists
+    // * check if a shared link exists or create one if it doesn't
     if (checkForSharedLink.result.links[0]) {
       // if a share link exists, set the link to a variable
       sharedFolderLink = checkForSharedLink.result.links[0].url
@@ -88,9 +88,6 @@ router.post('/folder/:vendorId', async (req, res) => {
 
 
 
-
-
-// TODO - test this route
 // **** upload one or more files to vendor's dropbox
 router.post('/upload', rejectUnauthenticated, upload.array('image'), async (req, res) => {
   
@@ -136,17 +133,49 @@ router.post('/upload', rejectUnauthenticated, upload.array('image'), async (req,
 // TODO - test this route
 // ! on hold
 // **** download selected file from a vendor folder
-router.post('/download', (req, res) => {
+router.post('/download', async (req, res) => {
   // variables needed
   const { filePathToDownload } = req.body
 
-  console.log('filePathToDownload is:', filePathToDownload);
+  let resultingFileLink;
 
-  dbx.filesDownload({
-    path: filePathToDownload,
+// *** create new shared dropbox link based on created folder path
+    // * check if a shared link exists
+    const checkForSharedLink = await dbx.sharingListSharedLinks({
+      path: filePathToDownload
+    });
 
-  }).then((data) => {
-    console.log('response from dropbox', data.result);
+    // * check if a shared link exists or create one if it doesn't
+    // if (checkForSharedLink.result.links[0]) {
+    //   // if a share link exists, set the link to a variable
+    //   resultingFileLink = checkForSharedLink.result.links[0].url
+
+    // } else {
+    //   // if a shared link does not exist, 
+    //   // * create new shared link from provided path
+    //   const createNewSharedLink =
+    //     await dbx.sharingCreateSharedLinkWithSettings({
+    //       path: filePathToDownload
+    //     });
+
+    //   // set shared link to shared link
+    //   resultingFileLink = createNewSharedLink.result.url
+    // }
+
+    console.log('resultingFileLink is:', resultingFileLink);
+
+
+
+
+
+
+  
+
+  // dbx.filesDownload({
+  //   path: filePathToDownload,
+
+  // }).then((data) => {
+  //   console.log('response from dropbox', data.result);
     
     // const blob = data.result.fileBinary
     // console.log(arrayBufferToBinaryString(blob))
@@ -160,8 +189,6 @@ router.post('/download', (req, res) => {
     // .then((data) => {
 
 
-      
-
       // const downloadedFile = fs.writeFile(data.result.name, data.result.fileBinary, 'binary', (err) => {
       //   if (err) { throw err; }
       //   console.log(`File: ${data.result.name} saved.`);
@@ -171,35 +198,77 @@ router.post('/download', (req, res) => {
 
       res.sendStatus(200)
 
-  })
-  .catch((err) => {
-    console.log('error downloading file', err);
-    res.sendStatus(500)
-  });
+  // })
+  // .catch((err) => {
+  //   console.log('error downloading file', err);
+  //   res.sendStatus(500)
+  // });
 });
 
 
 
 
 // **** grab all the files in a vendors folder
-router.post('/files/', (req, res) => {
+router.post('/files/', async (req, res) => {
   // variables needed
   const { dropboxFolderPath, } = req.body
 
-  dbx
-    .filesListFolder({
-      path: dropboxFolderPath,
-    })
-    .then(function (response) {
-      console.log(response);
-      filesInDropboxFolder = response.result.entries;
-      res.send(filesInDropboxFolder)
-    })
-    .catch(function (error) {
-      console.error(error);
-      res.sendStatus(500)
-    });
+console.log('dropboxFolderPath is:', dropboxFolderPath);
+// let filesInDropboxFolder;
 
+// try {
+  
+//   const result = await dbx.filesListFolder({
+//     path: dropboxFolderPath,
+//   })
+
+
+// } catch (error) {
+//   console.error('error getting entries', error);
+//   res.sendStatus(500)
+// }
+
+
+
+dbx
+  .filesListFolder({
+    path: dropboxFolderPath,
+  })
+  .then(function (response) {
+    console.log(response);
+    filesInDropboxFolder = response.result.entries;
+    console.log('filesInDropboxFolder are:', filesInDropboxFolder);
+    res.send(filesInDropboxFolder)
+  })
+  .catch(function (error) {
+    console.error('error getting entries', error);    
+    res.sendStatus(500)
+  });
+
+
+
+// try {
+//   const dropboxFolderResponse = dbx
+//   .filesListFolder({
+//     path: dropboxFolderPath,
+//   })
+
+//   const entriesInDropboxFolder = dropboxFolderResponse;
+
+//   console.log('entriesInDropboxFolder is:', entriesInDropboxFolder);
+  
+//   // res.send(entriesInDropboxFolder)
+
+//   res.sendStatus(200)
+
+
+
+
+
+// } catch (error) {
+//   console.error('error getting entries', error);
+//   res.sendStatus(500)
+// }   
 });
 
 
