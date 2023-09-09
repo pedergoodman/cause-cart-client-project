@@ -5,8 +5,8 @@ import { saveAs } from "file-saver";
 function* createVendorFolder(action) {
   const vendorId = action.payload.vendorId
   const vendorName = action.payload.vendorName
-  
-  try { 
+
+  try {
     console.log('in dropbox saga, action.payload is:', action.payload);
     // send name data to create vendor folder
     yield axios.post(`/api/dropbox/folder/${vendorId}`, action.payload);
@@ -18,32 +18,25 @@ function* createVendorFolder(action) {
 
 function* uploadDropboxFile(action) {
 
-  const {dropboxFolderPath, files } = action.payload
-  // console.log('in upload saga', action.payload);
-
-  console.log("in saga dropboxFolderPath is", dropboxFolderPath);
-  console.log("in saga files is", files);
-
-
+  const { dropboxFolderPath, files } = action.payload
   try {
-    // TODO: send files data to upload
 
     const formData = new FormData()
-    formData.append("image", files[0])
+
+    for (const file of files) {
+      // console.log('file is ',file);
+      formData.append("image", file)
+    }
+
     formData.append("dropboxFolderPath", dropboxFolderPath)
-  
-
-
-    const result = yield axios.post('/api/dropbox/upload', formData, { headers: {'Content-Type': 'multipart/form-data'}, })
-  
-
-
-
-
     
+
+    yield axios.post('/api/dropbox/upload', formData, { headers: { 'Content-Type': 'multipart/form-data' }, })
+
   } catch (error) {
     console.log("in dropbox saga, error making upload request", error);
   }
+
 }
 
 function* downloadDropboxFile(action) {
