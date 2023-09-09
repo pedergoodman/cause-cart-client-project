@@ -153,7 +153,7 @@ router.delete("/category/:id", rejectUnauthenticated, (req, res) => {
 // GET request to fetch data unique to a specific vendor
 router.get("/:id", rejectUnauthenticated, (req, res) => {
   const vendorId = req.params.id;
-  console.log("Received vendorId: ", vendorId);
+  // console.log("Received vendorId: ", vendorId);
   const queryText = `
   SELECT 
     "vendor_app_info".id,
@@ -187,7 +187,7 @@ router.get("/:id", rejectUnauthenticated, (req, res) => {
   pool
     .query(queryText, [vendorId])
     .then((result) => {
-      console.log("Results from database: ", result);
+      // console.log("Results from database: ", result);
       const vendorData = result.rows[0];
       res.send([vendorData]);
     })
