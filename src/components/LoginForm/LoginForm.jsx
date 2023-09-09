@@ -148,7 +148,7 @@ function LoginForm() {
 
         <Button
           style={{ fontSize: "1rem", backgroundColor: "teal" }}
-          className="buttons"
+          className="register-or-login-button btn"
           variant="contained"
           type="submit"
           onClick={loginUser}

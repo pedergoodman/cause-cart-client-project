@@ -92,7 +92,7 @@ function RegisterButton({
   return (
     <div
       style={{
-        width: "80%", 
+        width: "80%",
         margin: "0 auto",
         display: "flex",
         flexDirection: "column",
@@ -110,7 +110,7 @@ function RegisterButton({
       </div>
       <Button
         style={{ fontSize: "1rem", backgroundColor: "teal" }}
-        className="buttons"
+        className="register-or-login-button btn"
         variant="contained"
         type="submit"
         onClick={handleRegisterUser}
