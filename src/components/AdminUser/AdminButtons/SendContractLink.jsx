@@ -55,6 +55,7 @@ function SendContractLink({
 
     // Close both modals using the passed callback
     handleClose();
+    handleFormSubmit()
   };
 
   const handleFormSubmit = () => {
@@ -189,8 +190,7 @@ function SendContractLink({
               </FormHelperText>
             )}
           </FormGroup>
-          {/* TODO: EVENT SEQUENCE THIS TO SEND CONTRACT ? */}
-          <button onClick={handleFormSubmit}>Submit</button>
+
         </Box>
         <Box
           sx={{
@@ -219,7 +219,8 @@ function SendContractLink({
                 sx={{ mr: 1 }}
               />
             }
-            onClick={sendContractEmailToVendor}
+            onClick={sendContractEmailToVendor,handleFormSubmit}
+            
           >
             Send Contract
           </Button>
