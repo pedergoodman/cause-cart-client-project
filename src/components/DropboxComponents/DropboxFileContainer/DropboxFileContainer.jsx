@@ -31,13 +31,6 @@ export default function DropboxFileContainer({ dropboxFolderPath, dropboxSharedL
       padding="0px 25px 20px 25px"
       alignItems="center"
     >
-      {/* <Button
-        variant="contained"
-        href={dropboxSharedLink}
-        target="_blank"
-      >
-        Download from on Dropbox
-      </Button> */}
 
       <List
         dense
@@ -58,16 +51,6 @@ export default function DropboxFileContainer({ dropboxFolderPath, dropboxSharedL
           />
         ))}
 
-        {/* TEST display */}
-        {/* 
-        <DropboxFileElement />
-        <DropboxFileElement />
-        <DropboxFileElement />
-        <DropboxFileElement />
-        <DropboxFileElement />
-        <DropboxFileElement />
-        <DropboxFileElement />
-        <DropboxFileElement /> */}
       </List>
     </Box>
   );
