@@ -53,7 +53,10 @@ export default function DropboxFileElement({ file }) {
         <Box sx={{ padding: "0 6px 0 0" }}>
           <IconButton 
           href={sharedFileLink}
-          aria-label="download">
+          aria-label="download"
+          target="_blank"
+          >
+            
             <FileDownloadOutlinedIcon />
           </IconButton>
         </Box>
