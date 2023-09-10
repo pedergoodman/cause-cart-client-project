@@ -10,7 +10,7 @@ const { Query } = require('pg');
 
 const multer = require('multer')
 const storage = multer.memoryStorage()
-const upload = multer({storage: storage})
+const upload = multer({ storage: storage })
 
 
 
@@ -30,7 +30,7 @@ router.post('/folder/:vendorId', async (req, res) => {
     // ** create new vendor folder in Dropbox
     const newVendorFolder = await dbx
       .filesCreateFolderV2({
-        path: `/vendor-submitted-onboarding-docs/${vendorName} Documents`, 
+        path: `/vendor-submitted-onboarding-docs/${vendorName} Documents`,
         autorename: true,
       })
 
@@ -90,7 +90,7 @@ router.post('/folder/:vendorId', async (req, res) => {
 
 // **** upload one or more files to vendor's dropbox
 router.post('/upload', rejectUnauthenticated, upload.array('image'), async (req, res) => {
-  
+
   const files = req.files
   const dropboxFolderPath = req.body.dropboxFolderPath
 
@@ -99,7 +99,7 @@ router.post('/upload', rejectUnauthenticated, upload.array('image'), async (req,
   // console.log("1st file is:", files[0]?.name);
   // console.log("2nd file is:", files[1]?.name);
 
-  
+
   try {
 
     // handling multiple file uploads with a simple for loop
@@ -139,64 +139,63 @@ router.post('/download', async (req, res) => {
 
   let resultingFileLink;
 
-// *** create new shared dropbox link based on created folder path
-    // * check if a shared link exists
-    const checkForSharedLink = await dbx.sharingListSharedLinks({
-      path: filePathToDownload
-    });
+  // *** create new shared dropbox link based on created folder path
+  // * check if a shared link exists
+  const checkForSharedLink = await dbx.sharingListSharedLinks({
+    // path: filePathToDownload
+  });
 
-    // * check if a shared link exists or create one if it doesn't
-    // if (checkForSharedLink.result.links[0]) {
-    //   // if a share link exists, set the link to a variable
-    //   resultingFileLink = checkForSharedLink.result.links[0].url
+  // * check if a shared link exists or create one if it doesn't
+  // if (checkForSharedLink.result.links[0]) {
+  //   // if a share link exists, set the link to a variable
+  //   resultingFileLink = checkForSharedLink.result.links[0].url
 
-    // } else {
-    //   // if a shared link does not exist, 
-    //   // * create new shared link from provided path
-    //   const createNewSharedLink =
-    //     await dbx.sharingCreateSharedLinkWithSettings({
-    //       path: filePathToDownload
-    //     });
+  // } else {
+  //   // if a shared link does not exist, 
+  //   // * create new shared link from provided path
+  //   const createNewSharedLink =
+  //     await dbx.sharingCreateSharedLinkWithSettings({
+  //       path: filePathToDownload
+  //     });
 
-    //   // set shared link to shared link
-    //   resultingFileLink = createNewSharedLink.result.url
-    // }
+  //   // set shared link to shared link
+  //   resultingFileLink = createNewSharedLink.result.url
+  // }
 
-    console.log('resultingFileLink is:', resultingFileLink);
-
-
+  // console.log('resultingFileLink is:', resultingFileLink);
 
 
 
 
-  
+
+
 
   // dbx.filesDownload({
   //   path: filePathToDownload,
 
   // }).then((data) => {
   //   console.log('response from dropbox', data.result);
-    
-    // const blob = data.result.fileBinary
-    // console.log(arrayBufferToBinaryString(blob))
-    
-    // const fileName = data.result.name;
-    // const blob = data.result.fileBlob;
 
-    // send file with info and blob
-    
+  // const blob = data.result.fileBinary
+  // console.log(arrayBufferToBinaryString(blob))
 
-    // .then((data) => {
+  // const fileName = data.result.name;
+  // const blob = data.result.fileBlob;
+
+  // send file with info and blob
 
 
-      // const downloadedFile = fs.writeFile(data.result.name, data.result.fileBinary, 'binary', (err) => {
-      //   if (err) { throw err; }
-      //   console.log(`File: ${data.result.name} saved.`);
-      // });
-      // })
-      // console.log('downloadedFile write file is:', downloadedFile);
+  // .then((data) => {
 
-      res.sendStatus(200)
+
+  // const downloadedFile = fs.writeFile(data.result.name, data.result.fileBinary, 'binary', (err) => {
+  //   if (err) { throw err; }
+  //   console.log(`File: ${data.result.name} saved.`);
+  // });
+  // })
+  // console.log('downloadedFile write file is:', downloadedFile);
+
+  res.send(checkForSharedLink)
 
   // })
   // .catch((err) => {
@@ -209,66 +208,54 @@ router.post('/download', async (req, res) => {
 
 
 // **** grab all the files in a vendors folder
-router.post('/files/', async (req, res) => {
+router.post('/files', async (req, res) => {
   // variables needed
   const { dropboxFolderPath, } = req.body
 
-console.log('dropboxFolderPath is:', dropboxFolderPath);
-// let filesInDropboxFolder;
+  const arrayOfFolderItems = [];
 
-// try {
-  
-//   const result = await dbx.filesListFolder({
-//     path: dropboxFolderPath,
-//   })
+  try {
+    // Grab list of files in a vendor folder
+    let filesInDropboxFolder;
+    const folderListResult = await dbx.filesListFolder({ path: dropboxFolderPath })
+    filesInDropboxFolder = folderListResult.result.entries;
 
+    // grab or create a shared link from each file in folder    
+    for (const file of filesInDropboxFolder) {
+      const filePath = file.path_lower
+      const fileName = file.name
+      let sharedFileLink;
 
-// } catch (error) {
-//   console.error('error getting entries', error);
-//   res.sendStatus(500)
-// }
+      // * check if a shared link exists
+      const checkForSharedLink = await dbx.sharingListSharedLinks({
+        path: filePath
+      });
 
+      // * check if a shared link exists or create one if it doesn't
+      if (checkForSharedLink.result.links[0]) {
+        // if a share link exists, set the link to a variable
+        sharedFileLink = checkForSharedLink.result.links[0]
+        arrayOfFolderItems.push(sharedFileLink)
+      } else {
+        // if a shared link does not exist, 
+        // * create new shared link from provided path
+        const createNewSharedLink =
+          await dbx.sharingCreateSharedLinkWithSettings({
+            path: filePath
+          });
 
+        // set shared link to shared link
+        sharedFileLink = createNewSharedLink.result
+        arrayOfFolderItems.push(sharedFileLink)
+      }
+    } // end for loop
 
-dbx
-  .filesListFolder({
-    path: dropboxFolderPath,
-  })
-  .then(function (response) {
-    console.log(response);
-    filesInDropboxFolder = response.result.entries;
-    console.log('filesInDropboxFolder are:', filesInDropboxFolder);
-    res.send(filesInDropboxFolder)
-  })
-  .catch(function (error) {
-    console.error('error getting entries', error);    
+    res.send(arrayOfFolderItems)
+
+  } catch (error) {
+    console.error('error getting entries', error);
     res.sendStatus(500)
-  });
-
-
-
-// try {
-//   const dropboxFolderResponse = dbx
-//   .filesListFolder({
-//     path: dropboxFolderPath,
-//   })
-
-//   const entriesInDropboxFolder = dropboxFolderResponse;
-
-//   console.log('entriesInDropboxFolder is:', entriesInDropboxFolder);
-  
-//   // res.send(entriesInDropboxFolder)
-
-//   res.sendStatus(200)
-
-
-
-
-
-// } catch (error) {
-//   console.error('error getting entries', error);
-//   res.sendStatus(500)
-// }   
+  }
 });
 
 
