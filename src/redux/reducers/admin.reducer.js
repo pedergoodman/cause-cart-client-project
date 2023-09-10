@@ -86,5 +86,14 @@ const categoryNameReducer = (state = [], action) => {
 
 }
 
+const addFileReducer = (state = [], action) => {
+  if (action.type === "ADD_READY_FILE") {
+    return [...state, ...action.payload]
+  }
+  if (action.type === "CLEAR_READY_FILE") {
+    return []
+  }
+  return state
+}
 
-export { adminReducer, vendorDetailsReducer, templateLinkReducer, categoryNameReducer};
+export { adminReducer, vendorDetailsReducer, templateLinkReducer, categoryNameReducer, addFileReducer};
