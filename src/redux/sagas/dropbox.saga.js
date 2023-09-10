@@ -61,6 +61,7 @@ function* fetchVendorDropboxFiles(action) {
     yield put({type: 'SET_DBX_LOADING_INACTIVE'})
     
   } catch (error) {
+    yield put({type: 'SET_DBX_LOADING_INACTIVE'})
     console.log(
       "in dropbox saga, error making fetch vendor files request",
       error
