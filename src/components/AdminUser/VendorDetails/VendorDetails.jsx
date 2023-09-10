@@ -314,6 +314,11 @@ function VendorDetails({ open, onClose, vendorId }) {
                   width: "fit-content",
                   padding: "8px 20px",
                   alignItems: "center",
+                  bgcolor: "#f3aaa5",
+                  boxShadow: "0px 4px 1px -2px rgba(0,0,0,0.2)", 
+                  "&:hover": {
+                    backgroundColor: "green",
+                  },
                 }}
               >
                 Download from on Dropbox
