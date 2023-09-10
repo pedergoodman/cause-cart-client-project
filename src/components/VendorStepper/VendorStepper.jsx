@@ -101,7 +101,7 @@ export default function VendorStepper() {
     // vendorInfo.status = "Approved Intake Form";
     // vendorInfo.status = "Sent Contract";
     // vendorInfo.status = "Contract Submitted";
-    vendorInfo.status = "Sent Product Spreadsheet";
+    // vendorInfo.status = "Sent Product Spreadsheet";
     // vendorInfo.status = "Product Spreadsheet Submitted";
     // vendorInfo.status = "Onboarding Complete";
     // vendorInfo.status = "Denied Application";
