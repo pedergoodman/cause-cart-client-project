@@ -8,13 +8,17 @@ const {
 } = require("../modules/authentication-middleware");
 const { Query } = require('pg');
 
+const multer = require('multer')
+const storage = multer.memoryStorage()
+const upload = multer({ storage: storage })
+
+
 
 
 // *** create Vendor folder 
 // save folder_id, folder_path, and shared link to database
 router.post('/folder/:vendorId', async (req, res) => {
 
-  // TODO bring in unique vendor folder name
   const { vendorName } = req.body
   const { vendorId } = req.params
 
@@ -25,7 +29,7 @@ router.post('/folder/:vendorId', async (req, res) => {
     // ** create new vendor folder in Dropbox
     const newVendorFolder = await dbx
       .filesCreateFolderV2({
-        path: `/vendor-submitted-onboarding-docs/${vendorName} Documents`, 
+        path: `/vendor-submitted-onboarding-docs/${vendorName} Documents`,
         autorename: true,
       })
 
@@ -39,7 +43,7 @@ router.post('/folder/:vendorId', async (req, res) => {
       path: folderPath
     });
 
-    // * check if a shared link exists
+    // * check if a shared link exists or create one if it doesn't
     if (checkForSharedLink.result.links[0]) {
       // if a share link exists, set the link to a variable
       sharedFolderLink = checkForSharedLink.result.links[0].url
@@ -83,37 +87,32 @@ router.post('/folder/:vendorId', async (req, res) => {
 
 
 
-
-
-// TODO - test this route
 // **** upload one or more files to vendor's dropbox
-router.post('/upload', rejectUnauthenticated, async (req, res) => {
-  // array of file objects
-  const { files, dropboxFolderPath } = req.body
+router.post('/upload', rejectUnauthenticated, upload.array('image'), async (req, res) => {
 
-  console.log("dropboxFolderPath is:", dropboxFolderPath);
-  console.log("files is:", files);
-  // console.log("1st file is:", files[0]?.name);
-  // console.log("2nd file is:", files[1]?.name);
-
+  const files = req.files
+  const dropboxFolderPath = req.body.dropboxFolderPath
 
   try {
+    // handling multiple file uploads with a simple for loop
+    await Promise.all(files.map(file => {
+      // handle single file upload to vendor folder
+      return dbx
+        .filesUpload({
+          contents: file.buffer,
+          path: `${dropboxFolderPath}/${file.originalname}`, // path + file name
+          mode: "add",
+          autorename: true,
+          mute: false,
+          strict_conflict: false,
+        }).then((result) => {
+          console.log('file uploaded:', file);
+        }).catch((err) => {
 
-    // // handling multiple file uploads with a simple for loop
-    // await Promise.all(files.map(file => {
-    //   // handle single file upload to vendor folder
-    //   return dbx
-    //     .filesUpload({
-    //       contents: file,
-    //       path: `${dropboxFolderPath}${file.name}`, // TODO: make this accept a vendors folder path
-    //       mode: "add",
-    //       autorename: true,
-    //       mute: false,
-    //       strict_conflict: false,
-    //     })
-    // }))
+          console.log('error uploading file:', err);
+        });
+    }))
 
-    // send status created
     res.sendStatus(201)
   } catch (error) {
     console.error('error uploading file(s) to Dropbox', error);
@@ -123,77 +122,51 @@ router.post('/upload', rejectUnauthenticated, async (req, res) => {
 
 
 
-// TODO - test this route
-// ! on hold
-// **** download selected file from a vendor folder
-router.post('/download', (req, res) => {
-  // variables needed
-  const { filePathToDownload } = req.body
-
-  console.log('filePathToDownload is:', filePathToDownload);
-
-  dbx.filesDownload({
-    path: filePathToDownload,
-
-  }).then((data) => {
-    console.log('response from dropbox', data.result);
-    
-    // const blob = data.result.fileBinary
-    // console.log(arrayBufferToBinaryString(blob))
-    
-    // const fileName = data.result.name;
-    // const blob = data.result.fileBlob;
-
-    // send file with info and blob
-    
-
-    // .then((data) => {
-
-
-      
-
-      // const downloadedFile = fs.writeFile(data.result.name, data.result.fileBinary, 'binary', (err) => {
-      //   if (err) { throw err; }
-      //   console.log(`File: ${data.result.name} saved.`);
-      // });
-      // })
-      // console.log('downloadedFile write file is:', downloadedFile);
-
-      res.sendStatus(200)
-
-  })
-  .catch((err) => {
-    console.log('error downloading file', err);
-    res.sendStatus(500)
-  });
-});
-
-
-
-
-// **** grab all the files in a vendors folder
-router.post('/files/', (req, res) => {
+// **** grab all the files in a vendors folder with a shared link
+router.post('/files', async (req, res) => {
   // variables needed
   const { dropboxFolderPath, } = req.body
 
-  dbx
-    .filesListFolder({
-      path: dropboxFolderPath,
-    })
-    .then(function (response) {
-      console.log(response);
-      filesInDropboxFolder = response.result.entries;
-      res.send(filesInDropboxFolder)
-    })
-    .catch(function (error) {
-      console.error(error);
-      res.sendStatus(500)
-    });
+  const arrayOfFolderItems = [];
 
+  try {
+    // Grab list of files in a vendor folder
+    let filesInDropboxFolder;
+    const folderListResult = await dbx.filesListFolder({ path: dropboxFolderPath })
+    filesInDropboxFolder = folderListResult.result.entries;
+
+
+    // * Loop through files and get shared links
+    await Promise.all(filesInDropboxFolder.map(async file => {
+      // handle single file upload to vendor folder
+      const filePath = file.path_lower
+      let sharedFileLink;
+
+      // check if a shared link exists or create one if it doesn't
+      const checkForSharedLink = await dbx.sharingListSharedLinks({
+        path: filePath
+      });
+
+      if (checkForSharedLink.result.links[0]) { // a share link exists, set the link to a variable
+        sharedFileLink = checkForSharedLink.result.links[0]
+        arrayOfFolderItems.push(sharedFileLink)
+      } else {  // create new shared link from provided path
+        const createNewSharedLink =
+          await dbx.sharingCreateSharedLinkWithSettings({
+            path: filePath
+          });
+        // set shared link to shared link
+        sharedFileLink = createNewSharedLink.result
+        arrayOfFolderItems.push(sharedFileLink)
+      }
+    })) // end promise loop
+
+    res.send(arrayOfFolderItems)
+  } catch (error) {
+    console.error('error getting entries', error);
+    res.sendStatus(500)
+  }
 });
-
-
-
 
 
 

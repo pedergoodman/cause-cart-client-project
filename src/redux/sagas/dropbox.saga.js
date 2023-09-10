@@ -5,8 +5,8 @@ import { saveAs } from "file-saver";
 function* createVendorFolder(action) {
   const vendorId = action.payload.vendorId
   const vendorName = action.payload.vendorName
-  
-  try { 
+
+  try {
     console.log('in dropbox saga, action.payload is:', action.payload);
     // send name data to create vendor folder
     yield axios.post(`/api/dropbox/folder/${vendorId}`, action.payload);
@@ -18,64 +18,32 @@ function* createVendorFolder(action) {
 
 function* uploadDropboxFile(action) {
 
-  const {dropboxFolderPath, files } = action.payload
-  // console.log('in upload saga', action.payload);
-
-
-
+  const { dropboxFolderPath, files } = action.payload
   try {
-    // TODO: send files data to upload
 
+    const formData = new FormData()
 
-    yield axios.post("/api/dropbox/upload", { dropboxFolderPath, files });
+    for (const file of files) {
+      // console.log('file is ',file);
+      formData.append("image", file)
+    }
 
-
+    formData.append("dropboxFolderPath", dropboxFolderPath)
     
+
+    yield axios.post('/api/dropbox/upload', formData, { headers: { 'Content-Type': 'multipart/form-data' }, })
+
   } catch (error) {
     console.log("in dropbox saga, error making upload request", error);
   }
+
 }
 
-function* downloadDropboxFile(action) {
-  try {
-    const filePathToDownload = action.payload;
-
-    // console.log("filePathToDownload is:", filePathToDownload);
-
-    // TODO: send request to grab download data
-    const downloadResult = yield axios.post("/api/dropbox/download", {
-      filePathToDownload,
-    });
-
-    // console.log("in dropboxSaga, downloadResult is:", downloadResult);
-
-    // ! working on file blobs here!
-    const fileName = downloadResult.data.result.name;
-
-    const fileBinary = downloadResult.data.result.fileBinary
-
-    // console.log('in dropboxSaga, fileBinary is:', fileBinary);
-    // const newFileBlob = new Blob(fileBinary, fileName);
-    // console.log('in dropbox saga, array buffer is:', arrayBufferToBinaryString(fileBinary))
-
-
-    // var blob = new Blob(newFileBlob);
-
-    // console.log('in dropboxSaga, fileName is:', fileName);
-    // console.log('in dropboxSaga, blob is:', blob);
-    // console.log('in dropboxSaga, newFileBlob is:', newFileBlob);
-
-    // TODO: trigger download.. here? or do you store it?
-
-    // yield saveAs(newFileBlob, fileName)
-  } catch (error) {
-    console.log("in dropbox saga, error making download request", error);
-  }
-}
 
 function* fetchVendorDropboxFiles(action) {
   try {
-
+    yield put({type: 'SET_DBX_LOADING_ACTIVE'})
+    
     // selected vendor folder path
     const dropboxFolderPath = action.payload
 
@@ -89,7 +57,11 @@ function* fetchVendorDropboxFiles(action) {
       type: "SET_VENDOR_DROPBOX_FILES",
       payload: result,
     });
+
+    yield put({type: 'SET_DBX_LOADING_INACTIVE'})
+    
   } catch (error) {
+    yield put({type: 'SET_DBX_LOADING_INACTIVE'})
     console.log(
       "in dropbox saga, error making fetch vendor files request",
       error
@@ -100,7 +72,6 @@ function* fetchVendorDropboxFiles(action) {
 function* dropboxSaga() {
   yield takeLatest("CREATE_VENDOR_FOLDER", createVendorFolder);
   yield takeLatest("UPLOAD_FILE_TO_DROPBOX", uploadDropboxFile);
-  yield takeLatest("DOWNLOAD_DROPBOX_FILE", downloadDropboxFile);
   yield takeLatest("FETCH_VENDOR_DROPBOX_FILES", fetchVendorDropboxFiles);
 }
 

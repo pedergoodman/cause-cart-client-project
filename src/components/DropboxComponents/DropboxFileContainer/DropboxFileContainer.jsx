@@ -1,14 +1,17 @@
-import { Box, Button, List } from "@mui/material";
+import { Box, Button, LinearProgress, List } from "@mui/material";
 import React, { useEffect } from "react";
 import DropboxFileElement from "../DropboxFileElement/DropboxFileElement";
 import { useDispatch, useSelector } from "react-redux";
 import dropboxFileElementStyling from "../DropboxFileElement/DropboxFileElementStyle";
 
 // DROPBOX FILE CONTAINER
-export default function DropboxFileContainer({ dropboxFolderPath, dropboxSharedLink }) {
+export default function DropboxFileContainer({
+  dropboxFolderPath,
+  dropboxSharedLink,
+}) {
   const dispatch = useDispatch();
 
-  console.log('in container, passed dropboxSharedLink are:', dropboxSharedLink);
+  console.log("in container, passed dropboxSharedLink are:", dropboxSharedLink);
 
   // fetch data on files inside specific dropbox folder
   // and save in the store.
@@ -20,25 +23,16 @@ export default function DropboxFileContainer({ dropboxFolderPath, dropboxSharedL
   }, []);
 
   // grab dropbox files data from store
-  const dropboxVendorFiles = useSelector(state => state.dropboxVendorFiles);
-
+  const dropboxVendorFiles = useSelector(store => store.dropboxVendorFiles);
+  const dropboxLoadingSpinner = useSelector(
+    store => store.errors.dropboxLoadingSpinner
+  );
   const dropboxFiles = dropboxVendorFiles.data;
 
-  return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      padding="0px 25px 20px 25px"
-      alignItems="center"
-    >
-      {/* <Button
-        variant="contained"
-        href={dropboxSharedLink}
-        target="_blank"
-      >
-        Download from on Dropbox
-      </Button> */}
+  console.log("dropboxLoadingSpinner is:", dropboxLoadingSpinner);
 
+  const ListOfDropboxFiles = () => {
+    return (
       <List
         dense
         sx={{
@@ -52,23 +46,38 @@ export default function DropboxFileContainer({ dropboxFolderPath, dropboxSharedL
         }}
       >
         {dropboxFiles?.map(file => (
-          <DropboxFileElement 
-          key={file.id}
-          file={file} 
-          />
+          <DropboxFileElement key={file.id} file={file} />
         ))}
-
-        {/* TEST display */}
-        {/* 
-        <DropboxFileElement />
-        <DropboxFileElement />
-        <DropboxFileElement />
-        <DropboxFileElement />
-        <DropboxFileElement />
-        <DropboxFileElement />
-        <DropboxFileElement />
-        <DropboxFileElement /> */}
       </List>
+    );
+  };
+
+  const DropboxLoadingBar = () => {
+    return (
+      <Box sx={{ width: "60%" }}>
+        <LinearProgress
+          sx={{
+            // color: "#F9BC9E",
+            backgroundColor: "#FFE6D9",
+            "& .MuiLinearProgress-bar": {
+              backgroundColor: "#f3aaa5",
+            },
+          }}
+        />
+      </Box>
+    );
+  };
+
+  
+  // ** RENDERING
+  return (
+    <Box
+      display="flex"
+      flexDirection="column"
+      padding="0px 25px 20px 25px"
+      alignItems="center"
+    >
+      {dropboxLoadingSpinner ? <DropboxLoadingBar /> : <ListOfDropboxFiles />}
     </Box>
   );
 }

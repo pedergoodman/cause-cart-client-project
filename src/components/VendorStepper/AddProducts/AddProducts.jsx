@@ -20,8 +20,9 @@ function AddProducts({ status, setActiveStep }) {
   const productSheetLinks = useSelector(store => store.templateLinkReducer);
   const vendorId = useSelector(store => store.vendorReducer.vendorId);
   const userId = useSelector(store => store.user);
-
-  console.log("productSheetLinks is:", productSheetLinks);
+  const dropboxFolderPath = useSelector(
+    store => store.vendorReducer.dropboxFolderPath
+  );
 
   // set product template folder link
   const filteredProductLink = productSheetLinks.filter(linkObject => {
@@ -29,19 +30,29 @@ function AddProducts({ status, setActiveStep }) {
   });
   const productSheetLink = filteredProductLink[0]?.link;
 
-  // store upload files
-  const [files, setFiles] = useState();
+  // local state
+  const [files, setFiles] = useState([]);
+  const [uploadError, setUploadError] = useState(false);
 
   const handleSubmitProductSheet = () => {
     const newOnboardingStage = "Product Spreadsheet Submitted";
 
-    console.log("newOnboardingStage is:", newOnboardingStage);
-    console.log("vendorId is:", vendorId);
+    if (files[0]) {
+      setUploadError(false);
 
-    dispatch({
-      type: "UPDATE_ONBOARDING_STAGE",
-      payload: { id: vendorId, newOnboardingStage, userId: userId.id },
-    });
+      dispatch({
+        type: "UPLOAD_FILE_TO_DROPBOX",
+        payload: { files, dropboxFolderPath },
+      });
+
+      dispatch({
+        type: "UPDATE_ONBOARDING_STAGE",
+        payload: { id: vendorId, newOnboardingStage, userId: userId.id },
+      });
+    } else {
+      console.log("this should happen if NO file is selected");
+      setUploadError(true);
+    }
   };
 
   // * - DECLARATIONS -
@@ -66,7 +77,7 @@ function AddProducts({ status, setActiveStep }) {
 
             {/* Add Products */}
 
-            <div className="links-and-link-buttons-container">  
+            <div className="links-and-link-buttons-container">
               <div
                 style={{
                   display: "flex",
@@ -105,6 +116,11 @@ function AddProducts({ status, setActiveStep }) {
                 <Button className="buttons" onClick={handleSubmitProductSheet}>
                   Upload Product Form(s)
                 </Button>
+                {uploadError ? (
+                  <p style={{ color: "#d13323" }}>*Please add a file</p>
+                ) : (
+                  <></>
+                )}
               </div>
             </div>
           </>
