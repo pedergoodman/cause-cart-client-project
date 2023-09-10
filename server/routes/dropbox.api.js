@@ -34,7 +34,7 @@ router.post('/folder/:vendorId', async (req, res) => {
       })
 
     // data needed from shared folder result
-    const folderPath = newVendorFolder.result.metadata.path_lower
+    const folderPath = newVendorFolder.result.metadata.path_display
     const folderId = newVendorFolder.result.metadata.id
 
     // *** create new shared dropbox link based on created folder path
@@ -76,7 +76,6 @@ router.post('/folder/:vendorId', async (req, res) => {
     // * sends to database
     await pool.query(queryText, queryItems)
 
-    // send created status
     res.sendStatus(201)
 
   } catch (error) {
@@ -100,7 +99,7 @@ router.post('/upload', rejectUnauthenticated, upload.array('image'), async (req,
       return dbx
         .filesUpload({
           contents: file.buffer,
-          path: `${dropboxFolderPath}/${file.originalname}`, // path + file name
+          path: `${dropboxFolderPath}/${file.originalname}`, // folder path + file name = file path
           mode: "add",
           autorename: true,
           mute: false,
