@@ -47,7 +47,7 @@ function CompleteOnboarding({
     )}&body=${encodeURIComponent(body)}`;
 
     // Open the default email service of the admin user in a new tab
-    window.open(emailToVendor, "_blank");
+    // window.open(emailToVendor, "_blank");
 
     // Close both modals using the passed callback
     handleClose();
