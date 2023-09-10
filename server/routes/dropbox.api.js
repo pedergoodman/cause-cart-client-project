@@ -19,7 +19,6 @@ const upload = multer({ storage: storage })
 // save folder_id, folder_path, and shared link to database
 router.post('/folder/:vendorId', async (req, res) => {
 
-  // TODO bring in unique vendor folder name
   const { vendorName } = req.body
   const { vendorId } = req.params
 
@@ -94,14 +93,7 @@ router.post('/upload', rejectUnauthenticated, upload.array('image'), async (req,
   const files = req.files
   const dropboxFolderPath = req.body.dropboxFolderPath
 
-  console.log("dropboxFolderPath is:", dropboxFolderPath);
-  console.log("files is:", files);
-  // console.log("1st file is:", files[0]?.name);
-  // console.log("2nd file is:", files[1]?.name);
-
-
   try {
-
     // handling multiple file uploads with a simple for loop
     await Promise.all(files.map(file => {
       // handle single file upload to vendor folder
@@ -144,6 +136,7 @@ router.post('/files', async (req, res) => {
     filesInDropboxFolder = folderListResult.result.entries;
 
 
+    // * Loop through files and get shared links
     await Promise.all(filesInDropboxFolder.map(async file => {
       // handle single file upload to vendor folder
       const filePath = file.path_lower
@@ -166,43 +159,14 @@ router.post('/files', async (req, res) => {
         sharedFileLink = createNewSharedLink.result
         arrayOfFolderItems.push(sharedFileLink)
       }
-
     })) // end promise loop
 
-
-
-
-
-
-
-
-    // grab or create a shared link from each file in folder    
-    for (const file of filesInDropboxFolder) {
-      
-    } // end for loop
-
-
-
-
-
-
-
-
-
-
-
-
-
     res.send(arrayOfFolderItems)
-
   } catch (error) {
     console.error('error getting entries', error);
     res.sendStatus(500)
   }
 });
-
-
-
 
 
 
