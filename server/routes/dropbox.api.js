@@ -143,35 +143,55 @@ router.post('/files', async (req, res) => {
     const folderListResult = await dbx.filesListFolder({ path: dropboxFolderPath })
     filesInDropboxFolder = folderListResult.result.entries;
 
-    // grab or create a shared link from each file in folder    
-    for (const file of filesInDropboxFolder) {
+
+    await Promise.all(filesInDropboxFolder.map(async file => {
+      // handle single file upload to vendor folder
       const filePath = file.path_lower
-      const fileName = file.name
       let sharedFileLink;
 
-      // * check if a shared link exists
+      // check if a shared link exists or create one if it doesn't
       const checkForSharedLink = await dbx.sharingListSharedLinks({
         path: filePath
       });
 
-      // * check if a shared link exists or create one if it doesn't
-      if (checkForSharedLink.result.links[0]) {
-        // if a share link exists, set the link to a variable
+      if (checkForSharedLink.result.links[0]) { // a share link exists, set the link to a variable
         sharedFileLink = checkForSharedLink.result.links[0]
         arrayOfFolderItems.push(sharedFileLink)
-      } else {
-        // if a shared link does not exist, 
-        // * create new shared link from provided path
+      } else {  // create new shared link from provided path
         const createNewSharedLink =
           await dbx.sharingCreateSharedLinkWithSettings({
             path: filePath
           });
-
         // set shared link to shared link
         sharedFileLink = createNewSharedLink.result
         arrayOfFolderItems.push(sharedFileLink)
       }
+
+    })) // end promise loop
+
+
+
+
+
+
+
+
+    // grab or create a shared link from each file in folder    
+    for (const file of filesInDropboxFolder) {
+      
     } // end for loop
+
+
+
+
+
+
+
+
+
+
+
+
 
     res.send(arrayOfFolderItems)
 
