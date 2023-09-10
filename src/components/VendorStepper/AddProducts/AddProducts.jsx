@@ -110,7 +110,7 @@ function AddProducts({ status, setActiveStep }) {
                 }}
               >
                 <ValidationComponent />
-                <Button className="buttons" onClick={handleSubmitProductSheet}>
+                <Button className="buttons" onClick={handleSubmitProductSheet} disabled={!readyFiles.length > 0}>
                   Upload Product Form(s)
                 </Button>
                 {uploadError ? (

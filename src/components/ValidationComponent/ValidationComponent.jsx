@@ -95,7 +95,8 @@ function ValidationComponent() {
         style={{ color: 'red', textDecoration: 'underline', cursor: 'pointer', margin: '10px' }}
         onClick={toggleErrors}
       >
-        ERROR: Sheet Found Missing Required Data!
+        Sheet Missing Required Data! Please fix and re-upload.
+        <p> Click to find out more.</p>
       </p>
       <p
         hidden={!noErrors} // Show the message when there are no errors
