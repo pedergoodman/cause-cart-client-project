@@ -6,9 +6,11 @@ function ValidationComponent() {
   const [invalid, setInvalid] = useState(false);
   const [showErrors, setShowErrors] = useState(false);
   const [errors, setErrors] = useState([]);
+  const [noErrors, setNoErrors] = useState(false);
 
   const handleFileChange = (e) => {
     setFiles(Array.from(e.target.files));
+    setNoErrors(false); // Reset noErrors state when new files are selected.
   };
 
   const toggleErrors = () => {
@@ -16,9 +18,12 @@ function ValidationComponent() {
   };
 
   useEffect(() => {
-    const errorMessages = [];
 
+    setErrors([])
+    const errorMessages = [];
+    setInvalid(false)
     files.forEach((file, index) => {
+
       const reader = new FileReader();
       reader.onload = function (e) {
         const data = new Uint8Array(e.target.result);
@@ -64,7 +69,13 @@ function ValidationComponent() {
             }
           }
         }
+
         setErrors(errorMessages);
+
+        // Check if all files have been successfully validated with no errors
+        if (index === files.length - 1 && errorMessages.length === 0) {
+          setNoErrors(true);
+        }
       };
       reader.readAsArrayBuffer(file);
     });
@@ -75,23 +86,23 @@ function ValidationComponent() {
       <input type="file" multiple onChange={handleFileChange} />
       <p
         hidden={!invalid}
-        style={{ color: 'red', textDecoration: 'underline', cursor: 'pointer', margin:'10px'}}
+        style={{ color: 'red', textDecoration: 'underline', cursor: 'pointer', margin: '10px' }}
         onClick={toggleErrors}
       >
-        View Errors
+        ERROR: Click to find out more.
       </p>
       <p
-        hidden={files}
-        style={{ color: 'green', textDecoration: 'underline', margin:'10px'}}
+        hidden={!noErrors} // Show the message when there are no errors
+        style={{ color: 'green', textDecoration: 'underline', margin: '10px' }}
       >
-        No Errors
+        File Loaded Successfully, No Errors Have Been Found.
       </p>
       {showErrors && (
-        <div style={{margin:'10px'}}>
+        <div style={{ margin: '10px' }}>
           <h2>Error Messages:</h2>
           <ul>
             {errors.map((error, index) => (
-              <li key={index} style={{fontSize:'15px'}}>{error}</li>
+              <li key={index} style={{ fontSize: '15px' }}>{error}</li>
             ))}
           </ul>
         </div>
