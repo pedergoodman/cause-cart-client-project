@@ -19,7 +19,7 @@
     "bcryptjs": "^2.4.3",
     "cookie-session": "^2.0.0",
     "date-fns": "^2.30.0",
-    "dotenv": "^16.0.3",
+    "dotenv": "^16.3.1",
     "dropbox": "^10.34.0",
     "dropbox-v2-api": "^2.5.10",
     "emailjs-com": "^3.2.0",
