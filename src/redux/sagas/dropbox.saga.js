@@ -18,12 +18,12 @@ function* createVendorFolder(action) {
 
 function* uploadDropboxFile(action) {
 
-  const { dropboxFolderPath, files } = action.payload
+  const { dropboxFolderPath, readyFiles } = action.payload
   try {
 
     const formData = new FormData()
 
-    for (const file of files) {
+    for (const file of readyFiles) {
       // console.log('file is ',file);
       formData.append("image", file)
     }

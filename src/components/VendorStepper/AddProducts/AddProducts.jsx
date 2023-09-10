@@ -44,12 +44,11 @@ function AddProducts({ status, setActiveStep }) {
     if ([readyFiles].length > 0) {
       setUploadError(false);
 
-      readyFiles.forEach(file => {
         dispatch({
           type: "UPLOAD_FILE_TO_DROPBOX",
-          payload: { file, dropboxFolderPath },
+          payload: { readyFiles, dropboxFolderPath },
         });
-      });
+
 
       dispatch({
         type: "UPDATE_ONBOARDING_STAGE",
