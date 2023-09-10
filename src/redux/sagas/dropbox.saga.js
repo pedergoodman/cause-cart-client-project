@@ -77,8 +77,11 @@ function* downloadDropboxFile(action) {
 }
 
 function* fetchVendorDropboxFiles(action) {
-  try {
 
+
+  try {
+    yield put({type: 'SET_DBX_LOADING_ACTIVE'})
+    
     // selected vendor folder path
     const dropboxFolderPath = action.payload
 
@@ -92,6 +95,9 @@ function* fetchVendorDropboxFiles(action) {
       type: "SET_VENDOR_DROPBOX_FILES",
       payload: result,
     });
+
+    yield put({type: 'SET_DBX_LOADING_INACTIVE'})
+    
   } catch (error) {
     console.log(
       "in dropbox saga, error making fetch vendor files request",
