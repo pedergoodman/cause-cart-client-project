@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import * as XLSX from 'xlsx/xlsx.js';
+import { useDispatch } from 'react-redux';
 
 function ValidationComponent() {
   const [files, setFiles] = useState([]);
@@ -7,6 +8,8 @@ function ValidationComponent() {
   const [showErrors, setShowErrors] = useState(false);
   const [errors, setErrors] = useState([]);
   const [noErrors, setNoErrors] = useState(false);
+
+  const dispatch = useDispatch()
 
   const handleFileChange = (e) => {
     setFiles(Array.from(e.target.files));
@@ -22,6 +25,7 @@ function ValidationComponent() {
     setErrors([])
     const errorMessages = [];
     setInvalid(false)
+    
     files.forEach((file, index) => {
 
       const reader = new FileReader();
@@ -64,8 +68,9 @@ function ValidationComponent() {
               setInvalid(true); // Update invalid state
               const errorMessage = `Missing "Required" values in row ${i + 2}, positions: ${missingRequiredPositions.join(', ')} of file ${sheetName}`;
               errorMessages.push(errorMessage);
+              dispatch({type:"CLEAR_READY_FILE"})
             } else {
-              console.log(`No missing "Required" values in row ${i + 2} of file ${sheetName}`);
+              console.log(`${sheetName} is ready to upload`)
             }
           }
         }
@@ -75,6 +80,7 @@ function ValidationComponent() {
         // Check if all files have been successfully validated with no errors
         if (index === files.length - 1 && errorMessages.length === 0) {
           setNoErrors(true);
+          dispatch({type: "ADD_READY_FILE", payload:files})
         }
       };
       reader.readAsArrayBuffer(file);
@@ -89,13 +95,14 @@ function ValidationComponent() {
         style={{ color: 'red', textDecoration: 'underline', cursor: 'pointer', margin: '10px' }}
         onClick={toggleErrors}
       >
-        ERROR: Click to find out more.
+        Sheet Missing Required Data! Please fix and re-upload.
+        <p> Click to find out more.</p>
       </p>
       <p
         hidden={!noErrors} // Show the message when there are no errors
         style={{ color: 'green', textDecoration: 'underline', margin: '10px' }}
       >
-        File Loaded Successfully, No Errors Have Been Found.
+        File(s) Loaded Successfully, No Errors Have Been Found.
       </p>
       {showErrors && (
         <div style={{ margin: '10px' }}>
