@@ -59,6 +59,12 @@ const TypographyWithDivider = ({ children }) => (
 function VendorDetails({ open, onClose, vendorId }) {
   const dispatch = useDispatch();
   const vendorDetails = useSelector(state => state.vendorDetails.vendorDetails);
+  const vendor = vendorDetails[0];
+
+  const selectedCategories = vendor?.primaryProductCategory?.split(",");
+
+  console.log(selectedCategories);
+
 
   useEffect(() => {
     if (vendorId) {
@@ -70,11 +76,13 @@ function VendorDetails({ open, onClose, vendorId }) {
     return null;
   }
 
-  const vendor = vendorDetails[0];
+  
+
+
 
   // grab folder path
-  const dropboxFolderPath = vendor.dropboxFolderPath;
-  const dropboxSharedLink = vendor.dropboxSharedLink;
+  const dropboxFolderPath = vendor?.dropboxFolderPath;
+  const dropboxSharedLink = vendor?.dropboxSharedLink;
 
   // TODO: SWITCH DEPENDING ON VENDOR ONBOARDING STATUS
   function getOnboardingComponent(onboardingStatusId, vendor, onClose) {
@@ -237,8 +245,8 @@ function VendorDetails({ open, onClose, vendorId }) {
                   <Typography variant="subtitle1">
                     Selected Categories:
                   </Typography>
-                  <ul>
-                    {vendor.selectedCategories?.map(category => (
+                  <ul style={{margin: '4px'}}>
+                    {selectedCategories?.map(category => (
                       <li key={category}>
                         <Typography variant="body1">{category}</Typography>
                       </li>
