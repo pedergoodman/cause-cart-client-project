@@ -59,10 +59,10 @@ function RegisterForm() {
   // ! HIDDEN BUTTON REMOVE AFTER PRESENTATION
   const hiddenButtonAutoFill = () => {
     
-    setBrandName('KittyKrafters');
-    setWebsiteURL('www.kittykrafters.com');
+    setBrandName('Cool Kitty Hammocks');
+    setWebsiteURL('www.coolkittyhammocks.com');
     setBusinessType('LLC');
-    setEmail('info@kittykrafters.com');
+    setEmail('coolcat@coolkittyhammocks.com');
     setPassword('password');
     setReEnterPassword('password');
     setCountry('United States');
@@ -72,8 +72,8 @@ function RegisterForm() {
     setGiveBack('Yes');
     setGiveBackDescriptionFieldInput('10% of profits support local cat shelters.');
     setNonProfitPartner('Yes');
-    setNonProfitPartnerDescriptionFieldInput('Partnered with "Paws and Whiskers Foundation" to improve cat welfare.');
-    setHowDidYouHear('Social Media');
+    setNonProfitPartnerDescriptionFieldInput('Partner with "One Tree Planted" to create more places to hang.');
+    setHowDidYouHear('Non-Profit Organization');
   };
 
   // * - RENDERING -
