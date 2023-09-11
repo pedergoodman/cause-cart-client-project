@@ -100,7 +100,7 @@ const DetailsModalHeader = ({ status }) => {
           <Button
             variant="contained"
             color="warning"
-            sx={{ backgroundColor: "#F9BC9E" }}
+            sx={{ backgroundColor: "#F9BC9E", cursor: "none" }}
           >
             Pending Tasks
           </Button>

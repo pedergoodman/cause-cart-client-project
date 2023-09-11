@@ -40,7 +40,7 @@ function CompletedOnboardingStatus({
       >
         <Typography variant="h7" sx={{ color: "rgb(220, 235, 235)" }}>
           <span style={{ fontWeight: "bold", color: "rgb(220, 235, 235)" }}>
-            Application Completed:{" "}
+            Application Completed:
           </span>
           {format(new Date(dateEdited), "MM/dd/yyyy")}
         </Typography>

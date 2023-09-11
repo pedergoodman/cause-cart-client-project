@@ -180,6 +180,7 @@ function VendorDetails({ open, onClose, vendorId }) {
               <Grid item xs={6} marginBottom="16px">
                 <Box display="flex" flexDirection="column">
                   <Typography variant="subtitle1">Email:</Typography>
+                  <Typography variant="body1">
                     <Box
                       onClick={() =>
                         window.open(`mailto:${vendor.email}`, "_blank")
@@ -200,6 +201,7 @@ function VendorDetails({ open, onClose, vendorId }) {
                       />
                       {vendor.email}
                     </Box>
+                    </Typography>
                 </Box>
                 <Box display="flex" flexDirection="column" mt={1}>
                   <Typography variant="subtitle1">Website:</Typography>
@@ -326,7 +328,7 @@ function VendorDetails({ open, onClose, vendorId }) {
                   },
                 }}
               >
-                Download from on Dropbox
+                Download form on Dropbox
               </Button>
 
               <DropboxFileContainer

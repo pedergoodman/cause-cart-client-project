@@ -23,23 +23,30 @@ function AwaitingVendorSentProductSheet({
   const dispatch = useDispatch();
 
   const sendFollowUpToVendor = () => {
-    const subject = "Awaiting Your Product Spreadsheets"; // replace with the subject
-    const body =
-      "Hi, following up if you have any questions or need anything regarding filling out your product spreadsheets"; // replace with the email body
+    // To hardcode the follow-up email, edit/add the following:
+    // const subject = "Awaiting Your Product Spreadsheets"; // replace with the subject
+    // const body =
+    //   "Hi, following up if you have any questions or need anything regarding filling out your product spreadsheets"; // replace with the email body
 
     // Log the values before sending the email
     console.log("Vendor:", vendor);
     console.log("Vendor Email:", vendorEmail);
-    console.log("Subject:", subject);
-    console.log("Body:", body);
+    // To hardcode the follow-up email, add the following to log the email's subject and body:
+    // console.log("Subject:", subject);
+    // console.log("Body:", body);
 
+    // To hardcode the follow-up email, edit/add the following:
     // Construct the mailto link
     // Encode the subject and body for the mailto URL to handle special characters
-    const emailToVendor = `mailto:${vendorEmail}?subject=${encodeURIComponent(
-      subject
-    )}&body=${encodeURIComponent(body)}`;
+    // const emailToVendor = `mailto:${vendorEmail}?subject=${encodeURIComponent(
+    //   subject
+    // )}&body=${encodeURIComponent(body)}`;
+
+    // Create a mailto link that prefills only the vendor's email
+    const emailToVendor = `mailto:${vendorEmail}`;
 
     // Open the default email service of the admin user in a new tab
+    // TODO: UNCOMMENT BEFORE SENDING TO CLIENT
     // window.open(emailToVendor, "_blank");
 
     // Close modal
@@ -62,8 +69,8 @@ function AwaitingVendorSentProductSheet({
       >
         <Typography variant="h7" sx={{ color: "rgba(0, 0, 0, 0.6)" }}>
           <span style={{ fontWeight: "bold", color: "rgba(0, 0, 0, 0.6)" }}>
-            Account last active on:{" "}
-          </span>{" "}
+            Account last active on:
+          </span>
           {format(new Date(dateEdited), "MM/dd/yyyy")}
         </Typography>
       </Box>

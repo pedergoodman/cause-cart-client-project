@@ -197,7 +197,6 @@ function VendorsList() {
     //   ),
     // },
     {
-      // TODO: UPDATE AND COMPLETE DELETE VENDOR
       field: "delete",
       // headerName: "Delete Vendor",
       headerName: "",

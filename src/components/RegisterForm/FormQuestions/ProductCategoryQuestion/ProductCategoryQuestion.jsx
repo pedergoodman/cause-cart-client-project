@@ -156,7 +156,7 @@ function ProductCategoryQuestion({
         input={<OutlinedInput label="Tag" />}
         renderValue={selected => selected}
       >
-        <FormGroup>
+        <FormGroup sx={{ paddingLeft:"16px", paddingRight:"16px" }}>
           {categoryNames.map(category => (
             <FormControlLabel
               key={category.id}
