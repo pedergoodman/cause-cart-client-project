@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import * as XLSX from 'xlsx/xlsx.js';
 import { useDispatch } from 'react-redux';
+import './ValidationComponent.css';
 
 function ValidationComponent() {
   const [files, setFiles] = useState([]);

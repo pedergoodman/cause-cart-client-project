@@ -66,7 +66,7 @@ function OnboardingComplete({ status, setActiveStep }) {
       case "Denied Application":
         // New message
         message =
-          "We regret to inform you that your vendor application with Care-Cart has been declined. You are welcome to reapply, and we will consider your application for future approval.";
+          "We regret to inform you that your vendor application with Cause-Cart has been declined. You are welcome to reapply, and we will consider your application for future approval.";
         // Render
         return (
           <>

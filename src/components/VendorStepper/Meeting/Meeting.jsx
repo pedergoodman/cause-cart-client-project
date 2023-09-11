@@ -20,7 +20,7 @@ function Meeting({ status, setActiveStep }) {
       case "Approved Intake Form":
         // New message
         message =
-          "Congratulations! Your account has been successfully verified! 🎉 Now, you have the option to schedule a meeting with one of our friendly Care-Cart representatives for a quick chat. Feel free to use the link below or check your email for further instructions. We look forward to assisting you on your journey with us!";
+          "Congratulations! Your account has been successfully verified! 🎉 Now, you have the option to schedule a meeting with one of our friendly Cause-Cart representatives for a quick chat. Feel free to use the link below or check your email for further instructions. We look forward to assisting you on your journey with us!";
         return (
           <div className="vendor-step-messaging-container">
             <p>{message}</p>

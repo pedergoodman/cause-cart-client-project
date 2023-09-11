@@ -15,7 +15,7 @@ import IconButton from "@mui/material/IconButton";
 import Divider from "@mui/material/Divider";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
 
 function TemplateLists() {
   const [dense, setDense] = useState(false);
@@ -52,7 +52,7 @@ function TemplateLists() {
       type: "EDIT_ADMIN_CATEGORY",
       payload: {
         id: category.id,
-        name: categoryName
+        name: categoryName,
       },
     });
     setEditingCategory(null);
@@ -63,7 +63,7 @@ function TemplateLists() {
       type: "EDIT_ADMIN_TEMPLATES",
       payload: {
         id: template.id,
-        link: templateLink
+        link: templateLink,
       },
     });
     setEditingTemplate(null);
@@ -128,7 +128,13 @@ function TemplateLists() {
                   onChange={(e) => setCategoryName(e.target.value)}
                 />
                 <Button
-                  sx={{ margin: "10px" }}
+                  sx={{
+                    margin: "10px",
+                    backgroundColor: "#3D9296",
+                    "&:hover": {
+                      backgroundColor: "#286264",
+                    },
+                  }}
                   variant="contained"
                   onClick={addCategory}
                 >
@@ -151,7 +157,14 @@ function TemplateLists() {
                           sx={{ mt: "20px", mb: "10px" }}
                         />
                         <Button
-                          sx={{ margin: "30px", display: "inline" }}
+                          sx={{
+                            margin: "30px",
+                            display: "inline",
+                            backgroundColor: "#3D9296",
+                            "&:hover": {
+                              backgroundColor: "#286264",
+                            },
+                          }}
                           variant="contained"
                           onClick={() => saveCategory(category)}
                         >
@@ -170,7 +183,7 @@ function TemplateLists() {
                             <EditOutlinedIcon />
                           </IconButton>
                           <IconButton
-                            sx={{ justifyContent: "right" }}
+                            sx={{ justifyContent: "right", color: "#823646" }}
                             onClick={() => deleteCategory(category.id)}
                           >
                             <DeleteForeverOutlinedIcon />
@@ -207,10 +220,17 @@ function TemplateLists() {
                           onChange={(e) => {
                             setTemplateLink(e.target.value);
                           }}
-                          sx={{ mt: "20px", mb: "10px", width:'400px'}}
+                          sx={{ mt: "20px", mb: "10px", width: "400px" }}
                         />
                         <Button
-                          sx={{ margin: "30px", display: "inline" }}
+                          sx={{
+                            margin: "30px",
+                            display: "inline",
+                            backgroundColor: "#3D9296",
+                            "&:hover": {
+                              backgroundColor: "#286264",
+                            },
+                          }}
                           variant="contained"
                           onClick={() => saveTemplate(template)}
                         >
@@ -233,13 +253,12 @@ function TemplateLists() {
                               />
                             </ListItemButton>
                             <IconButton
-                          variant="contained"
-                          onClick={() => editTemplate(template)}
-                        >
-                          <EditOutlinedIcon />
-                        </IconButton>
+                              variant="contained"
+                              onClick={() => editTemplate(template)}
+                            >
+                              <EditOutlinedIcon />
+                            </IconButton>
                           </ListItem>
-                          
                         </Container>
                         <Divider />
                       </>

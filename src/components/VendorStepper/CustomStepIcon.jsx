@@ -13,13 +13,13 @@ function CustomStepIcon(props) {
   const { active, completed } = props;
 
   const activeStepStyle = {
-    color: "#477192", 
+    color: "#ed6c02", 
   };
 
   // Conditional for rendering icons
   // Completed
   if (completed) {
-    return <CheckCircleIcon style={{ color: "teal" }} />;
+    return <CheckCircleIcon style={{ color: "#F9BC9E" }} />;
   }
 
   return (

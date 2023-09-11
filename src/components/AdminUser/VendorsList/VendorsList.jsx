@@ -30,9 +30,9 @@ export const ONBOARDING_STAGE_ICONS = {
     />
   ),
   "Contract Submitted": (
-    <Icon
-      icon="fluent:document-arrow-right-24-regular"
-      style={{ fontSize: "24px" }}
+        <Icon
+          icon="fluent:document-arrow-up-20-filled"
+          style={{ fontSize: "24px" }}
     />
   ),
   "Sent Product Spreadsheet": (
@@ -197,7 +197,6 @@ function VendorsList() {
     //   ),
     // },
     {
-      // TODO: UPDATE AND COMPLETE DELETE VENDOR
       field: "delete",
       // headerName: "Delete Vendor",
       headerName: "",

@@ -65,7 +65,7 @@ function SendContract({ vendor, onClose }) {
             }
             onClick={handleSendContract}
           >
-            Send Contract
+            Select Contract
           </Button>
         </Box>
         <Box>

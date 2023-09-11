@@ -23,7 +23,7 @@ export const ONBOARDING_STAGE_ICONS = {
   ),
   "Contract Submitted": (
     <Icon
-      icon="fluent:document-arrow-right-24-regular"
+      icon="fluent:document-arrow-up-20-filled"
       style={{ fontSize: "24px" }}
     />
   ),
@@ -100,7 +100,7 @@ const DetailsModalHeader = ({ status }) => {
           <Button
             variant="contained"
             color="warning"
-            sx={{ backgroundColor: "#F9BC9E" }}
+            sx={{ backgroundColor: "#F9BC9E", cursor: "none" }}
           >
             Pending Tasks
           </Button>

@@ -18,23 +18,30 @@ function DeniedApplicationStatus({ vendor, vendorEmail, dateEdited, onClose }) {
   const dispatch = useDispatch();
 
   const sendFollowUpToVendor = () => {
-    const subject = "Follow Up To Application Decision"; // replace with the subject
-    const body =
-      "Hi, following up if you have any questions or need anything regarding your application being denied"; // replace with the email body
+    // To hardcode the Application Denied email, edit/add the following:
+    // const subject = "Follow Up To Application Decision"; // replace with the subject
+    // const body =
+    //   "Hi, following up if you have any questions or need anything regarding your application being denied"; // replace with the email body
 
     // Log the values before sending the email
     console.log("Vendor:", vendor);
     console.log("Vendor Email:", vendorEmail);
-    console.log("Subject:", subject);
-    console.log("Body:", body);
+    console.log("Vendor Email:", vendorEmail);
+    // To hardcode the Application Denied email, add the following to log the email's subject and body:
+    // console.log("Subject:", subject);
+    // console.log("Body:", body);
 
-    // Construct the mailto link
+    // Construct the mailto link WITHOUT the subject and body;
     // Encode the subject and body for the mailto URL to handle special characters
-    const emailToVendor = `mailto:${vendorEmail}?subject=${encodeURIComponent(
-      subject
-    )}&body=${encodeURIComponent(body)}`;
+    // const emailToVendor = `mailto:${vendorEmail}?subject=${encodeURIComponent(
+    //   subject
+    // )}&body=${encodeURIComponent(body)}`;
+
+    // Create a mailto link that prefills only the vendor's email
+    const emailToVendor = `mailto:${vendorEmail}`;
 
     // Open the default email service of the admin user in a new tab
+    // TODO: UNCOMMENT BEFORE SENDING TO CLIENT
     // window.open(emailToVendor, "_blank");
 
     // Close modal

@@ -22,6 +22,7 @@
 /* Step Status */
 .vendor-step-status {
   font-size: 1.2rem;
+  color: rgb(250, 138, 92);
 }
 /* Messaging Container */
 .vendor-step-messaging-container {

@@ -29,22 +29,29 @@ function SendMeetingInvite({
       payload: { id: vendor.id, newOnboardingStage: approvedIntakeForm },
     });
 
-    const subject = "Vendor Approved: Calendly Link"; // replace with the subject
-    const body = "Hi here's a copy of the calendly link"; // replace with the email body
+    // To hardcode the Send Calendly Link email, edit/add the following:
+    const subject = "Cause-Cart: Take a moment to get to know each other"; // replace with the subject
+    const body = `Hello, please click on the link to setup a meeting https://calendly.com/cause-cart`; // replace with the email body
 
     // Log the values before sending the email
     console.log("Vendor:", vendor);
     console.log("Vendor Email:", vendorEmail);
-    console.log("Subject:", subject);
-    console.log("Body:", body);
+    // To hardcode the Send Calendly Link email, add the following to log the email's subject and body:
+    // console.log("Subject:", subject);
+    // console.log("Body:", body);
 
+    // To hardcode the Send Calendly Link email, edit/add the following:
     // Construct the mailto link
     // Encode the subject and body for the mailto URL to handle special characters
     const emailToVendor = `mailto:${vendorEmail}?subject=${encodeURIComponent(
       subject
     )}&body=${encodeURIComponent(body)}`;
 
+    // Create a mailto link that prefills only the vendor's email
+    // const emailToVendor = `mailto:${vendorEmail}`;
+
     // Open the default email service of the admin user in a new tab
+    // TODO: UNCOMMENT BEFORE SENDING TO CLIENT
     // window.open(emailToVendor, "_blank");
 
     // Close both modals using the passed callback
@@ -59,23 +66,16 @@ function SendMeetingInvite({
       payload: { id: vendor.id, newOnboardingStage: approvedIntakeForm },
     });
 
-    const subject = "Vendor Approved"; // replace with the subject
-    const body = "Congratulations! You have been approved!"; // replace with the email body
-
     // Log the values before sending the email
     console.log("Vendor:", vendor);
     console.log("Vendor Email:", vendorEmail);
-    console.log("Subject:", subject);
-    console.log("Body:", body);
 
-    // Construct the mailto link
-    // Encode the subject and body for the mailto URL to handle special characters
-    const emailToVendor = `mailto:${vendorEmail}?subject=${encodeURIComponent(
-      subject
-    )}&body=${encodeURIComponent(body)}`;
+    // Create a mailto link that prefills only the vendor's email
+    const emailToVendor = `mailto:${vendorEmail}`;
 
     // Open the default email service of the admin user in a new tab
-    window.open(emailToVendor, "_blank");
+    // TODO: UNCOMMENT BEFORE SENDING TO CLIENT
+    // window.open(emailToVendor, "_blank");
 
     // Close both modals using the passed callback
     handleClose();

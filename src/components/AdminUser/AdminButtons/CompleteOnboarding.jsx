@@ -30,23 +30,30 @@ function CompleteOnboarding({
       payload: { id: vendor.id, newOnboardingStage: completedOnboarding },
     });
 
-    const subject = "Onboarding Complete"; // replace with the subject
-    const body =
-      "Congratulations! Your application and product spreadsheets have been approved, please visit these links Stripe, etc."; // replace with the email body
+    // To hardcode the Onboarding Complete email, edit/add the following:
+    // const subject = "Welcome to Cause-Cart!"; // replace with the subject
+    // const body =
+    //   "Congratulations! Your application and product spreadsheets have been approved, please visit these links (Cause-Cart Marketplace and Stripe, etc)."; // replace with the email body
 
     // Log the values before sending the email
     console.log("Vendor:", vendor);
     console.log("Vendor Email:", vendorEmail);
-    console.log("Subject:", subject);
-    console.log("Body:", body);
+    // To hardcode the Onboarding Complete email, add the following to log the email's subject and body:
+    // console.log("Subject:", subject);
+    // console.log("Body:", body);
 
+    // To hardcode the Onboarding Complete email, edit/add the following:
     // Construct the mailto link
     // Encode the subject and body for the mailto URL to handle special characters
-    const emailToVendor = `mailto:${vendorEmail}?subject=${encodeURIComponent(
-      subject
-    )}&body=${encodeURIComponent(body)}`;
+    // const emailToVendor = `mailto:${vendorEmail}?subject=${encodeURIComponent(
+    //   subject
+    // )}&body=${encodeURIComponent(body)}`;
+
+    // Create a mailto link that prefills only the vendor's email
+    const emailToVendor = `mailto:${vendorEmail}`;
 
     // Open the default email service of the admin user in a new tab
+    // TODO: UNCOMMENT BEFORE SENDING TO CLIENT
     // window.open(emailToVendor, "_blank");
 
     // Close both modals using the passed callback
