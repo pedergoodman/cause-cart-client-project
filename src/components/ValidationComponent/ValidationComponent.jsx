@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import * as XLSX from 'xlsx/xlsx.js';
+import { useDispatch } from 'react-redux';
 
 function ValidationComponent() {
   const [files, setFiles] = useState([]);
   const [invalid, setInvalid] = useState(false);
   const [showErrors, setShowErrors] = useState(false);
   const [errors, setErrors] = useState([]);
+  const [noErrors, setNoErrors] = useState(false);
+
+  const dispatch = useDispatch()
 
   const handleFileChange = (e) => {
     setFiles(Array.from(e.target.files));
+    setNoErrors(false); // Reset noErrors state when new files are selected.
   };
 
   const toggleErrors = () => {
@@ -16,9 +21,13 @@ function ValidationComponent() {
   };
 
   useEffect(() => {
-    const errorMessages = [];
 
+    setErrors([])
+    const errorMessages = [];
+    setInvalid(false)
+    
     files.forEach((file, index) => {
+
       const reader = new FileReader();
       reader.onload = function (e) {
         const data = new Uint8Array(e.target.result);
@@ -59,12 +68,20 @@ function ValidationComponent() {
               setInvalid(true); // Update invalid state
               const errorMessage = `Missing "Required" values in row ${i + 2}, positions: ${missingRequiredPositions.join(', ')} of file ${sheetName}`;
               errorMessages.push(errorMessage);
+              dispatch({type:"CLEAR_READY_FILE"})
             } else {
-              console.log(`No missing "Required" values in row ${i + 2} of file ${sheetName}`);
+              console.log(`${sheetName} is ready to upload`)
             }
           }
         }
+
         setErrors(errorMessages);
+
+        // Check if all files have been successfully validated with no errors
+        if (index === files.length - 1 && errorMessages.length === 0) {
+          setNoErrors(true);
+          dispatch({type: "ADD_READY_FILE", payload:files})
+        }
       };
       reader.readAsArrayBuffer(file);
     });
@@ -75,23 +92,24 @@ function ValidationComponent() {
       <input type="file" multiple onChange={handleFileChange} />
       <p
         hidden={!invalid}
-        style={{ color: 'red', textDecoration: 'underline', cursor: 'pointer', margin:'10px'}}
+        style={{ color: 'red', textDecoration: 'underline', cursor: 'pointer', margin: '10px' }}
         onClick={toggleErrors}
       >
-        View Errors
+        Sheet Missing Required Data! Please fix and re-upload.
+        <p> Click to find out more.</p>
       </p>
       <p
-        hidden={files}
-        style={{ color: 'green', textDecoration: 'underline', margin:'10px'}}
+        hidden={!noErrors} // Show the message when there are no errors
+        style={{ color: 'green', textDecoration: 'underline', margin: '10px' }}
       >
-        No Errors
+        File(s) Loaded Successfully, No Errors Have Been Found.
       </p>
       {showErrors && (
-        <div style={{margin:'10px'}}>
+        <div style={{ margin: '10px' }}>
           <h2>Error Messages:</h2>
           <ul>
             {errors.map((error, index) => (
-              <li key={index} style={{fontSize:'15px'}}>{error}</li>
+              <li key={index} style={{ fontSize: '15px' }}>{error}</li>
             ))}
           </ul>
         </div>

@@ -147,7 +147,7 @@ router.get("/login/:userID", (req, res) => {
   // Extract the userID from the request parameters
   const userID = req.params.userID;
 
-  console.log(userID);
+  // console.log(userID);
 
   // * Query
   const getVendorInfoQuery = `
@@ -180,16 +180,10 @@ router.get("/login/:userID", (req, res) => {
   pool
     .query(getVendorInfoQuery, [userID])
     .then((result) => {
-
-      console.log(result.rows);
-      // Send the retrieved vendor info
       res.send(result.rows[0]);
     })
     .catch((error) => {
-      console.error(
-        "Error retrieving vendor information. Error:  query:",
-        error
-      );
+      console.error("Error retrieving vendor information. Error:  query:", error);
       res.sendStatus(500);
     });
 }); // end '/login:userID' route

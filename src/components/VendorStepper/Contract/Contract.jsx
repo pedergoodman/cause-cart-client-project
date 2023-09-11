@@ -19,30 +19,34 @@ function Contract({ status, setActiveStep }) {
   const sentLinkName = useSelector(store => store.vendorReducer.sentLinkName);
   const vendorId = useSelector(store => store.vendorReducer.vendorId);
   const userId = useSelector(store => store.user);
-  const dropboxFolderPath = useSelector(store => store.vendorReducer.dropboxFolderPath)
+  const dropboxFolderPath = useSelector(
+    store => store.vendorReducer.dropboxFolderPath
+  );
 
+  // local state
+  const [files, setFiles] = useState([]);
+  const [uploadError, setUploadError] = useState(false);
 
-  // store upload files
-  const [files, setFiles] = useState();
+  // * CLICK FUNCTIONS
 
   const handleSubmitContract = () => {
     const newOnboardingStage = "Contract Submitted";
 
-    console.log("dropboxFolderPath is", dropboxFolderPath);
-    // console.log("newOnboardingStage is:", newOnboardingStage);
-    // console.log("vendorId is:", vendorId);
+    if (files[0]) {
+      setUploadError(false);
 
-    console.log('files = ', files);
+      dispatch({
+        type: "UPLOAD_FILE_TO_DROPBOX",
+        payload: { files, dropboxFolderPath },
+      });
 
-    dispatch({
-      type: "UPLOAD_FILE_TO_DROPBOX",
-      payload: { files, dropboxFolderPath },
-    });
-
-    dispatch({
-      type: "UPDATE_ONBOARDING_STAGE",
-      payload: { id: vendorId, newOnboardingStage, userId: userId.id },
-    });
+      dispatch({
+        type: "UPDATE_ONBOARDING_STAGE",
+        payload: { id: vendorId, newOnboardingStage, userId: userId.id },
+      });
+    } else {
+      setUploadError(true);
+    }
   };
 
   // * - DECLARATIONS -
@@ -85,13 +89,14 @@ function Contract({ status, setActiveStep }) {
               </div>
 
               {/* Upload: On click will allow vendor to select files to upload */}
-              <div
+              <form
                 style={{
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
                   marginTop: "30px",
                 }}
+                enctype="multipart/form-data"
               >
                 <input
                   type="file"
@@ -102,11 +107,19 @@ function Contract({ status, setActiveStep }) {
                     setFiles(e.target.files);
                   }}
                 />
-                <Button className="buttons" 
-                onClick={handleSubmitContract}>
+                <Button
+                  className="buttons"
+                  sx={{ m: "4px 0 -10px 0" }}
+                  onClick={handleSubmitContract}
+                >
                   Upload Signed Contract
                 </Button>
-              </div>
+                {uploadError ? (
+                  <p style={{ color: "#d13323" }}>*Please add a file</p>
+                ) : (
+                  <></>
+                )}
+              </form>
             </div>
           </>
         );

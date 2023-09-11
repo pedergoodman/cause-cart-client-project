@@ -22,7 +22,10 @@ export default function DropboxFileElement({ file }) {
   // file info
   const fileName = file.name.split(".").shift();
   const fileType = file.name.split(".").pop().toUpperCase();
-  const filePath = file.path_lower;
+  const sharedFileLink = file?.url.replace("&dl=0","&dl=1")
+
+  // console.log(sharedFileLink);
+
   // format date
   const fileModified = new Date(file.client_modified).toLocaleDateString(
     "en-us",
@@ -33,21 +36,7 @@ export default function DropboxFileElement({ file }) {
     }
   );
 
-  // console.log("fileName is:", fileName);
-  // console.log("fileType is:", fileType);
-  // console.log("filePath is:", filePath);
-  // console.log("fileModified is:", fileModified);
-  // console.log("file is:", file);
 
-  const downloadFileButton = () => {
-    console.log("download file path:", filePath);
-    console.log("download disabled at the moment");
-    dispatch({
-      type: "DOWNLOAD_DROPBOX_FILE",
-      payload: filePath,
-    });
-  };
-  
   return (
     <>
       <ListItem className="list-item-container" sx={listItemContainerStyling}>
@@ -62,7 +51,12 @@ export default function DropboxFileElement({ file }) {
         />
 
         <Box sx={{ padding: "0 6px 0 0" }}>
-          <IconButton onClick={downloadFileButton} aria-label="download">
+          <IconButton 
+          href={sharedFileLink}
+          aria-label="download"
+          target="_blank"
+          >
+            
             <FileDownloadOutlinedIcon />
           </IconButton>
         </Box>

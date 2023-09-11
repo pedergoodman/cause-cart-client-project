@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 // MUI
 import { Button } from "@mui/material";
 
+import ValidationComponent from "../../ValidationComponent/ValidationComponent"
 // * - AddProducts COMPONENT -
 function AddProducts({ status, setActiveStep }) {
   const dispatch = useDispatch();
@@ -21,7 +22,13 @@ function AddProducts({ status, setActiveStep }) {
   const vendorId = useSelector(store => store.vendorReducer.vendorId);
   const userId = useSelector(store => store.user);
 
-  console.log("productSheetLinks is:", productSheetLinks);
+  const dropboxFolderPath = useSelector(
+    store => store.vendorReducer.dropboxFolderPath
+  );
+
+  const readyFiles = useSelector(
+    store => store.addFileReducer
+  );
 
   // set product template folder link
   const filteredProductLink = productSheetLinks.filter(linkObject => {
@@ -29,19 +36,28 @@ function AddProducts({ status, setActiveStep }) {
   });
   const productSheetLink = filteredProductLink[0]?.link;
 
-  // store upload files
-  const [files, setFiles] = useState();
+  const [uploadError, setUploadError] = useState(false);
 
-  const handleSubmitProductSheet = () => {
+  const handleSubmitProductSheet = (arrayOfFiles) => {
     const newOnboardingStage = "Product Spreadsheet Submitted";
 
-    console.log("newOnboardingStage is:", newOnboardingStage);
-    console.log("vendorId is:", vendorId);
+    if ([readyFiles].length > 0) {
+      setUploadError(false);
 
-    dispatch({
-      type: "UPDATE_ONBOARDING_STAGE",
-      payload: { id: vendorId, newOnboardingStage, userId: userId.id },
-    });
+        dispatch({
+          type: "UPLOAD_FILE_TO_DROPBOX",
+          payload: { readyFiles, dropboxFolderPath },
+        });
+
+
+      dispatch({
+        type: "UPDATE_ONBOARDING_STAGE",
+        payload: { id: vendorId, newOnboardingStage, userId: userId.id },
+      });
+    } else {
+      console.log("this should happen if NO files are verified selected");
+      setUploadError(true);
+    }
   };
 
   // * - DECLARATIONS -
@@ -66,7 +82,7 @@ function AddProducts({ status, setActiveStep }) {
 
             {/* Add Products */}
 
-            <div className="links-and-link-buttons-container">  
+            <div className="links-and-link-buttons-container">
               <div
                 style={{
                   display: "flex",
@@ -93,18 +109,15 @@ function AddProducts({ status, setActiveStep }) {
                   marginTop: "30px",
                 }}
               >
-                <input
-                  type="file"
-                  name="dropbox-upload"
-                  id="dropbox-upload"
-                  multiple
-                  onChange={e => {
-                    setFiles(e.target.files);
-                  }}
-                />
-                <Button className="buttons" onClick={handleSubmitProductSheet}>
+                <ValidationComponent />
+                <Button className="buttons" onClick={handleSubmitProductSheet} disabled={!readyFiles.length > 0}>
                   Upload Product Form(s)
                 </Button>
+                {uploadError ? (
+                  <p style={{ color: "#d13323" }}>*Please add a file</p>
+                ) : (
+                  <></>
+                )}
               </div>
             </div>
           </>

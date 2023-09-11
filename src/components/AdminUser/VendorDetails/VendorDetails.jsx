@@ -59,6 +59,12 @@ const TypographyWithDivider = ({ children }) => (
 function VendorDetails({ open, onClose, vendorId }) {
   const dispatch = useDispatch();
   const vendorDetails = useSelector(state => state.vendorDetails.vendorDetails);
+  const vendor = vendorDetails[0];
+
+  const selectedCategories = vendor?.primaryProductCategory?.split(",");
+
+  console.log(selectedCategories);
+
 
   useEffect(() => {
     if (vendorId) {
@@ -70,11 +76,13 @@ function VendorDetails({ open, onClose, vendorId }) {
     return null;
   }
 
-  const vendor = vendorDetails[0];
+  
+
+
 
   // grab folder path
-  const dropboxFolderPath = vendor.dropboxFolderPath;
-  const dropboxSharedLink = vendor.dropboxSharedLink;
+  const dropboxFolderPath = vendor?.dropboxFolderPath;
+  const dropboxSharedLink = vendor?.dropboxSharedLink;
 
   // TODO: SWITCH DEPENDING ON VENDOR ONBOARDING STATUS
   function getOnboardingComponent(onboardingStatusId, vendor, onClose) {
@@ -172,7 +180,6 @@ function VendorDetails({ open, onClose, vendorId }) {
               <Grid item xs={6} marginBottom="16px">
                 <Box display="flex" flexDirection="column">
                   <Typography variant="subtitle1">Email:</Typography>
-                  <Typography variant="body1">
                     <Box
                       onClick={() =>
                         window.open(`mailto:${vendor.email}`, "_blank")
@@ -193,9 +200,7 @@ function VendorDetails({ open, onClose, vendorId }) {
                       />
                       {vendor.email}
                     </Box>
-                  </Typography>
                 </Box>
-
                 <Box display="flex" flexDirection="column" mt={1}>
                   <Typography variant="subtitle1">Website:</Typography>
                   <Typography variant="body1">
@@ -240,8 +245,8 @@ function VendorDetails({ open, onClose, vendorId }) {
                   <Typography variant="subtitle1">
                     Selected Categories:
                   </Typography>
-                  <ul>
-                    {vendor.selectedCategories?.map(category => (
+                  <ul style={{margin: '4px'}}>
+                    {selectedCategories?.map(category => (
                       <li key={category}>
                         <Typography variant="body1">{category}</Typography>
                       </li>
@@ -314,6 +319,11 @@ function VendorDetails({ open, onClose, vendorId }) {
                   width: "fit-content",
                   padding: "8px 20px",
                   alignItems: "center",
+                  bgcolor: "#f3aaa5",
+                  boxShadow: "0px 4px 1px -2px rgba(0,0,0,0.2)", 
+                  "&:hover": {
+                    backgroundColor: "#ef796d",
+                  },
                 }}
               >
                 Download from on Dropbox
