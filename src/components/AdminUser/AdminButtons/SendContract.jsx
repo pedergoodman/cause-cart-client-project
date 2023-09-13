@@ -1,13 +1,7 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
 import {
   Box,
-  Button,
-  Modal,
-  List,
-  ListItem,
-  ListItemText,
-  Typography,
+  Button
 } from "@mui/material";
 import { Icon } from "@iconify/react";
 

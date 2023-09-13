@@ -2,7 +2,7 @@
 // React
 import React from "react";
 // MUI
-import {TextField, Input, InputLabel, MenuItem, Select, OutlinedInput} from "@mui/material";
+import { InputLabel, MenuItem, Select} from "@mui/material";
 
 // * - BusinessTypeQuestion Component -
 function BusinessTypeQuestion({ businessType, setBusinessType }) {

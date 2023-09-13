@@ -1,11 +1,7 @@
 import { put, takeLatest } from "redux-saga/effects";
 import axios from "axios";
-import { saveAs } from "file-saver";
-
 function* createVendorFolder(action) {
   const vendorId = action.payload.vendorId
-  const vendorName = action.payload.vendorName
-
   try {
     console.log('in dropbox saga, action.payload is:', action.payload);
     // send name data to create vendor folder

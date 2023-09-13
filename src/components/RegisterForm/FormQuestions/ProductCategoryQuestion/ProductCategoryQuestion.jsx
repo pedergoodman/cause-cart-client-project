@@ -12,8 +12,6 @@ import {
   TextField,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { OtherHouses } from "@mui/icons-material";
-
 function ProductCategoryQuestion({
   productCategories,
   setProductCategories,

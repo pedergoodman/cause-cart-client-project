@@ -16,7 +16,6 @@ const upload = multer({ storage: storage })
 
 
 // *** create Vendor folder 
-// save folder_id, folder_path, and shared link to database
 router.post('/folder/:vendorId', async (req, res) => {
 
   const { vendorName } = req.body

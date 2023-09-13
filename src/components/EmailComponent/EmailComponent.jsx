@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FormControl, InputLabel, MenuItem, Select, Button } from '@mui/material';
 import emailjs from 'emailjs-com';
-
+//TODO DELETE THIS COMPONENT
 const LinkEmailSender = () => {
   const [selectedLink, setSelectedLink] = useState('Consignment Agreement');
   const emailServiceId = 'service_86b7k3h'; // Replace with your Email.js service ID
