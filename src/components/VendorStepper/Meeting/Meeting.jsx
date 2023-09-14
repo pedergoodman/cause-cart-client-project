@@ -1,13 +1,24 @@
 // * - IMPORTING -
 // React
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, ButtonBase } from "@mui/material"; // button theme
+import { useDispatch, useSelector } from "react-redux";
 // Components
 
 // * - Meeting COMPONENT -
 function Meeting({ status, setActiveStep }) {
   // Testing of dynamic status and messaging
   // status = "Approved Intake Form";
+  const dispatch = useDispatch()
+  
+  const templates = useSelector((store) => store.templateLinkReducer);
+  useEffect(() => {
+    dispatch({ type: "FETCH_ADMIN_TEMPLATES" });
+  }, []);
+
+  const calendlyLink = templates.find(
+    (template) => template.name === "Calendly Link"
+  );
 
   // * - DECLARATIONS -
   // Switch statement for setting vendor status message depending on status
@@ -31,7 +42,7 @@ function Meeting({ status, setActiveStep }) {
               <a
                 className="links-and-link-buttons"
                 style={{ color: "white", textDecoration: "none" }}
-                href="https://calendly.com/"
+                href={calendlyLink?.link}
                 target="_blank"
               >
                 Schedule a Meeting
