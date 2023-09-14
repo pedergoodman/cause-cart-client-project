@@ -36,9 +36,8 @@ function SendProductTemplates({ vendor, vendorEmail, onClose }) {
     });
 
     // To hardcode the Product Spreadsheets Link email, edit/add the following:
-    // TODO: UNCOMMENT BEFORE SENDING TO CLIENT
-    // const subject = "Your Cause-Cart Product Spreadsheets"; // replace with the subject
-    // const body = `Hi there, here is the link to your Product Spreadsheets to review: ${productTemplatesLink}. Please review, complete, and upload.`;
+    const subject = "Your Cause-Cart Product Spreadsheets"; // replace with the subject
+    const body = `Hi there, here is the link to your Product Spreadsheets to review: ${productTemplatesLink}. Please review, complete, and upload.`;
 
     // Log the values before sending the email
     console.log("Vendor:", vendor);
