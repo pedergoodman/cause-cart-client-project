@@ -76,7 +76,7 @@ A video walkthrough of how to use the application: [Cause-Cart Vendor Onboarding
 ## Deployment
 
 - Login Credentials for Heroku are provided in the Handoff Document.
-- If you wish to make any changes to the deployed app, you must login, visit the cause-cart section, select the deploy tab, and manually deploy the app. On the same page, you can reconfigure it to redeploy automatically if you wish.
+- If you wish to make any changes to the deployed app, you must login, visit the cause-cart-onboarding section, select the deploy tab, and manually deploy the app. On the same page, you can reconfigure it to redeploy automatically if you wish.
 - Environment variables are kept on Heroku in the Settings tab, click the Reveal Config Vars button
 - To set up the database, we used Postico to plug the information from Heroku into a new favorite. This information can be found in the Resources tab by clicking the Postgres add-on. After that, you will be taken to a new page where you can view your credentials under the settings tab.
 - If you'd like to create new users (which can also be used to change a password), you must:
