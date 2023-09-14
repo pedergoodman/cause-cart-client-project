@@ -55,7 +55,6 @@ function SendProductTemplates({ vendor, vendorEmail, onClose }) {
     // const emailToVendor = `mailto:${vendorEmail}`;
 
     // Open the default email service of the admin user in a new tab
-    // TODO: UNCOMMENT BEFORE SENDING TO CLIENT
     window.location.href = emailToVendor
 
     // Close modal
