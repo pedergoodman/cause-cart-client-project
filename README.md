@@ -60,7 +60,7 @@ DROPBOX_SECRET="yourDropboxSecret"
 DROPBOX_ACCESS_TOKEN="yourDropboxAccessToken"
 DROPBOX_REFRESH_TOKEN="yourDropboxRefreshToken"
 ```
-The .env file should also be updated to include information specific to your Dropbox API.
+The `.env` file should also be updated to include information specific to your Dropbox API.
   
 8. Create a database named `cause_cart` in PostgreSQL. If you want to name your database something else, you will need to change `cause_cart` to the name of your new database name in `server/modules/pool.js`
 9. The queries in the database.sql file are set up to create all the necessary tables and a dummy data table to test the app. Copy and paste those queries into the SQL query of the database. If this is going to production, leave out the dummy data.
