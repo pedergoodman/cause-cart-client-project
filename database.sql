@@ -45,13 +45,11 @@ CREATE TABLE "vendor_app_info" (
     status_id INTEGER REFERENCES "status"(id),
     selected_categories VARCHAR(255),
     is_active BOOLEAN DEFAULT true, 
+    sent_contract_link INTEGER REFERENCES "template_links"(id),
     dropbox_folder_id VARCHAR(255),
     dropbox_folder_path VARCHAR(255),
     dropbox_shared_link VARCHAR(350)
-);
-
-ALTER TABLE vendor_app_info
-ADD sent_contract_link INTEGER REFERENCES "template_links"(id);
+);`
 
 
 INSERT INTO template_links ("name", "type", link)
