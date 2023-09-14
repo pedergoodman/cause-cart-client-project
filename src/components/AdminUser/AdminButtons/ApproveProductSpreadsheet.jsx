@@ -26,7 +26,6 @@ function ApproveProductSpreadsheet({ vendor, onClose }) {
   return (
     <>
       <Box>
-        {/* TODO: INSERT DROPBOX API and/or COMPONENT TO REVIEW VENDOR SUBMITTED PRODUCT SPREADSHEETS */}
       </Box>
       <Box
         sx={{

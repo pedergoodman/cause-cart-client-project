@@ -1,12 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
 import {
   Box,
   Button,
-  Modal,
-  List,
-  ListItem,
-  ListItemText,
   Typography,
 } from "@mui/material";
 import { Icon } from "@iconify/react";
@@ -46,8 +42,7 @@ function AwaitingVendorSentProductSheet({
     const emailToVendor = `mailto:${vendorEmail}`;
 
     // Open the default email service of the admin user in a new tab
-    // TODO: UNCOMMENT BEFORE SENDING TO CLIENT
-    // window.open(emailToVendor, "_blank");
+    window.location.href = emailToVendor
 
     // Close modal
     onClose();

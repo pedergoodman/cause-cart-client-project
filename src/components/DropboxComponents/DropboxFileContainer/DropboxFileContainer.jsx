@@ -1,9 +1,7 @@
-import { Box, Button, LinearProgress, List } from "@mui/material";
+import { Box,LinearProgress, List } from "@mui/material";
 import React, { useEffect } from "react";
 import DropboxFileElement from "../DropboxFileElement/DropboxFileElement";
 import { useDispatch, useSelector } from "react-redux";
-import dropboxFileElementStyling from "../DropboxFileElement/DropboxFileElementStyle";
-
 // DROPBOX FILE CONTAINER
 export default function DropboxFileContainer({
   dropboxFolderPath,
@@ -57,7 +55,6 @@ export default function DropboxFileContainer({
       <Box sx={{ width: "60%" }}>
         <LinearProgress
           sx={{
-            // color: "#F9BC9E",
             backgroundColor: "#FFE6D9",
             "& .MuiLinearProgress-bar": {
               backgroundColor: "#f3aaa5",

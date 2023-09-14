@@ -36,7 +36,7 @@ function Contract({ status, setActiveStep }) {
       setUploadError(false);
 
       dispatch({
-        type: "UPLOAD_FILE_TO_DROPBOX",
+        type: "UPLOAD_CONTRACT_TO_DROPBOX",
         payload: { files, dropboxFolderPath },
       });
 
@@ -44,6 +44,7 @@ function Contract({ status, setActiveStep }) {
         type: "UPDATE_ONBOARDING_STAGE",
         payload: { id: vendorId, newOnboardingStage, userId: userId.id },
       });
+    
     } else {
       setUploadError(true);
     }

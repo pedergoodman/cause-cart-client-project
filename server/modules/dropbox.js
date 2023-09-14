@@ -14,10 +14,6 @@ const config = {
     refreshToken: process.env.DROPBOX_REFRESH_TOKEN,
 };
 
-
-// LAST UPDATED 11:27AM -- CHECK AGAIN AT 3:30
-// checked at 3:50, no access code needed with refersh token at the moment...
-// from sandbox
 const dbx = new Dropbox(config); // Replace with your access token
 
 

@@ -3,7 +3,6 @@
 import React from "react";
 // MUI
 import StepIcon from "@mui/material/StepIcon";
-import CancelIcon from "@mui/icons-material/Cancel";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 // * - CustomStepIcon COMPONENT -

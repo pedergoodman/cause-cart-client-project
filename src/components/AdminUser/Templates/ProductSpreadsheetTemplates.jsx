@@ -1,7 +1,6 @@
 import React, { useState, useMemo } from "react";
 import {
   DataGrid,
-  GridColDef,
   useGridApiRef,
 } from "@mui/x-data-grid";
 import {
@@ -45,7 +44,6 @@ const StyledDataGrid = styled(DataGrid)({
   ];
 
   const columns = [
-      // { field: "id", headerName: "ID", flex: 1 },
       {
         field: "productName",
         headerName: "Product Name",
@@ -83,8 +81,6 @@ const StyledDataGrid = styled(DataGrid)({
         ),
       },
     ];
-
-// ** TODO: AMY: IMPLEMENT DROPBOX API **
 const rows = [
     {
       id: 1,

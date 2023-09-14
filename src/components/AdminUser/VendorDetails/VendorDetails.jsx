@@ -182,9 +182,7 @@ function VendorDetails({ open, onClose, vendorId }) {
                   <Typography variant="subtitle1">Email:</Typography>
                   <Typography variant="body1">
                     <Box
-                      onClick={() =>
-                        window.open(`mailto:${vendor.email}`, "_blank")
-                      }
+                    
                       style={{
                         color: "inherit",
                         display: "flex",

@@ -95,6 +95,8 @@ export default function VendorStepper() {
     <OnboardingComplete status={vendorInfo?.status} />,
   ];
 
+
+  //DO NOT DELETE COMMENTED OUT CODE, THIS IS FOR TESTING PURPOSES
   // * Testing of dynamic status and messaging
   // * Use this via toggle on/off comments to view the various steps
   if (vendorInfo) {
@@ -106,7 +108,7 @@ export default function VendorStepper() {
     // vendorInfo.status = "Onboarding Complete";
     // vendorInfo.status = "Denied Application";
   }
-
+  //DO NOT DELETE COMMENTED OUT CODE, THIS IS FOR TESTING PURPOSES
   // * - RENDERING -
   return (
     <Box sx={{ width: "100%" }}>

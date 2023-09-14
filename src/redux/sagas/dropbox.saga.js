@@ -1,11 +1,7 @@
 import { put, takeLatest } from "redux-saga/effects";
 import axios from "axios";
-import { saveAs } from "file-saver";
-
 function* createVendorFolder(action) {
   const vendorId = action.payload.vendorId
-  const vendorName = action.payload.vendorName
-
   try {
     console.log('in dropbox saga, action.payload is:', action.payload);
     // send name data to create vendor folder
@@ -40,6 +36,29 @@ function* uploadDropboxFile(action) {
 }
 
 
+function* uploadContractDropbox(action) {
+
+  const { dropboxFolderPath, files } = action.payload
+  try {
+
+    const formData = new FormData()
+
+    for (const file of files) {
+      // console.log('file is ',file);
+      formData.append("image", file)
+    }
+
+    formData.append("dropboxFolderPath", dropboxFolderPath)
+    
+
+    yield axios.post('/api/dropbox/upload', formData, { headers: { 'Content-Type': 'multipart/form-data' }, })
+
+  } catch (error) {
+    console.log("in dropbox saga, error making upload request", error);
+  }
+
+}
+
 function* fetchVendorDropboxFiles(action) {
   try {
     yield put({type: 'SET_DBX_LOADING_ACTIVE'})
@@ -72,6 +91,7 @@ function* fetchVendorDropboxFiles(action) {
 function* dropboxSaga() {
   yield takeLatest("CREATE_VENDOR_FOLDER", createVendorFolder);
   yield takeLatest("UPLOAD_FILE_TO_DROPBOX", uploadDropboxFile);
+  yield takeLatest("UPLOAD_CONTRACT_TO_DROPBOX", uploadContractDropbox);
   yield takeLatest("FETCH_VENDOR_DROPBOX_FILES", fetchVendorDropboxFiles);
 }
 

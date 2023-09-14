@@ -2,7 +2,7 @@
 // React
 import React from "react";
 // MUI
-import { OutlinedInput, InputLabel, TextField } from "@mui/material";
+import { OutlinedInput, InputLabel } from "@mui/material";
 
 // * - BrandNameQuestion Component -
 function BrandNameQuestion({ brandName, setBrandName }) {

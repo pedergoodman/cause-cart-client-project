@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
-
 import { useDispatch, useSelector } from "react-redux";
-
-import CardHeader from "@mui/material/CardHeader";
 import { DataGrid, useGridApiRef } from "@mui/x-data-grid";
 import { Icon } from "@iconify/react";
 import { format } from "date-fns";
@@ -151,7 +148,6 @@ function VendorsList() {
         </span>
       ),
     },
-    // { field: "status", headerName: "Status", flex: 1 },
     {
       field: "status",
       headerName: "Onboarding Status",
@@ -174,31 +170,8 @@ function VendorsList() {
       flex: 1,
       renderCell: (params) => format(new Date(params.value), "MM/dd/yyyy"),
     },
-    // ** STRETCH: **
-    // {
-    //   field: "fastTrack",
-    //   headerName: "Fast Track",
-    //   flex: 1,
-    //   headerAlign: "center",
-    //   align: "center",
-    //   renderCell: (params) => (
-    //     <>
-    //       <Icon
-    //         icon="mdi:check-decagram"
-    //         style={{ fontSize: "30px", color: "#286264" }}
-    //         onClick={() => handleCheck(params.row)}
-    //       ></Icon>
-    //       <Icon
-    //         icon="bxs:x-circle"
-    //         style={{ fontSize: "30px", color: "#F21E1E" }}
-    //         onClick={() => handleX(params.row)}
-    //       ></Icon>
-    //     </>
-    //   ),
-    // },
     {
       field: "delete",
-      // headerName: "Delete Vendor",
       headerName: "",
       align: "center",
       flex: 0.5,
