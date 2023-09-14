@@ -59,15 +59,6 @@ function App() {
             <AboutPage />
           </Route>
 
-          // TODO: add protected route back
-          <Route
-            // shows AdminRegisterPage at all times (logged in or not)
-            exact
-            path="/admin-register"
-          >
-            <AdminRegisterPage />
-          </Route>
-
           {/* <Route
             // shows AdminLoginPage at all times (logged in or not)
             exact
@@ -75,7 +66,6 @@ function App() {
           >
             <AdminLoginPage />
           </Route> */}
-
 
           <Route
             // shows LoginPage at all times (logged in or not)
@@ -106,6 +96,14 @@ function App() {
           </ProtectedRoute> */}
 
           <ProtectedRoute
+            // shows AdminRegisterPage at all times (logged in or not)
+            exact
+            path="/admin-register"
+          >
+            <AdminRegisterPage />
+          </ProtectedRoute>
+
+          <ProtectedRoute
             // ADMIN Logged-In: Shows VendorsList
             exact
             path="/vendors-list"
@@ -117,7 +115,7 @@ function App() {
             exact
             path="/email"
           >
-           <EmailForm />
+            <EmailForm />
           </Route>
 
           <ProtectedRoute
