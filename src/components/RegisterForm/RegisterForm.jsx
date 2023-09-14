@@ -56,25 +56,6 @@ function RegisterForm() {
   const dispatch = useDispatch(); // useDispatch as Variable
   const history = useHistory(); // useHistory as variable
 
-  // ! HIDDEN BUTTON REMOVE AFTER PRESENTATION
-  const hiddenButtonAutoFill = () => {
-    
-    setBrandName('Cool Kitty Hammocks');
-    setWebsiteURL('www.coolkittyhammocks.com');
-    setBusinessType('LLC');
-    setEmail('coolcat@coolkittyhammocks.com');
-    setPassword('password');
-    setReEnterPassword('password');
-    setCountry('United States');
-    setProductCategories(['Pets']);
-    setProdCategoriesOtherOptionDescInput('');
-    setNumberOfProducts('11-25');
-    setGiveBack('Yes');
-    setGiveBackDescriptionFieldInput('10% of profits support local cat shelters.');
-    setNonProfitPartner('Yes');
-    setNonProfitPartnerDescriptionFieldInput('Partner with "One Tree Planted" to create more places to hang.');
-    setHowDidYouHear('Non-Profit Organization');
-  };
 
   // * - RENDERING -
   return (
@@ -83,8 +64,6 @@ function RegisterForm() {
       <header>
         <h2
           className="register-and-login-form-h2"
-          // ! HIDDEN BUTTON REMOVE AFTER PRESENTATION
-          onClick={hiddenButtonAutoFill}
         >
           Grow your business while being sustainable
         </h2>
