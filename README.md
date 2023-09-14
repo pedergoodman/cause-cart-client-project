@@ -34,22 +34,23 @@ This web application is the initial step for an artist, non-profit organization,
 The project should be compatible with your favorite integrated development environment (IDE). This was built using [Visual Studio Code](https://code.visualstudio.com/). 
 
 ### Prerequisites
-![MISSING ?]!![REVIEW]!
+
 Before you get started, make sure you have the following software installed on your computer:
 
 - [Node.js](https://nodejs.org/en/)
 - [PostrgeSQL](https://www.postgresql.org/)
+- [Dropbox App Console](https://www.dropbox.com/developers/apps)
+- [Postman](https://www.postman.com/)
 
 ### Installation
-![MISSING ?]!![REVIEW]! 
+
 1. Fork the repository
 2. Copy the SSH key to your newly created repository
 3. In your terminal, type: `git clone {paste SSH link}`
 4. Navigate to the repository folder in your terminal
 5. Open VS Code (or the editor of your choice) and open the folder
 6. In the VS Code terminal, run `npm install` to install all dependencies
-7. Create a `.env` file at the root of the project and paste the following lines into the file: ![MISSING ?]!![REVIEW]!
-Do include a sample .env file with placeholder values, and explain what each value is for.
+7. Create a `.env` file at the root of the project and paste the following lines into the file:
   ```
   SERVER_SESSION_SECRET="superDuperSecret"
   ```
@@ -57,10 +58,9 @@ In your new `.env` file, replace `superDuperSecret` with a long random string to
 ```
 DROPBOX_APP_KEY="yourDropboxAppKey"
 DROPBOX_SECRET="yourDropboxSecret"
-DROPBOX_ACCESS_TOKEN="yourDropboxAccessToken"
 DROPBOX_REFRESH_TOKEN="yourDropboxRefreshToken"
 ```
-The `.env` file should also be updated to include information specific to your Dropbox API.
+The `.env` file should also be updated to include information specific to your Dropbox API. Detailed instructions are included in the Handoff Document.
   
 8. Create a database named `cause_cart` in PostgreSQL. If you want to name your database something else, you will need to change `cause_cart` to the name of your new database name in `server/modules/pool.js`
 9. The queries in the database.sql file are set up to create all the necessary tables and a dummy data table to test the app. Copy and paste those queries into the SQL query of the database. If this is going to production, leave out the dummy data.
@@ -71,10 +71,10 @@ The `.env` file should also be updated to include information specific to your D
 
 After everything is installed and running, it should open automatically in your default browser. If not, navigate to: http://localhost:3000/#/.
 
-A video walkthrough of how to use the application: ![MISSING]!
+A video walkthrough of how to use the application: [Cause-Cart Vendor Onboarding Demo](https://youtu.be/LE2Fak6mUV8?si=-zTw8twc9h9edGko).
 
 ## Deployment
-![MISSING]!![REVIEW]!
+
 - Login Credentials for Heroku are provided in the Handoff Document.
 - If you wish to make any changes to the deployed app, you must login, visit the cause-cart section, select the deploy tab, and manually deploy the app. On the same page, you can reconfigure it to redeploy automatically if you wish.
 - Environment variables are kept on Heroku in the Settings tab, click the Reveal Config Vars button
