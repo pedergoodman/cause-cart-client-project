@@ -7,27 +7,6 @@ const LinkEmailSender = () => {
   const emailServiceId = 'service_86b7k3h'; // Replace with your Email.js service ID
   const emailTemplateId = 'template_gylgm3d'; // Replace with your Email.js template ID
 
-  const linkMap = {
-    'Consignment Agreement': {
-      label: 'Consignment Agreement',
-      url:
-        'https://www.dropbox.com/scl/fi/a2ql6gtl5mu4uuaxn0uod/Cause-Cart-Consignment-Agreement.pdf?rlkey=azcb8d6qu2991smm260ue5b89&dl=0',
-    },
-    'Vendor Agreement': {
-      label: 'Vendor Agreement',
-      url:
-        'https://www.dropbox.com/scl/fi/lqypzmz6cdqavs7hrgrxj/Vendor-Agreement.pdf?rlkey=skccrco7cwclgxmsuhenu6rx1&dl=0',
-    },
-    'Product Templates': {
-      label: 'Product Templates',
-      url:
-        'https://www.dropbox.com/scl/fo/yw434q1cn2nuz7gwdcfi0/h?rlkey=u5g1pfgpzdimtwus80u74k1h1&dl=0',
-    },
-    'Calendly Link': {
-      label: 'Calendly Link',
-      url: 'https://calendly.com/',
-    },
-  };
 
   const sendEmail = () => {
     const selectedLinkInfo = linkMap[selectedLink];
