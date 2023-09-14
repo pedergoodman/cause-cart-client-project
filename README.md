@@ -1,7 +1,7 @@
 ![Static Badge](https://img.shields.io/badge/repo_size-11.38_mB-%23ffe4d2)
 ![Static Badge](https://img.shields.io/badge/javascript-97.2%25-%23ced8ce)
 
-# CAUSE-CART: Onboarding a New Vendor
+# Cause-Cart: Onboarding a New Vendor
 
 ## Table of Contents
 
