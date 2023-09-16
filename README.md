@@ -88,4 +88,3 @@ A video walkthrough of how to use the application: [Cause-Cart Vendor Onboarding
 5. Comment out the route back in VS Code
 6. Push changes
 7. Redeploy
-# cause-cart-client-project
